@@ -2,24 +2,16 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-chrome.browserAction.onClicked.addListener(function() {
-  chrome.windows.getCurrent(function(win) {
-    chrome.tabs.getSelected(win.id, actionClicked);
-  });
-});
+chrome.webRequest.onBeforeRequest.addListener(function(info) {
+	console.log("Request: " + info.url);
 
-var version = "1.0";
-
-function actionClicked(tab) {
-  chrome.debugger.attach({tabId:tab.id}, version, onAttach.bind(null, tab.id));
-}
-
-function onAttach(tabId) {
-  if (chrome.extension.lastError) {
-    alert(chrome.extension.lastError.message);
-    return;
-  }
-
-  chrome.windows.create(
-      {url: "headers.html?" + tabId, type: "popup", width: 800, height: 600});
-}
+//	return {
+//		redirectUrl : loldogs[i]
+//	};
+},
+// filters
+{
+	urls : [ "http://*/*" ]
+},
+// extraInfoSpec
+[ "blocking" ]);
