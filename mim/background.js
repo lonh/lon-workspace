@@ -4,7 +4,11 @@
 
 chrome.webRequest.onBeforeRequest.addListener(function(info) {
 	console.log("Request: " + info.url);
-
+	
+	chrome.tabs.sendRequest(1, {url: info.url}, function(response) {
+	  console.log(response);
+	});
+	console.log("Sent Request! ");
 //	return {
 //		redirectUrl : loldogs[i]
 //	};
