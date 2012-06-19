@@ -2,20 +2,22 @@
 // Use of this source code is governed by a BSD-style license that can be
 // found in the LICENSE file.
 
-chrome.webRequest.onBeforeRequest.addListener(function(info) {
-	console.log("Request: " + info.url);
+chrome.webRequest.onBeforeSendHeaders.addListener(function(info) {
 	
-	chrome.tabs.sendRequest(1, {url: info.url}, function(response) {
-	  console.log(response);
-	});
-	console.log("Sent Request! ");
+	if (/vacations\/booking\/form.js$/.test(info.url)) {
+		console.log("Request: " + info.url);
+		return {
+			redirectUrl: info.url.replace('d1dsp', 'lhu')
+		};
+	}
+	
 //	return {
 //		redirectUrl : loldogs[i]
 //	};
 },
 // filters
 {
-	urls : [ "http://*/*" ]
+	urls : [ "*://*.westjet.com/*",  "*://*.softvoyage.com/*"]
 },
 // extraInfoSpec
-[ "blocking" ]);
+[ "requestHeaders","blocking" ]);
