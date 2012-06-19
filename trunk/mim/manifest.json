@@ -2,15 +2,16 @@
   "name": "M in M",
   "description": "Playground for google extentions",
   "version": "0.1",
+  "default_locale": "en",
   "permissions": 
-	  [ "tabs", "webRequest", "webRequestBlocking", "http://*/*" ],
+	  [ "tabs", "webRequest", "webRequestBlocking", "*://*.westjet.com/*",  "*://*.softvoyage.com/*"],
   "background": {
-    "scripts": ["background.js"]
+    "scripts": [ "background.js", "jquery-1.7.2.min.js" ]
   },
   "browser_action": {
     "default_icon": "icon.png",
     "default_title": "M in M"
   },
-  "devtools_page": "devtools.html",
+  "options_page": "options.html",
   "manifest_version": 2
 }

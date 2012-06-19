@@ -15,5 +15,5 @@ chrome.extension.onRequest.addListener(
                 "from a content script:" + sender.tab.url :
                 "from the extension");
     
-      sendResponse("Got it!");
+      ssendResponse("Got it!");
   });
