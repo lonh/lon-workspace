@@ -4,11 +4,11 @@
 
 chrome.webRequest.onBeforeSendHeaders.addListener(function(info) {
 	
-	$('.container').append($('<p>').html(info.url));
+	$('.container').prepend($('<p>').html(info.url));
 	
 	if (/vacations\/booking\/form.js$/.test(info.url)) {
 		
-		$('.container').append($('<p class="intercepted">').html(info.url));
+		$('.container').prepend($('<p class="intercepted">').html(info.url));
 		return {
 			redirectUrl : info.url.replace('d1dsp', 'lhu')
 		};
