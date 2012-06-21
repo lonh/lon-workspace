@@ -4,10 +4,8 @@
   "version": "0.1",
   "permissions": 
 	  [ "tabs", "webRequest", "webRequestBlocking", "*://*.westjet.com/*",  "*://*.softvoyage.com/*"],
-  "background": {
-    "scripts": [ "js/background.js", "js/jquery-1.7.2.min.js" ]
-  },
   "browser_action": {
+	"default_popup": "html/options.html",
     "default_icon": "img/icon.png",
     "default_title": "M in M"
   },

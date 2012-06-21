@@ -3,9 +3,12 @@
 // found in the LICENSE file.
 
 chrome.webRequest.onBeforeSendHeaders.addListener(function(info) {
-
+	
+	$('.container').append($('<p>').html(info.url));
+	
 	if (/vacations\/booking\/form.js$/.test(info.url)) {
-		console.log("Request: " + info.url);
+		
+		$('.container').append($('<p class="intercepted">').html(info.url));
 		return {
 			redirectUrl : info.url.replace('d1dsp', 'lhu')
 		};
