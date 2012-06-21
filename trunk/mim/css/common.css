@@ -1,0 +1,45 @@
+* {
+	font-size: 12px;
+	font-family: "Trebuchet MS", Arial, Sans-Serif;
+    color: #002D62;
+}
+
+.entry {
+	width: 500px;
+}
+
+.header p {
+	padding-left: 20px;
+	display: inline-block;
+}
+
+.header p,
+input.source,
+input.replace {
+	width: 210px;
+	margin-right: 10px;
+}
+
+button, input {
+	border: grey solid 1px;
+}
+
+button:HOVER {
+	border: red solid 1px;
+}
+
+.actions {
+	text-align: center;
+}
+
+.template {
+	display: none;
+}
+
+.status {
+	display: none;
+}
+
+p.intercepted {
+	color: red;
+}
