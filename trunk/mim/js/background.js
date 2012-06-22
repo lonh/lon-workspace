@@ -26,7 +26,8 @@ chrome.browserAction.onClicked.addListener(function() {
 	chrome.windows.create({
 		url : "../html/main.html",
 		type : "popup",
-		width : 800,
+		left: 1500,
+		width : 1000,
 		height : 600
 	});
 });

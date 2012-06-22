@@ -3,15 +3,13 @@
   "description": "Playground for google extentions",
   "version": "0.1",
   "permissions": 
-	  [ "tabs", "webRequest", "webRequestBlocking", "*://*.westjet.com/*",  "*://*.softvoyage.com/*"],
+	  [ "tabs", "webRequest", "webRequestBlocking", "*://*.westjet.com/*",  "*://*.softvoyage.com/*" ],
   "background": {
     "scripts": [ "js/background.js" ]
   },
   "browser_action": {
-	
     "default_icon": "img/icon.png",
     "default_title": "M in M"
   },
-  "options_page": "html/options.html",
   "manifest_version": 2
 }

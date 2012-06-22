@@ -5,15 +5,16 @@
 * {
 	font-size: 12px;
 	font-family: "Trebuchet MS", Arial, Sans-Serif;
-    color: #002D62;
+  color: #002D62;
 }
 
+
+.container {
+	border: 1px #CBE8FF solid;
+}
 /********************************************************/
 /* options */
 /********************************************************/
-.entry {
-	width: 500px;
-}
 
 .header p {
 	padding-left: 20px;
@@ -23,7 +24,7 @@
 .header p,
 input.source,
 input.replace {
-	width: 210px;
+	width: 45%;
 	margin-right: 10px;
 }
 
@@ -36,7 +37,7 @@ button:HOVER {
 }
 
 .actions {
-	text-align: center;
+	text-align: right;
 }
 
 .template {
@@ -54,3 +55,21 @@ p.intercepted {
 /********************************************************/
 /* monitor */
 /********************************************************/
+#tabs {
+	text-align: center;
+}
+
+#tabs li {
+    display: inline-block;
+    border: 1px black solid;
+    background:buttonface;
+    padding: 5px;
+}
+#tabs li.active {
+    background-color: #CBE8FF;
+    font-weight: bolder;
+}
+
+#tabs li:hover {
+    border: 1px red solid;
+}
