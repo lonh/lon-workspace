@@ -7,21 +7,19 @@
 </head>
 <body>
   <div>
-    <ul class="tabs">
-      <li>Options</li>
-      <li>Monitor</li>
+    <ul id="tabs">
+      <li id="options" class="active">Options</li>
+      <li id="monitor">Monitor</li>
     </ul>
   </div>
-  <div id="option-tab" class="container">
+  <div id="options-tab" class="container">
     <div class="actions">
       <button class="new">New</button>
       <button class="save">Save</button>
-      <button class="start">Start</button>
-      <button class="cancel">Cancel</button>
     </div>
     <div class="header">
-      <p>Source</p>
-      <p>Replace with</p>
+      <p>Source:</p>
+      <p>Replace with:</p>
     </div>
     <div class="list"></div>
     <div class="entry template">
@@ -32,9 +30,12 @@
       <p class="status"></p>
     </div>
   </div>
-  <div id="monitor-tab" class="container">
+  <div id="monitor-tab" class="container" style="display:none">
+    <div class="actions">
+      <button class="clear">Clear</button>
+    </div>
     <div class="header">
-      <p>Requests</p>
+      <p>Intercepted Requests:</p>
     </div>
     <div class="list"></div>
     <div class="footer">
