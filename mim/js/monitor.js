@@ -13,10 +13,6 @@ chrome.webRequest.onBeforeSendHeaders.addListener(function(info) {
 			redirectUrl : info.url.replace('d1dsp', 'lhu')
 		};
 	}
-
-	// return {
-	// redirectUrl : loldogs[i]
-	// };
 },
 // filters
 {
