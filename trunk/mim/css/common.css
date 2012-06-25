@@ -91,3 +91,12 @@ p.intercepted {
 	background-color: lightgray;
 	box-shadow: 5px 5px 5px #888;
 }
+
+.request-log > div {
+	margin: 5px;
+}
+
+.request-log span.header {
+	display: inline-block;
+	width: 100px;
+}
