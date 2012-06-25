@@ -8,11 +8,11 @@
 <body>
   <div>
     <ul id="tabs">
-      <li id="options" class="active">Options</li>
-      <li id="monitor">Monitor</li>
+      <li id="options">Options</li>
+      <li id="monitor" class="active">Monitor</li>
     </ul>
   </div>
-  <div id="options-tab" class="container">
+  <div id="options-tab" class="container" style="display: none">
     <div class="actions">
       <button class="new">New</button>
       <button class="save">Save</button>
@@ -22,15 +22,11 @@
       <p>Replace with:</p>
     </div>
     <div class="list"></div>
-    <div class="entry template">
-      <input type="text" class="source"></input><input type="text" class="replace"></input><input type="checkbox" class="toggle"></input>
-      <button class="del">Del</button>
-    </div>
     <div class="footer">
       <p class="status"></p>
     </div>
   </div>
-  <div id="monitor-tab" class="container" style="display:none">
+  <div id="monitor-tab" class="container">
     <div class="actions">
       <button class="clear">Clear</button>
     </div>
@@ -40,6 +36,23 @@
     <div class="list"></div>
     <div class="footer">
       <p class="status"></p>
+    </div>
+  </div>
+  <div id="templates">
+    <!-- Filter option template -->
+    <div class="entry">
+      <input type="text" class="source"></input><input type="text" class="replace"></input><input type="checkbox" class="toggle" checked="checked"></input>
+      <button class="del">Del</button>
+    </div>
+
+    <!-- Intercepted request log template -->
+    <div class="request-log">
+      <div class="origin"></div>
+      <div class="matcher">
+        <div class="source"></div>
+        <div class="replace"></div>
+      </div>
+      <div class="result"></div>
     </div>
   </div>
 </body>

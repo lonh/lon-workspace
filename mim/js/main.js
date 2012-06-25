@@ -46,7 +46,7 @@ lon.mim.Options = new function () {
 			this.restoreOptions();
 		},
 		newOption: function () {
-			$('.template', optiontab).clone().removeClass('template').appendTo($('.list', optiontab));
+			$('#templates .entry').clone().appendTo($('.list', optiontab));
 		},
 		deleteOption: function (btn) {
 			$(btn).parent('.entry').remove();
@@ -81,7 +81,7 @@ lon.mim.Options = new function () {
 			
 			var options = JSON.parse(min_options);
 			$.each(options, function(indx, elem) {
-				var entry = $('.template', optiontab).clone().removeClass('template').appendTo($('.list', optiontab));
+				var entry = $('#templates .entry').clone().appendTo($('.list', optiontab));
 				$('.source', entry).val(elem[0]);
 				$('.replace', entry).val(elem[1]);
 				$('.toggle', entry).prop('checked', elem[2]);
@@ -116,24 +116,31 @@ lon.mim.Monitor = new function () {
 		},
 		registerListener: function () {
 			var monitorLog = $('#monitor-tab .list');
+			var o = this;
 			
 			// Register web request
 			chrome.webRequest.onBeforeRequest.addListener(function(info) {
-//				monitorLog.append(
-//						$('<p class="intercepted">').html( info.url )
-//				);
+				
+				var logs = [], finalRequest = null;
 				for ( var int = 0; int < options.length; int++) {
 					var elem = options[int];
-					
-					//if (elem[0].test(info.url)) {
 					if (info.url.indexOf(elem[0]) !== -1) {
-						monitorLog.append(
-								$('<p class="intercepted">').html(elem[0] + ">>>>>" + elem[1]).append(info.url + "+++" + info.url.replace(elem[0], elem[1]))
-						);
-						return {
-							redirectUrl : info.url.replace(elem[0], elem[1] )
+						var log = {
+							"origin": finalRequest || info.url,
+							"matcher": elem
 						};
+						
+						finalRequest = (finalRequest || info.url).replace(elem[0], elem[1]);
+						
+						log.result = finalRequest;
+						logs.push(log);
 					}
+				}
+				
+				if (finalRequest) {
+					o.displayLogging(logs);
+					
+					return { redirectUrl : finalRequest	};
 				}
 			},
 			// filters
@@ -142,6 +149,17 @@ lon.mim.Monitor = new function () {
 			},
 			// extraInfoSpec
 			[ "blocking" ]);
+		},
+		displayLogging: function (logs) {
+			
+			$.each(logs, function(indx, log) {
+				$('#templates .request-log').clone()
+					.find('.origin').html(log.origin).end()
+					.find('.result').html(log.result).end()
+					.find('.source').html(log.matcher[0]).end()
+					.find('.replace').html(log.matcher[1]).end()
+					.appendTo($('#monitor-tab .list'));
+			});
 		},
 		updateOptions: function (data) {
 			options = [];

@@ -5,35 +5,49 @@
 * {
 	font-size: 12px;
 	font-family: "Trebuchet MS", Arial, Sans-Serif;
-  color: #002D62;
+	color: #002D62;
 }
-
 
 .container {
 	border: 1px #CBE8FF solid;
+	padding: 10px;
+}
+
+#templates {
+	display: none;
+}
+
+button {
+  display: inline-block;
+  outline: none;
+  cursor: pointer;
+  text-align: center;
+  border-radius: .1em;
+}
+
+button:hover {
+  text-decoration: none;
+}
+
+button:active {
+  position: relative;
+  top: 1px;
 }
 /********************************************************/
 /* options */
 /********************************************************/
-
 .header p {
 	padding-left: 20px;
 	display: inline-block;
 }
 
-.header p,
-input.source,
-input.replace {
+.header p,input.source,input.replace {
 	width: 45%;
 	margin-right: 10px;
 }
 
-button, input {
+input {
 	border: grey solid 1px;
-}
-
-button:HOVER {
-	border: red solid 1px;
 }
 
 .actions {
@@ -60,16 +74,20 @@ p.intercepted {
 }
 
 #tabs li {
-    display: inline-block;
-    border: 1px black solid;
-    background:buttonface;
-    padding: 5px;
-}
-#tabs li.active {
-    background-color: #CBE8FF;
-    font-weight: bolder;
+	display: inline-block;
+	background: buttonface;
+	padding: 5px;
+  box-shadow: 3px 3px 3px rgba(0,0,0,.5);
 }
 
-#tabs li:hover {
-    border: 1px red solid;
+#tabs li.active {
+	background-color: #CBE8FF;
+	font-weight: bolder;
+}
+
+.request-log {
+	margin: 10px;
+	padding: 5px;
+	background-color: lightgray;
+	box-shadow: 5px 5px 5px #888;
 }
