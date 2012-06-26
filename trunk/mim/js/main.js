@@ -124,7 +124,7 @@ lon.mim.Monitor = new function () {
 				var logs = [], finalRequest = null;
 				for ( var int = 0; int < options.length; int++) {
 					var elem = options[int];
-					if (info.url.indexOf(elem[0]) !== -1) {
+					if ((finalRequest || info.url).indexOf(elem[0]) !== -1) {
 						var log = {
 							"origin": finalRequest || info.url,
 							"matcher": elem
@@ -137,7 +137,7 @@ lon.mim.Monitor = new function () {
 					}
 				}
 				
-				if (finalRequest) {
+				if (finalRequest && finalRequest !== info.url) {
 					o.displayLogging(logs);
 					
 					return { redirectUrl : finalRequest	};
@@ -151,15 +151,28 @@ lon.mim.Monitor = new function () {
 			[ "blocking" ]);
 		},
 		displayLogging: function (logs) {
+			var logElem = $('#templates .request-log').clone();
 			
 			$.each(logs, function(indx, log) {
-				$('#templates .request-log').clone()
-					.find('.origin').html(log.origin).end()
-					.find('.result').html(log.result).end()
-					.find('.source').html(log.matcher[0]).end()
-					.find('.replace').html(log.matcher[1]).end()
-					.appendTo($('#monitor-tab .list'));
+				
+				var len1 = log.matcher[0].length,
+					len2 = log.matcher[1].length,
+					st1 = log.origin.indexOf(log.matcher[0]),
+					st2 = log.result.indexOf(log.matcher[1]);
+				
+				$('.matcher:first', logElem).clone()
+					.find('.source .head').html(log.origin.substring(0, st1)).end()
+					.find('.source .body').html(log.matcher[0]).end()
+					.find('.source .tail').html(log.origin.substring(st1 + len1)).end()
+					.find('.result .head').html(log.result.substring(0, st2)).end()
+					.find('.result .body').html(log.matcher[1]).end()
+					.find('.result .tail').html(log.result.substring(st2 + len2)).end()
+					.appendTo(logElem);
+				
 			});
+			
+			$('.matcher:first', logElem).remove();
+			logElem.appendTo($('#monitor-tab .list'));
 		},
 		updateOptions: function (data) {
 			options = [];
