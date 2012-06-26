@@ -33,6 +33,22 @@ button:active {
   position: relative;
   top: 1px;
 }
+
+#tabs {
+	text-align: center;
+}
+
+#tabs li {
+	display: inline-block;
+	background: buttonface;
+	padding: 5px;
+  box-shadow: 3px 3px 3px rgba(0,0,0,.5);
+}
+
+#tabs li.active {
+	background-color: #CBE8FF;
+	font-weight: bolder;
+}
 /********************************************************/
 /* options */
 /********************************************************/
@@ -69,20 +85,9 @@ p.intercepted {
 /********************************************************/
 /* monitor */
 /********************************************************/
-#tabs {
-	text-align: center;
-}
-
-#tabs li {
-	display: inline-block;
-	background: buttonface;
-	padding: 5px;
-  box-shadow: 3px 3px 3px rgba(0,0,0,.5);
-}
-
-#tabs li.active {
-	background-color: #CBE8FF;
-	font-weight: bolder;
+#monitor-tab .list {
+  height: 450px;
+  overflow-y: scroll;
 }
 
 .request-log {
