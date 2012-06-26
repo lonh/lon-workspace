@@ -115,7 +115,6 @@ lon.mim.Monitor = new function () {
 			});
 		},
 		registerListener: function () {
-			var monitorLog = $('#monitor-tab .list');
 			var o = this;
 			
 			// Register web request
@@ -172,7 +171,9 @@ lon.mim.Monitor = new function () {
 			});
 			
 			$('.matcher:first', logElem).remove();
-			logElem.appendTo($('#monitor-tab .list'));
+			logElem.appendTo(monitorLog);
+			
+			monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
 		},
 		updateOptions: function (data) {
 			options = [];
