@@ -31,7 +31,7 @@
       <button class="clear">Clear</button>
     </div>
     <div class="header">
-      <p>Intercepted Requests:</p>
+      <p>Request Interception Log:</p>
     </div>
     <div class="list"></div>
     <div class="footer">
@@ -47,12 +47,14 @@
 
     <!-- Intercepted request log template -->
     <div class="request-log">
-      <div><span class="header">Original:</span><span class="origin"></span></div>
-      <div>
-        <div><span class="header">Matcher source:</span><span class="source"></span></div>
-        <div><span class="header">Matcher replace:</span><span class="replace"></span></div>
+      <div class="matcher">
+        <div class="source">
+          <span class="head"></span><span class="body"></span><span class="tail"></span>
+        </div>
+        <div class="result">
+          <span class="head"></span><span class="body"></span><span class="tail"></span>
+        </div>
       </div>
-      <div><span class="header">Result:</span><span class="result"></span></div>
     </div>
   </div>
 </body>

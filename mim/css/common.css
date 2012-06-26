@@ -96,7 +96,21 @@ p.intercepted {
 	margin: 5px;
 }
 
+.request-log span {
+	 word-wrap:break-word;
+}
+
 .request-log span.header {
-	display: inline-block;
-	width: 100px;
+  display: inline-block;
+  width: 100px;
+}
+
+.request-log .source .body {
+	color: red;
+	font-weight: bolder;
+}
+
+.request-log .result .body {
+  color: green;
+  font-weight: bolder;
 }
