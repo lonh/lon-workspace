@@ -58,12 +58,12 @@ button:active {
 }
 
 .header p,input.source,input.replace {
-	width: 45%;
+	width: 90%;
 	margin-right: 10px;
 }
 
 input {
-	border: grey solid 1px;
+	border: lightgrey solid 1px;
 }
 
 .actions {
@@ -78,8 +78,9 @@ input {
 	display: none;
 }
 
-p.intercepted {
-	color: red;
+.entry {
+	box-shadow: 5px 5px 5px silver;
+	margin: 10px;
 }
 
 /********************************************************/
