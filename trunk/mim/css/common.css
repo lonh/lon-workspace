@@ -52,6 +52,11 @@ button:active {
 /********************************************************/
 /* options */
 /********************************************************/
+#options-tab .list {
+	height: 80%;
+	overflow-y: scroll;
+}
+
 .header p {
 	padding-left: 20px;
 	display: inline-block;
@@ -76,6 +81,8 @@ input {
 
 .status {
 	display: none;
+	color: red;
+	text-align: center;
 }
 
 .entry {

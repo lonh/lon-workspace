@@ -46,7 +46,9 @@ lon.mim.Options = new function () {
 			this.restoreOptions();
 		},
 		newOption: function () {
-			$('#templates .entry').clone().appendTo($('.list', optiontab));
+			var list = $('.list', optiontab);
+			$('#templates .entry').clone().appendTo(list);
+			list.prop({'scrollTop': list.prop('scrollHeight')});
 		},
 		deleteOption: function (btn) {
 			$(btn).parent('.entry').remove();
