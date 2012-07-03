@@ -64,7 +64,7 @@ button:active {
 
 .header p,input.source,input.replace {
 	width: 90%;
-	margin-right: 10px;
+	margin-right: 5px;
 }
 
 input {

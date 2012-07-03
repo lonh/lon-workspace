@@ -1,6 +1,6 @@
 <html>
 <head>
-<title>MiM options</title>
+<title>MiM</title>
 <link type="text/css" href="../css/common.css" rel="stylesheet" />
 <script src="../js/jquery-1.7.2.min.js"></script>
 <script src="../js/main.js"></script>
@@ -8,8 +8,8 @@
 <body>
   <div>
     <ul id="tabs">
-      <li id="options">Options</li>
-      <li id="monitor" class="active">Monitor</li>
+      <li id="options">Filters</li>
+      <li id="monitor" class="active">Logs</li>
     </ul>
   </div>
   <div id="options-tab" class="container" style="display: none">
@@ -26,7 +26,6 @@
   </div>
   <div id="monitor-tab" class="container">
     <div class="header">
-      <p>Request Interception Log:</p>
     </div>
     <div class="list"></div>
     <div class="footer">
@@ -40,7 +39,7 @@
     <!-- Filter option template -->
     <div class="entry">
       <input type="text" class="source"></input><input type="text" class="replace"></input><input type="checkbox" class="toggle" checked="checked"></input>
-      <button class="del">Del</button>
+      <button class="del">Remove</button>
     </div>
 
     <!-- Intercepted request log template -->
