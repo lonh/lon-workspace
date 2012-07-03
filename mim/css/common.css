@@ -34,7 +34,9 @@ button:active {
   top: 1px;
 }
 
-#tabs {
+ul#tabs {
+	padding-left: 10px;
+	margin-bottom: 0px;
 	text-align: center;
 }
 
@@ -42,7 +44,6 @@ button:active {
 	display: inline-block;
 	background: buttonface;
 	padding: 5px;
-  box-shadow: 3px 3px 3px rgba(0,0,0,.5);
 }
 
 #tabs li.active {
@@ -54,7 +55,7 @@ button:active {
 /********************************************************/
 #options-tab .list {
 	height: 80%;
-	overflow-y: scroll;
+	overflow-y: auto;
 }
 
 .header p {
@@ -95,7 +96,7 @@ input {
 /********************************************************/
 #monitor-tab .list {
   height: 450px;
-  overflow-y: scroll;
+  overflow-y: auto;
 }
 
 .request-log {
