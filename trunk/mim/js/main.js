@@ -14,6 +14,11 @@ lon.mim.Main = new function () {
 				var id = $(this).attr("id");
 				o.switchTab(id);
 			});
+			
+			// retrieve previous stored tab id
+			var defaultTab = localStorage["mim_prefs.tab"];
+			defaultTab ? o.switchTab(defaultTab) : null;
+			
 		},
 		switchTab: function (tabId) {
 			$('#tabs')
@@ -22,6 +27,9 @@ lon.mim.Main = new function () {
 			
 			$('.container').hide();
 			$('#'+tabId+"-tab").show();
+			
+			// Store into preferences
+			localStorage["mim_prefs.tab"]=tabId;
 		}
 	}
 }();
