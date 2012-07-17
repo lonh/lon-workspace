@@ -47,7 +47,7 @@ lon.mim.Options = new function () {
 			$('button.new', optiontab).click(function () {	o.newOption(); });
 			$('button.save', optiontab).click(function () { o.saveOptions();});
 			
-			$('.list', optiontab).on('click', 'button.del', function (event) {
+			$('.list', optiontab).on('click', '.del', function (event) {
 				o.deleteOption(this);
 			});
 			
