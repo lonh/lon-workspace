@@ -44,6 +44,7 @@ ul#tabs {
 #tabs li {
 	border-bottom-right-radius: 0px;
   border-bottom-left-radius: 0px;
+  box-shadow: 5px 5px 5px #888;
 	display: inline-block;
 	background: buttonface;
 	padding: 5px;
@@ -51,7 +52,6 @@ ul#tabs {
 }
 
 #tabs li.active {
-  box-shadow: 5px 5px 5px buttonface;
 	background-color: #CBE8FF;
 	color: red;
 	font-weight: bold;
