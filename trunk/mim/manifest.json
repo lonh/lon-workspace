@@ -3,7 +3,7 @@
   "description": "Playground for google extentions",
   "version": "0.1",
   "permissions": 
-	  [ "tabs", "webRequest", "webRequestBlocking", "*://*/*" ],
+	  [ "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
   "background": {
     "scripts": [ "js/background.js" ]
   },
