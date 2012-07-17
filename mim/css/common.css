@@ -69,14 +69,28 @@ ul#tabs {
 	display: inline-block;
 }
 
-.header p,input.source,input.replace {
-	width: 85%;
+.header p, input.source, input.replace {
+	width: 90%;
 	margin-right: 5px;
+}
+
+input.replace {
+  margin-left: 22px;
 }
 
 input {
 	border: lightgrey solid 1px;
 	padding: 3px;
+}
+
+.toggle:checked ~ input.source {
+	font-weight: bold;
+	color: red;
+}
+
+.toggle:checked ~ input.replace {
+	font-weight: bold;
+	color: green;
 }
 
 .actions {
