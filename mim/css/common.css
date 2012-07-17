@@ -70,7 +70,7 @@ ul#tabs {
 }
 
 .header p, input.source, input.replace {
-	width: 90%;
+	width: 93%;
 	margin-right: 5px;
 }
 
@@ -108,8 +108,24 @@ input {
 }
 
 .entry {
+  border: 1px silver solid;
 	box-shadow: 5px 5px 5px silver;
 	margin: 10px;
+	padding: 5px;
+	position: relative;
+}
+
+.del {
+	height: 16px;
+	width: 16px;
+	background: transparent url('../img/close.png') 0 0 no-repeat;
+	top: 2px;
+	right: 2px;
+	position: absolute;
+}
+
+.del:HOVER {
+	background-image: url('../img/close-hover.png')
 }
 
 /********************************************************/
