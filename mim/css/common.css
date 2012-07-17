@@ -47,11 +47,13 @@ ul#tabs {
 	display: inline-block;
 	background: buttonface;
 	padding: 5px;
+	width: 150px;
 }
 
 #tabs li.active {
 	background-color: #CBE8FF;
-	font-weight: bolder;
+	color: red;
+	font-weight: bold;
 }
 /********************************************************/
 /* options */
