@@ -9,7 +9,7 @@ chrome.browserAction.onClicked.addListener(function() {
 			type : "popup",
 			left: parseInt(window.left + window.width - 10),
 			width : 700,
-			height : parseInt(window.height / 2)
+			height : 600
 		});
 	});
 });
