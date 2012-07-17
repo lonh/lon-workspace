@@ -51,6 +51,7 @@ ul#tabs {
 }
 
 #tabs li.active {
+  box-shadow: 5px 5px 5px buttonface;
 	background-color: #CBE8FF;
 	color: red;
 	font-weight: bold;
