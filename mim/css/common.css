@@ -84,13 +84,15 @@ input {
 }
 
 .toggle:checked ~ input.source {
-	font-weight: bold;
+	background-color: lightyellow;
 	color: red;
+	font-weight: bold;
 }
 
 .toggle:checked ~ input.replace {
-	font-weight: bold;
+	background-color: lightyellow;
 	color: green;
+	font-weight: bold;
 }
 
 .actions {
