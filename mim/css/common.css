@@ -11,7 +11,7 @@
 
 .container {
 	border: 1px #CBE8FF solid;
-	padding: 10px;
+	padding: 0px;
 }
 
 #templates {
@@ -61,7 +61,10 @@ ul#tabs {
 /********************************************************/
 #options-tab .list {
 	height: 80%;
+	list-style-type: none;
 	overflow-y: auto;
+	margin: 0px;
+	padding: 0px;
 }
 
 .header p {
@@ -82,7 +85,7 @@ input {
 
 .toggle {
 	float: left;
-	height: 45px;
+	margin: 20px 0;
 	width: 20px;
 }
 
