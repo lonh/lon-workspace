@@ -154,6 +154,7 @@ input {
 
 .request-trace {
 	margin: 5px 15px;
+	word-wrap:break-word;
 }
 
 .request-log > div {
