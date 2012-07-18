@@ -163,6 +163,8 @@ lon.mim.Monitor = new function () {
 					o.displayLogging(logs);
 					
 					return { redirectUrl : finalRequest	};
+				} else {
+					o.appendTrace(info.url);
 				}
 			},
 			// filters
@@ -171,6 +173,11 @@ lon.mim.Monitor = new function () {
 			},
 			// extraInfoSpec
 			[ "blocking" ]);
+		},
+		appendTrace: function (url) {
+			$('#templates .request-trace').clone().html(url).appendTo(monitorLog);
+
+			monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});			
 		},
 		displayLogging: function (logs) {
 			var logElem = $('#templates .request-log').clone();

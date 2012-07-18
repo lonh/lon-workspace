@@ -152,6 +152,10 @@ input {
 	box-shadow: 5px 5px 5px #888;
 }
 
+.request-trace {
+	margin: 5px 15px;
+}
+
 .request-log > div {
 	margin: 5px;
 }
