@@ -25,7 +25,13 @@ lon.mim.Main = new function () {
 			
 			$('button.exit').click(function () { window.close(); });
 			
-			$('#options-tab .list').sortable().disableSelection();
+			$('#options-tab .list')
+				.sortable({ 
+						axis: 'y',
+						containment: 'parent',
+						revert: false
+						})
+				.disableSelection();
 		},
 		switchTab: function (tabId) {
 			$('#tabs')
