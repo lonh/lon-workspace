@@ -11,12 +11,12 @@ lon.mim.Main = new function () {
 			
 			// Set up tab actions
 			$('#tabs li').click(function(event){
-				var id = $(this).attr("id");
+				var id = $(this).attr('id');
 				o.switchTab(id);
 			});
 			
 			// retrieve previous stored tab id
-			var defaultTab = localStorage["mim_prefs.tab"];
+			var defaultTab = localStorage['mim_prefs.tab'];
 			defaultTab ? o.switchTab(defaultTab) : null;
 			
 			$(document).keyup(function(event) {
@@ -39,10 +39,10 @@ lon.mim.Main = new function () {
 				.find('li#'+tabId).addClass('active');
 			
 			$('.container').hide();
-			$('#'+tabId+"-tab").show();
+			$('#'+tabId+'-tab').show();
 			
 			// Store into preferences
-			localStorage["mim_prefs.tab"]=tabId;
+			localStorage['mim_prefs.tab']=tabId;
 		}
 	}
 }();
@@ -87,17 +87,17 @@ lon.mim.Options = new function () {
 				}
 			});
 			
-			localStorage["mim_options"] = JSON.stringify(options);
+			localStorage['mim_options'] = JSON.stringify(options);
 			
 			$(document).trigger('options.changed', [ options ]);
 			
-			$('.status', optiontab).html("Options Saved.").fadeIn('slow');
+			$('.status', optiontab).html('Options Saved.').fadeIn('slow');
 				setTimeout(function() {
 					$('.status').fadeOut();
 			}, 2000);
 		},
 		restoreOptions: function () {
-			var min_options = localStorage["mim_options"];
+			var min_options = localStorage['mim_options'];
 			if (!min_options) {
 				return;
 			}
@@ -148,8 +148,8 @@ lon.mim.Monitor = new function () {
 					var elem = options[int];
 					if ((finalRequest || info.url).indexOf(elem[0]) !== -1) {
 						var log = {
-							"origin": finalRequest || info.url,
-							"matcher": elem
+							'origin': finalRequest || info.url,
+							'matcher': elem
 						};
 						
 						finalRequest = (finalRequest || info.url).replace(elem[0], elem[1]);
@@ -172,7 +172,7 @@ lon.mim.Monitor = new function () {
 				urls: []
 			},
 			// extraInfoSpec
-			[ "blocking" ]);
+			[ 'blocking' ]);
 		},
 		appendTrace: function (url) {
 			$('#templates .request-trace').clone().html(url).appendTo(monitorLog);
