@@ -19,6 +19,12 @@ lon.mim.Main = new function () {
 			var defaultTab = localStorage["mim_prefs.tab"];
 			defaultTab ? o.switchTab(defaultTab) : null;
 			
+			$(document).keyup(function(event) {
+				event.keyCode === 27 ? window.close() : null;
+			});
+			
+			$('button.exit').click(function () { window.close(); });
+			
 		},
 		switchTab: function (tabId) {
 			$('#tabs')
@@ -45,7 +51,7 @@ lon.mim.Options = new function () {
 			optiontab = $('#options-tab');
 			
 			$('button.new', optiontab).click(function () {	o.newOption(); });
-			$('button.save', optiontab).click(function () { o.saveOptions();});
+			$('button.save', optiontab).click(function () { o.saveOptions(); });
 			
 			$('.list', optiontab).on('click', '.del', function (event) {
 				o.deleteOption(this);
