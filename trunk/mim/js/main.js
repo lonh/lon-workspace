@@ -25,6 +25,7 @@ lon.mim.Main = new function () {
 			
 			$('button.exit').click(function () { window.close(); });
 			
+			$('#options-tab .list').sortable().disableSelection();
 		},
 		switchTab: function (tabId) {
 			$('#tabs')
@@ -61,11 +62,11 @@ lon.mim.Options = new function () {
 		},
 		newOption: function () {
 			var list = $('.list', optiontab);
-			$('#templates .entry').clone().appendTo(list);
+			$('#templates ul li').clone().appendTo(list);
 			list.prop({'scrollTop': list.prop('scrollHeight')});
 		},
 		deleteOption: function (btn) {
-			$(btn).parent('.entry').remove();
+			$(btn).parents('li').remove();
 		},
 		saveOptions: function () {
 			var o = this;
@@ -97,7 +98,7 @@ lon.mim.Options = new function () {
 			
 			var options = JSON.parse(min_options);
 			$.each(options, function(indx, elem) {
-				var entry = $('#templates .entry').clone().appendTo($('.list', optiontab));
+				var entry = $('#templates ul li').clone().appendTo($('.list', optiontab));
 				$('.source', entry).val(elem[0]);
 				$('.replace', entry).val(elem[1]);
 				$('.toggle', entry).prop('checked', elem[2]);

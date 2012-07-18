@@ -2,7 +2,9 @@
 <head>
 <title>MiM</title>
 <link type="text/css" href="../css/common.css" rel="stylesheet" />
+<link type="text/css" href="../jquery-ui-1.8.21/css/ui-lightness/jquery-ui-1.8.21.custom.css" rel="stylesheet" />
 <script src="../js/jquery-1.7.2.min.js"></script>
+<script src="../jquery-ui-1.8.21/js/jquery-ui-1.8.21.custom.min.js"></script>
 <script src="../js/main.js"></script>
 </head>
 <body>
@@ -15,7 +17,7 @@
   <div id="options-tab" class="container" style="display: none">
     <div class="header">
     </div>
-    <div class="list"></div>
+    <ul class="list"></ul>
     <div class="actions">
       <button class="new">New</button>
       <button class="save">Save</button>
@@ -39,12 +41,16 @@
   </div>
   <div id="templates">
     <!-- Filter option template -->
-    <div class="entry">
-      <input type="checkbox" class="toggle" checked="checked"></input>
-      <input type="text" class="source"></input><input type="text" class="replace"></input>
-      <div class="del" ></div>
-      <div class="del" ></div>
-    </div>
+    <ul>
+      <li>
+        <div class="entry">
+          <input type="checkbox" class="toggle" checked="checked"></input>
+          <input type="text" class="source"></input><input type="text" class="replace"></input>
+          <div class="del" ></div>
+          <div class="del" ></div>
+        </div>
+      </li>
+    </ul>
 
     <!-- Intercepted request log template -->
     <div class="request-log">
