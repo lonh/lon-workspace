@@ -155,7 +155,6 @@ lon.mim.Monitor = new function () {
 			// filters
 			{
 				urls: []
-			//	urls : [ "*://*.westjet.com/*", "*://*.softvoyage.com/*" ]
 			},
 			// extraInfoSpec
 			[ "blocking" ]);
