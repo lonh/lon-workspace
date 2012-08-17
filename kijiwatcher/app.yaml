@@ -8,7 +8,4 @@ handlers:
   static_dir: stylesheets
 
 - url: /.*
-  script: helloworld.py
-  
-- url: /fetch
-  script: src/fetch.py
+  script: src/main.py
