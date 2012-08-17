@@ -6,7 +6,7 @@ from google.appengine.api import users
 from google.appengine.ext import webapp
 from google.appengine.ext.webapp.util import run_wsgi_app
 from google.appengine.ext.webapp import template
-
+from src.fetch import Fetcher
 
 class Greeting(db.Model):
     """Models an individual Guestbook entry with an author, content, and date."""
@@ -40,7 +40,7 @@ class MainPage(webapp.RequestHandler):
             'url_linktext': url_linktext,
         }
 
-        path = os.path.join(os.path.dirname(__file__), 'index.html')
+        path = os.path.join(os.path.dirname(__file__), '../html/index.html')
         self.response.out.write(template.render(path, template_values))
 
 
@@ -63,7 +63,9 @@ class Guestbook(webapp.RequestHandler):
 
 application = webapp.WSGIApplication([
   ('/', MainPage),
-  ('/sign', Guestbook)
+  ('/sign', Guestbook),
+  ('/fetch', Fetcher)
+  
 ], debug=True)
 
 
