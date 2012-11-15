@@ -7,6 +7,7 @@
 	font-family: "Trebuchet MS", Arial, Sans-Serif;
 	color: #002D62;
 	border-radius: 3px;
+	-webkit-font-smoothing: antialiased;
 }
 
 .container {
@@ -180,4 +181,10 @@ input {
 .request-log .result .body {
   color: green;
   font-weight: bolder;
+}
+
+.paramlist {
+  font-family: "Arial;
+  color: #0675EE;
+  padding-left: 10px;
 }
