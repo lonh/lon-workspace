@@ -10,7 +10,7 @@ lon.mim.Main = new function () {
 			var o = this;
 			
 			// Set up tab actions
-			$('#tabs li').click(function(event){
+			$('#tabs li').on('click', function(event){
 				var id = $(this).attr('id');
 				o.switchTab(id);
 			});
@@ -23,7 +23,7 @@ lon.mim.Main = new function () {
 				event.keyCode === 27 ? window.close() : null;
 			});
 			
-			$('button.exit').click(function () { window.close(); });
+			$('button.exit').on('click', function () { window.close(); });
 			
 			$('#options-tab .list')
 				.sortable({ 
@@ -57,8 +57,10 @@ lon.mim.Options = new function () {
 			
 			optiontab = $('#options-tab');
 			
-			$('button.new', optiontab).click(function () {	o.newOption(); });
-			$('button.save', optiontab).click(function () { o.saveOptions(); });
+			$('button.new', optiontab).on('click', function () {	o.newOption(); });
+			$('button.save', optiontab).on('click', function () { o.saveOptions(); });
+			
+			$('body').on('change', '.source, .replace, .toggle', function () {o.saveOptions();});
 			
 			$('.list', optiontab).on('click', '.del', function (event) {
 				o.deleteOption(this);
@@ -68,7 +70,7 @@ lon.mim.Options = new function () {
 		},
 		newOption: function () {
 			var list = $('.list', optiontab);
-			$('#templates ul li').clone().appendTo(list);
+			$('#templates ul li.option').clone().appendTo(list);
 			list.prop({'scrollTop': list.prop('scrollHeight')});
 		},
 		deleteOption: function (btn) {
@@ -104,7 +106,7 @@ lon.mim.Options = new function () {
 			
 			var options = JSON.parse(min_options);
 			$.each(options, function(indx, elem) {
-				var entry = $('#templates ul li').clone().appendTo($('.list', optiontab));
+				var entry = $('#templates ul li.option').clone().appendTo($('.list', optiontab));
 				$('.source', entry).val(elem[0]);
 				$('.replace', entry).val(elem[1]);
 				$('.toggle', entry).prop('checked', elem[2]);
@@ -115,6 +117,38 @@ lon.mim.Options = new function () {
 	}
 }();
 
+lon.mim.Watcher = new function () {
+  // Private stuff
+  var watcherTab = null;
+  // public stuff
+  return {
+    initialize : function () {
+      var o = this;
+      
+      watcherTab = $('#watcher-tab');
+      
+      $('button.new', watcherTab).on('click', function () {  o.newWatch(); });
+      
+      $('.list', watcherTab).on('click', '.del', function (event) {
+        o.deleteWatch(this);
+      });
+      
+      //this.restoreWatch();
+    },
+    newWatch: function () {
+      var list = $('.list', watcherTab);
+      $('#templates ul li.watcher').clone().appendTo(list);
+      list.prop({'scrollTop': list.prop('scrollHeight')});
+    },
+    deleteWatch: function (btn) {
+      $(btn).parents('li').remove();
+    },
+    registerListener: function () {
+      var o = this;
+    }
+  };
+  
+}();
 
 lon.mim.Monitor = new function () {
 	// Private stuff
@@ -175,9 +209,25 @@ lon.mim.Monitor = new function () {
 			[ 'blocking' ]);
 		},
 		appendTrace: function (url) {
-			$('#templates .request-trace').clone().html(url).appendTo(monitorLog);
-
-			monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});			
+		  var o = this;
+		  var decodedUrl = decodeURIComponent(url);
+		  if (o.hasQueryParam(decodedUrl)) {
+		    var queryParams = decodedUrl.substring(decodedUrl.indexOf('?') + 1).split("&");
+		    if(!!queryParams && queryParams.length > 0) {
+		      var paramDisplay = '<br /><div class="paramlist">';
+		      for (var i = 0; i < queryParams.length; i++) {
+		        paramDisplay += (queryParams[i] + '<br />');
+		      }
+		      paramDisplay +=  '</div>';
+		      decodedUrl += paramDisplay;
+		    }
+		  }
+		     
+		  $('#templates .request-trace').clone().html(decodedUrl).appendTo(monitorLog);
+		  monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
+		},
+		hasQueryParam: function (url) {
+		  return url.indexOf('?') != -1;
 		},
 		displayLogging: function (logs) {
 			var logElem = $('#templates .request-log').clone();
@@ -232,4 +282,6 @@ $(function () {
 	// Set up options page
 	lon.mim.Options.initialize();
 	
+	// Set up watcher page
+	lon.mim.Watcher.initialize();
 });
