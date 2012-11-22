@@ -63,6 +63,7 @@ lon.mim.Options = new function () {
             
             $('.list', optiontab).on('click', '.del', function (event) {
                 o.deleteOption(this);
+                o.saveOptions();
             });
             
             this.restoreOptions();
@@ -76,7 +77,6 @@ lon.mim.Options = new function () {
         },
         deleteOption: function (btn) {
             $(btn).parents('li').remove();
-            this.saveOption();
         },
         saveOptions: function () {
             var o = this;
