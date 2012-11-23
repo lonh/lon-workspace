@@ -1,19 +1,19 @@
 {
-  "name": "M in M",
-  "description": "Playground for google extentions",
+  "name": "Web request watcher",
+  "description": "Intercept, modify requests in-flight and to observe and analyze traffic",
   "version": "0.1",
   "permissions": 
-	  [ "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
+    [ "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
   "background": {
     "scripts": [ "js/background.js" ]
   },
   "icons": { 
-	  "16": "img/matrix-icon-16.png",
-      "48": "img/matrix-icon-48.png"
+    "16": "img/matrix-icon-16.png",
+    "48": "img/matrix-icon-48.png"
   },
   "browser_action": {
-    "default_icon": "img/matrix-icon-48.png",
-    "default_title": "M in M"
+    "default_icon": "img/matrix-icon-48.png-Binoculars",
+    "default_title": "WRW"
   },
   "manifest_version": 2
 }
