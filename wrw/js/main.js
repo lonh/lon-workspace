@@ -27,6 +27,11 @@ lon.mim.Main = new function () {
                 event.keyCode === 27 ? window.close() : null;
             });
             
+            $(window).on('resize', function (){
+                localStorage['mim_preferences.width']=document.width;
+                localStorage['mim_preferences.height']=document.height;
+            });
+
             $('button.exit').on('click', function () { window.close(); });
             
             $('#options-tab .list ul')
@@ -56,10 +61,10 @@ lon.mim.Options = new function () {
             
             optiontab = $('#options-tab');
             
-            $('button.new', optiontab).on('click', function () {    o.newOption(); });
+            $('button.new', optiontab).on('click', function () { o.newOption(); });
             $('button.save', optiontab).on('click', function () { o.saveOptions(); });
             
-            $('body').on('change', '.source, .replace, .toggle', function () {o.saveOptions();});
+            optiontab.on('change', '.source, .replace, .toggle', function () {o.saveOptions();});
             
             $('.list', optiontab).on('click', '.del', function (event) {
                 o.deleteOption(this);
@@ -121,32 +126,82 @@ lon.mim.Options = new function () {
 
 lon.mim.Watcher = new function () {
   // Private stuff
-  var watcherTab = null;
+  var watchesTab = null;
+  var notifications = [];
   // public stuff
   return {
     initialize : function () {
       var o = this;
       
-      watcherTab = $('#watcher-tab');
+      watchesTab = $('#watches-tab');
       
-      $('button.new', watcherTab).on('click', function () {  o.newWatch(); });
-      
-      $('.list', watcherTab).on('click', '.del', function (event) {
+      $('button.new', watchesTab).on('click', function () {  o.newWatch(); });
+      $('button.clear', watchesTab).on('click', function () {  
+        while (notifications.length) {
+            try {
+                notifications.pop().close();
+            } catch(e){}
+         };
+      });
+
+      watchesTab.on('change', '.source, .toggle', function () {o.saveWatches();});
+
+      $('.list', watchesTab).on('click', '.del', function (event) {
         o.deleteWatch(this);
+        o.saveWatches();
       });
       
-      //this.restoreWatch();
+      o.restoreWatches();
+
+      $(document).on('notification.created', function (event, data) {
+        o.addNotifications(data);
+      });
+    },
+    addNotifications: function(notification) {
+        notifications.push(notification);
     },
     newWatch: function () {
-      var list = $('.list', watcherTab);
-      $('#templates ul li.watcher').clone().appendTo(list);
+      var list = $('.list ul', watchesTab);
+      $('#templates ul li.watch').clone().appendTo(list);
       list.prop({'scrollTop': list.prop('scrollHeight')});
     },
     deleteWatch: function (btn) {
       $(btn).parents('li').remove();
     },
-    registerListener: function () {
-      var o = this;
+    saveWatches: function () {
+        var o = this;
+        var watches = [];
+        
+        $('.entry', watchesTab).each(function (index, entry) {
+            var elem = $(entry);
+            var source = $('.source', elem).val();
+            if (source) {
+                watches.push([source, $('.toggle', elem).prop('checked')]);
+            }
+        });
+        
+        localStorage['mim_watches'] = JSON.stringify(watches);
+        
+        $(document).trigger('watches.changed', [ watches ]);
+        
+        $('.status', watchesTab).html('Watches Saved.').fadeIn('slow');
+        setTimeout(function() {
+            $('.status').fadeOut();
+        }, 2000);
+    },
+    restoreWatches: function () {
+        var min_watches = localStorage['mim_watches'];
+        if (min_watches) {
+
+            var watches = JSON.parse(min_watches);
+            $.each(watches, function(indx, elem) {
+                var entry = $('#templates ul li.watch').clone().appendTo($('.list ul', watchesTab));
+                $('.source', entry).val(elem[0]);
+                $('.toggle', entry).prop('checked', elem[2]);
+            });
+
+            $(document).trigger('watches.changed', [ watches ]);
+        }
     }
   };
   
@@ -155,6 +210,7 @@ lon.mim.Watcher = new function () {
 lon.mim.Monitor = new function () {
     // Private stuff
     var options = [];
+    var watches = [];
     var monitorLog = null;
     // Public stuff
     return {
@@ -172,13 +228,17 @@ lon.mim.Monitor = new function () {
             $(document).on('options.changed', function (event, data) {
                 o.updateOptions(data);
             });
+
+            $(document).on('watches.changed', function (event, data) {
+                o.updateWatches(data);
+            });
         },
         registerListener: function () {
             var o = this;
             
             // Register web request
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
-                
+
                 var logs = [], finalRequest = null;
                 for ( var int = 0; int < options.length; int++) {
                     var elem = options[int];
@@ -195,11 +255,11 @@ lon.mim.Monitor = new function () {
                     }
                 }
                 
-                if (finalRequest && finalRequest !== info.url) {
+                if (finalRequest) {
                     o.displayLogging(logs);
-                    
                     return { redirectUrl : finalRequest };
                 } else {
+                    o.checkRequestForWatch(info);
                     o.appendTrace(info.url);
                 }
             },
@@ -210,10 +270,32 @@ lon.mim.Monitor = new function () {
             // extraInfoSpec
             [ 'blocking' ]);
         },
+        checkRequestForWatch: function (info) {
+            $.each(watches, function (indx, watch) {
+                if (info.url.indexOf(watch) != -1) {
+                    this.sendNotification(watch, info);
+                }
+            });
+        },
+        sendNotification: function (watch, info) {
+            var decodedUrl = decodeURIComponent(info.url);
+
+            var notification = window.webkitNotifications.createNotification('/img/icon.png', watch, decodedUrl.split(/[?&]/).join('<>'));
+
+            $(document).trigger('notification.created', [ notification ]);
+
+            notification.show();
+        },
         appendTrace: function (url) {
           var o = this;
+          var decodedUrl = this.decodedUrl(url);
+             
+          $('#templates .request-trace').clone().html(decodedUrl).appendTo(monitorLog);
+          monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
+        },
+        decodedUrl: function (url) {
           var decodedUrl = decodeURIComponent(url);
-          if (o.hasQueryParam(decodedUrl)) {
+          if (this.hasQueryParam(decodedUrl)) {
             var queryParams = decodedUrl.substring(decodedUrl.indexOf('?') + 1).split("&");
             if(!!queryParams && queryParams.length > 0) {
               var paramDisplay = '<br /><div class="paramlist">';
@@ -224,9 +306,8 @@ lon.mim.Monitor = new function () {
               decodedUrl += paramDisplay;
             }
           }
-             
-          $('#templates .request-trace').clone().html(decodedUrl).appendTo(monitorLog);
-          monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
+
+          return decodedUrl;
         },
         hasQueryParam: function (url) {
           return url.indexOf('?') != -1;
@@ -235,7 +316,6 @@ lon.mim.Monitor = new function () {
             var logElem = $('#templates .request-log').clone();
             
             $.each(logs, function(indx, log) {
-                
                 var len1 = log.matcher[0].length,
                     len2 = log.matcher[1].length,
                     st1 = log.origin.indexOf(log.matcher[0]),
@@ -266,6 +346,14 @@ lon.mim.Monitor = new function () {
                 }
             });
         },
+        updateWatches: function (data) {
+            watches = [];
+            $.each(data, function (indx, elem) {
+                if (!!elem[1]) {
+                    watches.push(elem[0]);
+                }
+            });
+        },
         clearLog: function () {
             monitorLog.empty();
         }
@@ -278,11 +366,11 @@ $(function () {
     // Set up main page
     lon.mim.Main.initialize();
     
-    // Set up monitor
-    lon.mim.Monitor.initialize();
-    
     // Set up options page
     lon.mim.Options.initialize();
+    
+    // Set up monitor
+    lon.mim.Monitor.initialize();
     
     // Set up watcher page
     lon.mim.Watcher.initialize();
