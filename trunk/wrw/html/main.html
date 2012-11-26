@@ -11,7 +11,8 @@
   <div id="tabs">
     <div id="main-menu">
         <input type="radio" id="options" name="main-menu" /><label for="options">Rules</label>
-        <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Request</label>
+        <input type="radio" id="watches" name="main-menu" /><label for="watches">Watches</label>
+        <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
     </div>
     <div id="options-tab" class="container">
       <div class="list">
@@ -19,6 +20,19 @@
       </div>
       <div class="actions">
         <button class="new">New</button>
+        <button class="exit">Exit</button>
+      </div>
+      <div class="footer">
+        <p class="status"></p>
+      </div>
+    </div>
+    <div id="watches-tab" class="container">
+      <div class="list">
+        <ul></ul>
+      </div>
+      <div class="actions">
+        <button class="new">New</button>
+        <button class="clear">Clear Notifications</button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
@@ -48,6 +62,15 @@
           <div class="inputs">
             <input type="text" class="source"></input>
             <input type="text" class="replace"></input>
+          </div>
+          <div class="del"></div>
+        </div>
+      </li>
+      <li class="watch">
+        <div class="entry">
+          <input type="checkbox" class="toggle" checked="checked"></input>
+          <div class="inputs">
+            <input type="text" class="source"></input>
           </div>
           <div class="del"></div>
         </div>
