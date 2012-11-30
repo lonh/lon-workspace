@@ -57,26 +57,32 @@
 
   <div id="templates">
     <!-- Filter option template -->
-    <ul>
+    <ul class="option-template">
+      {{#options}}
       <li class="option">
         <div class="entry">
-          <input type="checkbox" class="toggle" checked="checked"></input>
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
           <div class="inputs">
-            <input type="text" class="source"></input>
-            <input type="text" class="replace"></input>
+            <input type="text" class="source" value="{{source}}"></input>
+            <input type="text" class="replace" value="{{replace}}"></input>
           </div>
           <div class="del"></div>
         </div>
       </li>
+      {{/options}}
+    </ul>
+    <ul class="watch-template">
+      {{#watches}}
       <li class="watch">
         <div class="entry">
-          <input type="checkbox" class="toggle" checked="checked"></input>
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
           <div class="inputs">
-            <input type="text" class="source"></input>
+            <input type="text" class="source" value="{{source}}"></input>
           </div>
           <div class="del"></div>
         </div>
       </li>
+      {{/watches}}
     </ul>
 
     <!-- Intercepted request log template -->

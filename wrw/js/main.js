@@ -77,24 +77,22 @@ lon.mim.Options = new function () {
         },
         newOption: function () {
             var list = $('.list ul', optiontab);
-            $('#templates ul li.option').clone().appendTo(list);
-            list.prop({'scrollTop': list.prop('scrollHeight')});
+            list.append($('#templates .option-template').mustache({"options": [{checked: true}]}))
+                .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {
             $(btn).parents('li').remove();
         },
         saveOptions: function () {
-            var o = this;
-            var options = [];
             
-            $('.entry', optiontab).each(function (index, entry) {
+            var options = $('.entry', optiontab).map(function (index, entry) {
                 var elem = $(entry);
                 var source = $('.source', elem).val();
                 var replace = $('.replace', elem).val();
                 if (source && replace) {
-                    options.push([source, replace, $('.toggle', elem).prop('checked')]);
+                    return [[source, replace, $('.toggle', elem).prop('checked')]];
                 }
-            });
+            }).get();
             
             localStorage['mim_options'] = JSON.stringify(options);
             
@@ -102,24 +100,22 @@ lon.mim.Options = new function () {
             
             $('.status', optiontab).html('Options Saved.').fadeIn('slow');
                 setTimeout(function() {
-                    $('.status').fadeOut();
+                    $('.status').fadeOut('slow');
             }, 2000);
         },
         restoreOptions: function () {
             var mim_options = localStorage['mim_options'];
-            if (!mim_options) {
-                return;
+            if (mim_options) {
+                var options = JSON.parse(mim_options);
+                var views = $.map(options, function(elem, indx) {
+                    return {source: elem[0], replace: elem[1], checked: elem[2]};
+                });
+
+                $('.list ul', optiontab)
+                    .append($('#templates .option-template').mustache({options: views}));
+                
+                $(document).trigger('options.changed', [ options ]);
             }
-            
-            var options = JSON.parse(mim_options);
-            $.each(options, function(indx, elem) {
-                var entry = $('#templates ul li.option').clone().appendTo($('.list ul', optiontab));
-                $('.source', entry).val(elem[0]);
-                $('.replace', entry).val(elem[1]);
-                $('.toggle', entry).prop('checked', elem[2]);
-            });
-            
-            $(document).trigger('options.changed', [ options ]);
         }
     }
 }();
@@ -161,24 +157,23 @@ lon.mim.Watcher = new function () {
         notifications.push(notification);
     },
     newWatch: function () {
+      var empty = {checked: true};
       var list = $('.list ul', watchesTab);
-      $('#templates ul li.watch').clone().appendTo(list);
-      list.prop({'scrollTop': list.prop('scrollHeight')});
+      list
+        .append($('#templates .watch-template').mustache({watches:empty}))
+        .prop({'scrollTop': list.prop('scrollHeight')});
     },
     deleteWatch: function (btn) {
       $(btn).parents('li').remove();
     },
     saveWatches: function () {
-        var o = this;
-        var watches = [];
-        
-        $('.entry', watchesTab).each(function (index, entry) {
+        var watches = $('.entry', watchesTab).map(function (index, entry) {
             var elem = $(entry);
             var source = $('.source', elem).val();
             if (source) {
-                watches.push([source, $('.toggle', elem).prop('checked')]);
+                return [[source, $('.toggle', elem).prop('checked')]];
             }
-        });
+        }).get();
         
         localStorage['mim_watches'] = JSON.stringify(watches);
         
@@ -192,13 +187,13 @@ lon.mim.Watcher = new function () {
     restoreWatches: function () {
         var min_watches = localStorage['mim_watches'];
         if (min_watches) {
-
             var watches = JSON.parse(min_watches);
-            $.each(watches, function(indx, elem) {
-                var entry = $('#templates ul li.watch').clone().appendTo($('.list ul', watchesTab));
-                $('.source', entry).val(elem[0]);
-                $('.toggle', entry).prop('checked', elem[2]);
+            var views = $.map(watches, function(elem, indx) {
+                return {source: elem[0], checked: elem[1]};
             });
+
+            $('.list ul', watchesTab)
+                .append($('#templates .watch-template').mustache({"watches": views}));
 
             $(document).trigger('watches.changed', [ watches ]);
         }
@@ -239,25 +234,23 @@ lon.mim.Monitor = new function () {
             // Register web request
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
 
-                var logs = [], finalRequest = null;
-                for ( var int = 0; int < options.length; int++) {
-                    var elem = options[int];
-                    if ((finalRequest || info.url).indexOf(elem[0]) !== -1) {
+                var logs = [], redirectedRequest = null;
+                $.each(options, function (indx, elem) {
+                    var origin = redirectedRequest || info.url;
+                    if (origin.indexOf(elem[0]) !== -1) {
                         var log = {
-                            'origin': finalRequest || info.url,
+                            'origin': origin,
                             'matcher': elem
                         };
                         
-                        finalRequest = (finalRequest || info.url).replace(elem[0], elem[1]);
-                        
-                        log.result = finalRequest;
+                        log.result = redirectedRequest = origin.replace(elem[0], elem[1]);
                         logs.push(log);
                     }
-                }
+                });
                 
-                if (finalRequest) {
+                if (redirectedRequest) {
                     o.displayLogging(logs);
-                    return { redirectUrl : finalRequest };
+                    return { redirectUrl : redirectedRequest };
                 } else {
                     o.checkRequestForWatch(info);
                     o.appendTrace(info.url);
@@ -289,9 +282,9 @@ lon.mim.Monitor = new function () {
         },
         appendTrace: function (url) {
           var decodedUrl = this.decodeUrl(url);
-             
-          $('#templates .request-trace-template').clone().mustache(decodedUrl).appendTo(monitorLog);
-          monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
+          monitorLog
+            .append($('#templates .request-trace-template').mustache(decodedUrl))
+            .prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
         decodeUrl: function (url) {
           var decodedUrl = decodeURIComponent(url);
@@ -318,9 +311,8 @@ lon.mim.Monitor = new function () {
                 };
             });
 
-            var logTemplate = $('#templates .request-log-template');
             monitorLog
-                .append(logTemplate.mustache({"matchers": matchers}))
+                .append($('#templates .request-log-template').mustache({"matchers": matchers}))
                 .prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
         updateOptions: function (data) {
