@@ -106,12 +106,12 @@ lon.mim.Options = new function () {
             }, 2000);
         },
         restoreOptions: function () {
-            var min_options = localStorage['mim_options'];
-            if (!min_options) {
+            var mim_options = localStorage['mim_options'];
+            if (!mim_options) {
                 return;
             }
             
-            var options = JSON.parse(min_options);
+            var options = JSON.parse(mim_options);
             $.each(options, function(indx, elem) {
                 var entry = $('#templates ul li.option').clone().appendTo($('.list ul', optiontab));
                 $('.source', entry).val(elem[0]);
@@ -271,9 +271,10 @@ lon.mim.Monitor = new function () {
             [ 'blocking' ]);
         },
         checkRequestForWatch: function (info) {
+            var o = this;
             $.each(watches, function (indx, watch) {
                 if (info.url.indexOf(watch) != -1) {
-                    this.sendNotification(watch, info);
+                    o.sendNotification(watch, info);
                 }
             });
         },
@@ -287,55 +288,40 @@ lon.mim.Monitor = new function () {
             notification.show();
         },
         appendTrace: function (url) {
-          var o = this;
-          var decodedUrl = this.decodedUrl(url);
+          var decodedUrl = this.decodeUrl(url);
              
-          $('#templates .request-trace').clone().html(decodedUrl).appendTo(monitorLog);
+          $('#templates .request-trace-template').clone().mustache(decodedUrl).appendTo(monitorLog);
           monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
-        decodedUrl: function (url) {
+        decodeUrl: function (url) {
           var decodedUrl = decodeURIComponent(url);
-          if (this.hasQueryParam(decodedUrl)) {
-            var queryParams = decodedUrl.substring(decodedUrl.indexOf('?') + 1).split("&");
-            if(!!queryParams && queryParams.length > 0) {
-              var paramDisplay = '<br /><div class="paramlist">';
-              for (var i = 0; i < queryParams.length; i++) {
-                paramDisplay += (queryParams[i] + '<br />');
-              }
-              paramDisplay +=  '</div>';
-              decodedUrl += paramDisplay;
-            }
-          }
+          var result = {url: decodedUrl};
+          result.paramlist = this.hasQueryParam(decodedUrl) ? decodedUrl.substring(decodedUrl.indexOf('?') + 1).split("&") : [];
 
-          return decodedUrl;
+          return result;
         },
         hasQueryParam: function (url) {
           return url.indexOf('?') != -1;
         },
         displayLogging: function (logs) {
-            var logElem = $('#templates .request-log').clone();
-            
-            $.each(logs, function(indx, log) {
-                var len1 = log.matcher[0].length,
-                    len2 = log.matcher[1].length,
-                    st1 = log.origin.indexOf(log.matcher[0]),
-                    st2 = log.result.indexOf(log.matcher[1]);
-                
-                $('.matcher:first', logElem).clone()
-                    .find('.source .head').html(log.origin.substring(0, st1)).end()
-                    .find('.source .body').html(log.matcher[0]).end()
-                    .find('.source .tail').html(log.origin.substring(st1 + len1)).end()
-                    .find('.result .head').html(log.result.substring(0, st2)).end()
-                    .find('.result .body').html(log.matcher[1]).end()
-                    .find('.result .tail').html(log.result.substring(st2 + len2)).end()
-                    .appendTo(logElem);
-                
+            var matchers = $.map(logs, function(log, index) {
+                var origins = log.origin.split(log.matcher[0]);
+                var results = log.result.split(log.matcher[1]);
+
+                return {
+                    ohead: origins[0],
+                    obody: log.matcher[0],
+                    otail: origins.length > 1 ? origins[1] : null,
+                    rhead: results[0],
+                    rbody: log.matcher[1],
+                    rtail: results.length > 1 ? results[1] : null
+                };
             });
-            
-            $('.matcher:first', logElem).remove();
-            logElem.appendTo(monitorLog);
-            
-            monitorLog.prop({'scrollTop': monitorLog.prop('scrollHeight')});
+
+            var logTemplate = $('#templates .request-log-template');
+            monitorLog
+                .append(logTemplate.mustache({"matchers": matchers}))
+                .prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
         updateOptions: function (data) {
             options = [];
@@ -366,11 +352,14 @@ $(function () {
     // Set up main page
     lon.mim.Main.initialize();
     
+    // Set up monitor
+    // !!!IMPORTANT 
+    // this need to be run before option intialization
+    // to catch options.changed event
+    lon.mim.Monitor.initialize();
+
     // Set up options page
     lon.mim.Options.initialize();
-    
-    // Set up monitor
-    lon.mim.Monitor.initialize();
     
     // Set up watcher page
     lon.mim.Watcher.initialize();
