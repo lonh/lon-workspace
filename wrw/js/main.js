@@ -272,13 +272,14 @@ lon.mim.Monitor = new function () {
             });
         },
         sendNotification: function (watch, info) {
-            var decodedUrl = decodeURIComponent(info.url);
-
-            var notification = window.webkitNotifications.createNotification('/img/icon.png', watch, decodedUrl.split(/[?&]/).join('<>'));
+            var decodedUrl = this.decodeUrl(info.url);
+            var notification = window.webkitNotifications.createNotification(
+                    '', 
+                    decodedUrl.url, 
+                    decodedUrl.paramlist.join('<>'));
+            notification.show();
 
             $(document).trigger('notification.created', [ notification ]);
-
-            notification.show();
         },
         appendTrace: function (url) {
           var decodedUrl = this.decodeUrl(url);
@@ -287,9 +288,9 @@ lon.mim.Monitor = new function () {
             .prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
         decodeUrl: function (url) {
-          var decodedUrl = decodeURIComponent(url);
-          var result = {url: decodedUrl};
-          result.paramlist = this.hasQueryParam(decodedUrl) ? decodedUrl.substring(decodedUrl.indexOf('?') + 1).split("&") : [];
+          var decodedUrl = decodeURIComponent(url).split('?');
+          var result = {url: decodedUrl[0]};
+          result.paramlist = decodedUrl.length != 1 ? decodedUrl[1].split("&") : [];
 
           return result;
         },
