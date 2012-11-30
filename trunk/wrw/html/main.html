@@ -5,6 +5,8 @@
 <link type="text/css" href="/jquery-ui-1.9.1.custom/css/smoothness/jquery-ui-1.9.1.custom.min.css" rel="stylesheet" />
 <script type="text/javascript" src="/js/jquery-1.8.3.min.js"></script>
 <script type="text/javascript" src="/jquery-ui-1.9.1.custom/js/jquery-ui-1.9.1.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mustache.js"></script>
+<script type="text/javascript" src="/js/underscore-min.js"></script>
 <script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
@@ -78,18 +80,31 @@
     </ul>
 
     <!-- Intercepted request log template -->
-    <div class="request-log">
-      <div class="matcher">
-        <div class="source">
-          <span class="head"></span><span class="body"></span><span class="tail"></span>
+    <div class="request-log-template">
+      <div class="request-log">
+        {{#matchers}}
+        <div class="matcher">
+          <div class="source">
+            <span class="head">{{ohead}}</span><span class="body">{{obody}}</span><span class="tail">{{otail}}</span>
+          </div>
+          <div class="result">
+            <span class="head">{{rhead}}</span><span class="body">{{rbody}}</span><span class="tail">{{rtail}}</span>
+          </div>
         </div>
-        <div class="result">
-          <span class="head"></span><span class="body"></span><span class="tail"></span>
-        </div>
+        {{/matchers}}
       </div>
     </div>
 
-    <div class="request-trace"></div>
+    <div class="request-trace-template">
+      <div class="request-trace">
+        {{{url}}}
+        <div class="paramlist">
+          {{#paramlist}}
+            {{{.}}}<br />
+          {{/paramlist}}
+        </div>
+      </div>
+    </div>
   </div>
 </body>
 </html>
