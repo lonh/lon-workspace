@@ -12,13 +12,17 @@
 <body>
   <div id="tabs">
     <div id="main-menu">
-        <input type="radio" id="options" name="main-menu" /><label for="options">Rules</label>
+        <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
         <input type="radio" id="watches" name="main-menu" /><label for="watches">Watches</label>
         <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
     </div>
     <div id="options-tab" class="container">
       <div class="list">
         <ul></ul>
+      </div>
+      <div class="actions settings">
+        <input type="checkbox" class="toggle" id="calleronly" /><label for="calleronly">Only filter on caller tab.</label>
+        <input type="checkbox" class="toggle" id="notification" /><label for="notification">Display desktop notification.</label>
       </div>
       <div class="actions">
         <button class="new">New</button>
