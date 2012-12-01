@@ -24,18 +24,26 @@ chrome.browserAction.onClicked.addListener(function() {
     var title = chrome.app.getDetails().browser_action.default_title;
 
     chrome.windows.getAll({populate: true}, function (windows) {
+        var appwindow = null;
+
+        allwindows:
         for (var i = windows.length - 1; i >= 0; i--) {
             if (windows[i].tabs) {
                 var tabs = windows[i].tabs;
-                for (var i = tabs.length - 1; i >= 0; i--) {
-                    if (tabs[i].title === title) {
-                        return;
+                for (var j = tabs.length - 1; j >= 0; j--) {
+                    if (tabs[j].title === title) {
+                        appwindow = windows[i];
+                        break allwindows;
                     }
                 };
             }
         };
 
-        startApp();
+        if (appwindow) {
+            chrome.windows.update(appwindow.id, {focused: true});
+        } else {
+            startApp();
+        }
     });
 });
 

@@ -59,10 +59,10 @@
   </div>
 
   <div id="templates">
-    <!-- Filter option template -->
-    <ul class="option-template">
-      {{#options}}
-      <li class="option">
+    <!-- Filter rule template -->
+    <ul class="rule-template">
+      {{#rules}}
+      <li class="rule">
         <div class="entry">
           <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
           <div class="inputs">
@@ -72,7 +72,7 @@
           <div class="del"></div>
         </div>
       </li>
-      {{/options}}
+      {{/rules}}
     </ul>
     <ul class="watch-template">
       {{#watches}}

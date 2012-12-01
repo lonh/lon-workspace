@@ -6,47 +6,66 @@ lon.mim.Main = new function () {
     
     // Public stuff
     return {
+        options: {},
         initialize: function () {
             var o = this;
             
+            // Load options first
+            this.loadOptions();
+
+            $(document).on('options.updated', function () {
+                o.updateOptions();
+            });
+        
+            // Set up top tab buttons
             $('#main-menu').buttonset();
-            $('button').button();
-            
             // Set up tab actions
             $('#main-menu input').on('click', function(event){
                 o.switchTab($(this).attr('id'));
             });
             
-            // retrieve previous stored tab id
-            var defaultTab = localStorage['mim_prefs.tab'] || 'options';
-            $('input#' + defaultTab).attr('checked', 'true').button('refresh');
-
-            o.switchTab(defaultTab);
-            
+            // ESC to close
             $(document).keyup(function(event) {
                 event.keyCode === 27 ? window.close() : null;
             });
             
             $(window).on('resize', function (){
-                localStorage['mim_preferences.width']=document.width;
-                localStorage['mim_preferences.height']=document.height;
+                options.prefs.width=document.width; 
+                options.prefs.height=document.height;
+                $(document).trigger('options.updated');
             });
 
+            $('button').button();
             $('button.exit').on('click', function () { window.close(); });
             
-            $('#options-tab .list ul')
-                .sortable({ 
-                        axis: 'y',
-                        containment: 'parent',
-                        revert: false
-                        })
-                .disableSelection();
+            // retrieve previous stored tab id
+            var defaultTab = o.options.prefs.tab || 'options';
+            $('input#' + defaultTab).attr('checked', 'true').button('refresh');
+
+            o.switchTab(defaultTab);
         },
         switchTab: function (tabId) {
             $('.container').hide().filter('#'+tabId+'-tab').show();
             
             // Store into preferences
-            localStorage['mim_prefs.tab']=tabId;
+            this.options.prefs.tab = tabId;
+            $(document).trigger('options.changed');
+        },
+        loadOptions: function () {
+            var opt = {};
+            var mim_options = localStorage['mim_config'];
+            if (mim_options) {
+                opt = JSON.parse(mim_options);
+            }
+
+            opt.prefs = opt.prefs || {};
+            opt.rules = opt.rules || [];
+            opt.watches = opt.watches || [];
+
+            this.options = opt;
+        },
+        updateOptions: function () {
+            localStorage['mim_config'] = JSON.stringify(this.options);
         }
     }
 }();
@@ -71,13 +90,20 @@ lon.mim.Options = new function () {
                 o.saveOptions();
             });
             
-            this.restoreOptions();
-            
-            $('#options-tab .list ul').sortable({'update': o.saveOptions});
+            $('.list ul', optiontab)
+                .sortable({ 
+                        axis: 'y',
+                        containment: 'parent',
+                        revert: false,
+                        'update': o.saveOptions
+                        })
+                .disableSelection();
+
+            this.loadOptions();
         },
         newOption: function () {
             var list = $('.list ul', optiontab);
-            list.append($('#templates .option-template').mustache({"options": [{checked: true}]}))
+            list.append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {
@@ -85,7 +111,7 @@ lon.mim.Options = new function () {
         },
         saveOptions: function () {
             
-            var options = $('.entry', optiontab).map(function (index, entry) {
+            var rules = $('.entry', optiontab).map(function (index, entry) {
                 var elem = $(entry);
                 var source = $('.source', elem).val();
                 var replace = $('.replace', elem).val();
@@ -94,30 +120,24 @@ lon.mim.Options = new function () {
                 }
             }).get();
             
-            localStorage['mim_options'] = JSON.stringify(options);
-            localStorage['mim_options.notification'] = $('#notification', optiontab).val();
-            localStorage['mim_options.calleronly'] = $('#calleronly', optiontab).val();
+            lon.mim.Main.options.rules = rules;
+            lon.mim.Main.options.notification = $('#notification', optiontab).val();
+            lon.mim.Main.options.calleronly = $('#calleronly', optiontab).val();
             
-            $(document).trigger('options.changed', [ options ]);
+            $(document).trigger('options.updated');
             
             $('.status', optiontab).html('Options Saved.').fadeIn('slow');
                 setTimeout(function() {
                     $('.status').fadeOut('slow');
             }, 2000);
         },
-        restoreOptions: function () {
-            var mim_options = localStorage['mim_options'];
-            if (mim_options) {
-                var options = JSON.parse(mim_options);
-                var views = $.map(options, function(elem, indx) {
-                    return {source: elem[0], replace: elem[1], checked: elem[2]};
-                });
+        loadOptions: function () {
+            var views = $.map(lon.mim.Main.options.rules, function(elem, indx) {
+                return {source: elem[0], replace: elem[1], checked: elem[2]};
+            });
 
-                $('.list ul', optiontab)
-                    .append($('#templates .option-template').mustache({options: views}));
-                
-                $(document).trigger('options.changed', [ options ]);
-            }
+            $('.list ul', optiontab)
+                .append($('#templates .rule-template').mustache({rules: views}));
         }
     }
 }();
@@ -179,7 +199,7 @@ lon.mim.Watcher = new function () {
         
         localStorage['mim_watches'] = JSON.stringify(watches);
         
-        $(document).trigger('watches.changed', [ watches ]);
+        $(document).trigger('watches.updated', [ watches ]);
         
         $('.status', watchesTab).html('Watches Saved.').fadeIn('slow');
         setTimeout(function() {
@@ -197,7 +217,7 @@ lon.mim.Watcher = new function () {
             $('.list ul', watchesTab)
                 .append($('#templates .watch-template').mustache({"watches": views}));
 
-            $(document).trigger('watches.changed', [ watches ]);
+            $(document).trigger('watches.updated', [ watches ]);
         }
     }
   };
@@ -222,13 +242,13 @@ lon.mim.Monitor = new function () {
                 o.clearLog();
             });
             
-            $(document).on('options.changed', function (event, data) {
+           /* $(document).on('options.changed', function (event, data) {
                 o.updateOptions(data);
             });
 
             $(document).on('watches.changed', function (event, data) {
                 o.updateWatches(data);
-            });
+            });*/
         },
         registerListener: function () {
             var o = this;
@@ -237,7 +257,7 @@ lon.mim.Monitor = new function () {
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
 
                 var logs = [], redirectedRequest = null;
-                $.each(options, function (indx, elem) {
+                $.each(lon.mim.Main.options.rules, function (indx, elem) {
                     var origin = redirectedRequest || info.url;
                     if (origin.indexOf(elem[0]) !== -1) {
                         var log = {
@@ -267,7 +287,7 @@ lon.mim.Monitor = new function () {
         },
         checkRequestForWatch: function (info) {
             var o = this;
-            $.each(watches, function (indx, watch) {
+            $.each(lon.mim.Main.options.watches, function (indx, watch) {
                 if (info.url.indexOf(watch) != -1) {
                     o.sendNotification(watch, info);
                 }
