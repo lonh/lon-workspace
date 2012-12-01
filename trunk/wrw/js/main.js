@@ -95,6 +95,8 @@ lon.mim.Options = new function () {
             }).get();
             
             localStorage['mim_options'] = JSON.stringify(options);
+            localStorage['mim_options.notification'] = $('#notification', optiontab).val();
+            localStorage['mim_options.calleronly'] = $('#calleronly', optiontab).val();
             
             $(document).trigger('options.changed', [ options ]);
             
