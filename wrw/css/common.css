@@ -163,12 +163,6 @@ input {
     box-shadow: 5px 5px 5px #888;
 }
 
-.request-trace {
-    box-shadow: 2px 1px 2px silver;
-    margin: 5px 15px;
-    word-wrap:break-word;
-}
-
 .request-log > div {
     margin: 5px;
 }
@@ -186,10 +180,25 @@ input {
     color: red;
     font-weight: bolder;
 }
+.request-trace {.request-trace {
+    box-shadow: 2px 1px 2px silver;
+    margin: 5px 15px;
+    word-wrap:break-word;
+}
+    box-shadow: 2px 1px 2px silver;
+    margin: 5px 15px;
+    word-wrap:break-word;
+}
 
 .request-log .result .body {
   color: green;
   font-weight: bolder;
+}
+
+.request-trace {
+    box-shadow: 2px 1px 2px silver;
+    margin: 5px 15px;
+    word-wrap:break-word;
 }
 
 .paramlist {
