@@ -180,15 +180,6 @@ input {
     color: red;
     font-weight: bolder;
 }
-.request-trace {.request-trace {
-    box-shadow: 2px 1px 2px silver;
-    margin: 5px 15px;
-    word-wrap:break-word;
-}
-    box-shadow: 2px 1px 2px silver;
-    margin: 5px 15px;
-    word-wrap:break-word;
-}
 
 .request-log .result .body {
   color: green;
@@ -196,8 +187,9 @@ input {
 }
 
 .request-trace {
-    box-shadow: 2px 1px 2px silver;
+    box-shadow: 5px 5px 5px silver;
     margin: 5px 15px;
+    padding: 5px;
     word-wrap:break-word;
 }
 
