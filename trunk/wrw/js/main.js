@@ -116,13 +116,13 @@ lon.mim.Options = new function () {
                 var source = $('.source', elem).val();
                 var replace = $('.replace', elem).val();
                 if (source && replace) {
-                    return [[source, replace, $('.toggle', elem).prop('checked')]];
+                    return [{'source': source, 'replace': replace, 'checked': $('.toggle', elem).prop('checked')}];
                 }
             }).get();
             
             lon.mim.Main.options.rules = rules;
-            lon.mim.Main.options.notification = $('#notification', optiontab).val();
-            lon.mim.Main.options.calleronly = $('#calleronly', optiontab).val();
+            lon.mim.Main.options.notification = $('#notification', optiontab).prop('checked');
+            lon.mim.Main.options.calleronly = $('#calleronly', optiontab).prop('checked');
             
             $(document).trigger('options.updated');
             
@@ -132,12 +132,8 @@ lon.mim.Options = new function () {
             }, 2000);
         },
         loadOptions: function () {
-            var views = $.map(lon.mim.Main.options.rules, function(elem, indx) {
-                return {source: elem[0], replace: elem[1], checked: elem[2]};
-            });
-
             $('.list ul', optiontab)
-                .append($('#templates .rule-template').mustache({rules: views}));
+                .append($('#templates .rule-template').mustache({rules: lon.mim.Main.options.rules}));
         }
     }
 }();
