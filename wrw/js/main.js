@@ -252,15 +252,15 @@ lon.mim.Monitor = new function () {
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
 
                 var logs = [], redirectedRequest = null;
-                $.each(lon.mim.Main.options.rules, function (indx, elem) {
+                $.each(lon.mim.Main.options.rules, function (indx, rule) {
                     var origin = redirectedRequest || info.url;
-                    if (origin.indexOf(elem[0]) !== -1) {
+                    if (origin.indexOf(rule.source) !== -1) {
                         var log = {
                             'origin': origin,
-                            'matcher': elem
+                            'rule': rule
                         };
                         
-                        log.result = redirectedRequest = origin.replace(elem[0], elem[1]);
+                        log.result = redirectedRequest = origin.replace(rule.source, rule.replace);
                         logs.push(log);
                     }
                 });
@@ -316,15 +316,15 @@ lon.mim.Monitor = new function () {
         },
         displayLogging: function (logs) {
             var matchers = $.map(logs, function(log, index) {
-                var origins = log.origin.split(log.matcher[0]);
-                var results = log.result.split(log.matcher[1]);
+                var origins = log.origin.split(log.rule.source);
+                var results = log.result.split(log.rule.replace);
 
                 return {
                     ohead: origins[0],
-                    obody: log.matcher[0],
+                    obody: log.rule.source,
                     otail: origins.length > 1 ? origins[1] : null,
                     rhead: results[0],
-                    rbody: log.matcher[1],
+                    rbody: log.rule.replace,
                     rtail: results.length > 1 ? results[1] : null
                 };
             });
