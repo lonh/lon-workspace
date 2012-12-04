@@ -52,12 +52,8 @@ lon.mim.Main = new function () {
             $(document).trigger('options.changed');
         },
         loadOptions: function () {
-            var opt = {};
             var mim_options = localStorage['mim_config'];
-            if (mim_options) {
-                opt = JSON.parse(mim_options);
-            }
-
+            var opt = mim_options ? JSON.parse(mim_options) : {};
             opt.prefs = opt.prefs || {};
             opt.rules = opt.rules || [];
             opt.watches = opt.watches || [];
