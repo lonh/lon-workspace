@@ -134,6 +134,9 @@ lon.mim.Options = new function () {
         loadOptions: function () {
             $('.list ul', optiontab)
                 .append($('#templates .rule-template').mustache({rules: lon.mim.Main.options.rules}));
+
+             $('#notification', optiontab).prop('checked', lon.mim.Main.options.notification);
+             $('#calleronly', optiontab).prop('checked', lon.mim.Main.options.calleronly);
         }
     }
 }();
@@ -306,9 +309,9 @@ lon.mim.Monitor = new function () {
             .prop({'scrollTop': monitorLog.prop('scrollHeight')});
         },
         decodeUrl: function (url) {
-          var decodedUrl = decodeURIComponent(url).split('?');
-          var result = {url: decodedUrl[0]};
-          result.paramlist = decodedUrl.length != 1 ? decodedUrl[1].split("&") : [];
+          var result = {'url': url};
+          var decodedUrl = url.split('?');
+          result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
 
           return result;
         },
