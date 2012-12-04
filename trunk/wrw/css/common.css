@@ -44,7 +44,8 @@ body {
 /********************************************************/
 /* options */
 /********************************************************/
-#options-tab .list, 
+#options-tab .list,
+#notifications-tab .list, 
 #monitor-tab .list {
     height: 100%;
     width: 100%;
@@ -83,16 +84,25 @@ input {
     width: 20px;
 }
 
-.toggle:checked ~ * input.source {
+.watch .entry .toggle {
+    margin: 5px 0px;
+}
+
+.toggle:checked ~ * input {
     background-color: lightyellow;
-    color: red;
     font-weight: bold;
 }
 
+.toggle:checked ~ * input.source {
+    color: red;
+}
+
 .toggle:checked ~ * input.replace {
-    background-color: lightyellow;
     color: green;
-    font-weight: bold;
+}
+
+.toggle:checked ~ * input.watch {
+    color: blue;
 }
 
 .actions {
@@ -129,7 +139,7 @@ input {
 .entry {
     border: 1px silver solid;
     box-shadow: 5px 5px 5px silver;
-    height: 65px;
+    /*height: 65px;*/
     margin: 10px;
     padding: 5px;
     position: relative;
@@ -151,7 +161,7 @@ input {
 /********************************************************/
 /* monitor */
 /********************************************************/
-#monitor-tab .list .items {
+.list .items {
     height: 100%;
     overflow-y: auto;
 }
@@ -186,6 +196,7 @@ input {
   font-weight: bolder;
 }
 
+.notification-log,
 .request-trace {
     box-shadow: 5px 5px 5px silver;
     margin: 5px 15px;
