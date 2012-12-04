@@ -12,7 +12,7 @@
   <div id="tabs">
     <div id="main-menu">
         <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
-        <input type="radio" id="watches" name="main-menu" /><label for="watches">Watches</label>
+        <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
         <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
     </div>
     <div id="options-tab" class="container">
@@ -20,24 +20,24 @@
         <ul></ul>
       </div>
       <div class="actions settings">
-        <input type="checkbox" class="toggle" id="calleronly" /><label for="calleronly">Only filter on caller tab.</label>
-        <input type="checkbox" class="toggle" id="notification" /><label for="notification">Display desktop notification.</label>
+        <input type="checkbox" class="toggle" id="calleronly" /><label for="calleronly">Only monitor on caller tab.</label>
+        <input type="checkbox" class="toggle" id="shownotifications" /><label for="shownotifications">Display <b>desktop</b> notifications.</label>
       </div>
       <div class="actions">
-        <button class="new">New</button>
+        <button class="new-rule">New rule</button>
+        <button class="new-watch">New watch</button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
         <p class="status"></p>
       </div>
     </div>
-    <div id="watches-tab" class="container">
+    <div id="notifications-tab" class="container">
       <div class="list">
-        <ul></ul>
+        <div class="items"></div>
       </div>
       <div class="actions">
-        <button class="new">New</button>
-        <button class="clear">Clear Notifications</button>
+        <button class="clear">Clear</button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
@@ -80,7 +80,7 @@
         <div class="entry">
           <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
           <div class="inputs">
-            <input type="text" class="source" value="{{source}}"></input>
+            <input type="text" class="source watch" value="{{source}}"></input>
           </div>
           <div class="del"></div>
         </div>
@@ -106,6 +106,17 @@
 
     <div class="request-trace-template">
       <div class="request-trace">
+        <a href="{{url}}" target="_blank">{{url}}</a>
+        <div class="paramlist">
+          {{#paramlist}}
+            {{{.}}}<br />
+          {{/paramlist}}
+        </div>
+      </div>
+    </div>
+
+    <div class="notification-log-template">
+      <div class="notification-log">
         <a href="{{url}}" target="_blank">{{url}}</a>
         <div class="paramlist">
           {{#paramlist}}
