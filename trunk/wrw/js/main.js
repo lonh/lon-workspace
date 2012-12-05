@@ -251,13 +251,13 @@ lon.mim.Monitor = new function (main) {
                 var logs = [], redirectedRequest = null;
                 $.each(main.options.rules, function (indx, rule) {
                     var origin = redirectedRequest || info.url;
-                    if (origin.indexOf(rule.source) !== -1) {
+                    if (rule.checked && origin.indexOf(rule.source) !== -1) {
                         var log = {
                             'origin': origin,
                             'rule': rule
                         };
-                        
-                        log.result = redirectedRequest = origin.replace(rule.source, rule.replace);
+                        // Split/join could be fast than replace with /matcher/g way ???
+                        log.result = redirectedRequest = origin.split(rule.source).join(rule.replace);
                         logs.push(log);
                     }
                 });
@@ -321,6 +321,7 @@ lon.mim.Monitor = new function (main) {
                 };
             });
 
+            //TODO while there are more than one occurrences, this is only displaying first one
             monitorLog
                 .append($('#templates .request-log-template').mustache({"matchers": matchers}))
                 .prop({'scrollTop': monitorLog.prop('scrollHeight')});
