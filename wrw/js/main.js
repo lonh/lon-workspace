@@ -7,16 +7,23 @@ lon.mim.Main = new function () {
     // Public stuff
     return {
         options: {},
+        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired'},
+        eventHub: null,
         initialize: function () {
             var o = this;
             
             // Load options first
-            this.loadOptions();
+            o.loadOptions();
 
-            $(document).on('options.updated', function () {
+            // Set up event hub
+            o.eventHub = $.mhub.create()
+            o.eventHub.add(o.eventMessages.OptionsChanged);
+            o.eventHub.add(o.eventMessages.NotificationFired);
+
+            o.eventHub.listen(o.eventMessages.OptionsChanged, function (data) {
                 o.updateOptions();
             });
-        
+
             // Set up top tab buttons
             $('#main-menu').buttonset();
             // Set up tab actions
@@ -32,7 +39,7 @@ lon.mim.Main = new function () {
             $(window).on('resize', function (){
                 options.prefs.width=document.width; 
                 options.prefs.height=document.height;
-                $(document).trigger('options.updated');
+                o.eventHub.send(o.eventMessages.OptionsChanged);
             });
 
             $('button').button();
@@ -49,7 +56,7 @@ lon.mim.Main = new function () {
             
             // Store into preferences
             this.options.prefs.tab = tabId;
-            $(document).trigger('options.changed');
+            this.eventHub.send(this.eventMessages.OptionsChanged);
         },
         loadOptions: function () {
             var mim_options = localStorage['mim_config'];
@@ -66,10 +73,11 @@ lon.mim.Main = new function () {
     }
 }();
 
-lon.mim.Options = new function () {
+lon.mim.Options = new function (main) {
     // private stuff
     var optiontab = null;
     var list = null;
+    
     // public stuff returned
     return {
         initialize: function () {
@@ -129,12 +137,12 @@ lon.mim.Options = new function () {
                 }
             }).get();
 
-            lon.mim.Main.options.rules = rules;
-            lon.mim.Main.options.watches = watches;
-            lon.mim.Main.options.shownotifications = $('#shownotifications', optiontab).prop('checked');
-            lon.mim.Main.options.calleronly = $('#calleronly', optiontab).prop('checked');
+            main.options.rules = rules;
+            main.options.watches = watches;
+            main.options.shownotifications = $('#shownotifications', optiontab).prop('checked');
+            main.options.calleronly = $('#calleronly', optiontab).prop('checked');
             
-            $(document).trigger('options.updated');
+            main.eventHub.send(main.eventMessages.OptionsChanged);
             
             $('.status', optiontab).html('Options Saved.').fadeIn('slow');
                 setTimeout(function() {
@@ -142,16 +150,16 @@ lon.mim.Options = new function () {
             }, 2000);
         },
         loadOptions: function () {
-            list.append($('#templates .rule-template').mustache({rules: lon.mim.Main.options.rules}));
-            list.append($('#templates .watch-template').mustache({watches: lon.mim.Main.options.watches}));
+            list.append($('#templates .rule-template').mustache({rules: main.options.rules}));
+            list.append($('#templates .watch-template').mustache({watches: main.options.watches}));
 
-             $('#shownotifications', optiontab).prop('checked', lon.mim.Main.options.shownotifications);
-             $('#calleronly', optiontab).prop('checked', lon.mim.Main.options.calleronly);
+             $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
+             $('#calleronly', optiontab).prop('checked', main.options.calleronly);
         }
     }
-}();
+}(lon.mim.Main);
 
-lon.mim.notifications = new function () {
+lon.mim.notifications = new function (main) {
   // Private stuff
   var notificationsTab = null;
   var notificationLog = null;
@@ -174,10 +182,11 @@ lon.mim.notifications = new function () {
          notificationLog.empty();
       });
 
-      $(document).on('notification.fired', function (event, decodedUrl) {
+      //$(document).on('notification.fired', function (event, decodedUrl) {
+      main.eventHub.listen(main.eventMessages.NotificationFired, function(decodedUrl) {
         o.displayNotification(decodedUrl);
 
-        if ( lon.mim.Main.options.shownotifications) {
+        if (main.options.shownotifications) {
             var notification = window.webkitNotifications.createNotification(
                 '', // No logo
                 decodedUrl.url, 
@@ -195,9 +204,9 @@ lon.mim.notifications = new function () {
     }
   };
   
-}();
+}(lon.mim.Main);
 
-lon.mim.Monitor = new function () {
+lon.mim.Monitor = new function (main) {
     // Private stuff
     var options = [];
     var watches = [];
@@ -235,12 +244,12 @@ lon.mim.Monitor = new function () {
             // Register web request
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
 
-                if (lon.mim.Main.options.calleronly && info.tabId && info.tabId != target) {
+                if (main.options.calleronly && info.tabId && info.tabId != target) {
                     return;
                 }
 
                 var logs = [], redirectedRequest = null;
-                $.each(lon.mim.Main.options.rules, function (indx, rule) {
+                $.each(main.options.rules, function (indx, rule) {
                     var origin = redirectedRequest || info.url;
                     if (origin.indexOf(rule.source) !== -1) {
                         var log = {
@@ -270,7 +279,7 @@ lon.mim.Monitor = new function () {
         },
         checkRequestForWatch: function (info) {
             var o = this;
-            $.each(lon.mim.Main.options.watches, function (indx, watch) {
+            $.each(main.options.watches, function (indx, watch) {
                 if (watch.checked && info.url.indexOf(watch.source) != -1) {
                     o.sendNotification(watch, info);
                 }
@@ -278,7 +287,8 @@ lon.mim.Monitor = new function () {
         },
         sendNotification: function (watch, info) {
             var decodedUrl = this.decodeUrl(info.url);
-            $(document).trigger('notification.fired', [ decodedUrl ]);
+            //$(document).trigger('notification.fired', [ decodedUrl ]);
+            main.eventHub.send(main.eventMessages.NotificationFired, decodedUrl);
         },
         appendTrace: function (url) {
           var decodedUrl = this.decodeUrl(url);
@@ -336,11 +346,10 @@ lon.mim.Monitor = new function () {
             monitorLog.empty();
         }
     }
-}();
+}(lon.mim.Main);
 
 // Initialization
 $(function () {
-    
     // Set up main page
     lon.mim.Main.initialize();
     
