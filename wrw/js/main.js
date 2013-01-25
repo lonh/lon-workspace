@@ -349,6 +349,41 @@ lon.mim.Monitor = new function (main) {
     }
 }(lon.mim.Main);
 
+
+lon.mim.autofill = new function (main) {
+  // Private stuff
+  var autofillTab = null;
+  var autofillLog = null;
+  var autofills = [];
+  // public stuff
+  return {
+    initialize : function () {
+      var o = this;
+      
+      autofillTab = $('#autofill-tab');
+      autofillLog = $('.list .items', autofillTab);
+      
+      var target = lon.mim.Monitor.getParameterByName("target");
+      
+      $('button.record', autofillTab).on('click', function () {
+        chrome.tabs.sendMessage(
+            parseInt(target),
+            {
+              action : "record",
+              'target': target,
+            }, 
+            function(response) {
+            console.log(response.results);
+          });
+      });
+
+    },
+    displayautofill: function (autofill) {
+    }
+  };
+  
+}(lon.mim.Main);
+
 // Initialization
 $(function () {
     // Set up main page
@@ -365,4 +400,9 @@ $(function () {
     
     // Set up notifications page
     lon.mim.notifications.initialize();
+    
+    // Set up autofill page
+    lon.mim.autofill.initialize();
+    
+    
 });
