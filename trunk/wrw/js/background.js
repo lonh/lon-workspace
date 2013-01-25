@@ -20,7 +20,15 @@
 //     return manifestObject;
 // })();
 
+chrome.extension.onMessage.addListener(
+  function(request, sender, sendResponse) {
+    chrome.tabs.sendMessage(parseInt(request.target), request, function (response) {
+      chrome.extension.sendMessage(response);
+    });
+});
+
 chrome.browserAction.onClicked.addListener(function() {
+  
     var title = chrome.app.getDetails().browser_action.default_title;
 
     chrome.windows.getAll({populate: true}, function (windows) {
