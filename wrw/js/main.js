@@ -354,14 +354,14 @@ lon.mim.autofill = new function (main) {
   // Private stuff
   var autofillTab = null;
   var autofillLog = null;
-  var autofills = [];
+  var autofills = {};
   // public stuff
   return {
     initialize : function () {
       var o = this;
       
       autofillTab = $('#autofill-tab');
-      autofillLog = $('.list .items', autofillTab);
+      autofills = localStorage['mim_autofills'] ? JSON.parse(localStorage['mim_autofills']) : {};
       
       var target = lon.mim.Monitor.getParameterByName("target");
       
@@ -372,11 +372,14 @@ lon.mim.autofill = new function (main) {
               action : "record",
               'target': target,
             }, 
-            function(response) {
-            console.log(response.results);
-          });
+            o.storeAutofills  
+          );
       });
 
+    },
+    storeAutofills: function (response) {
+        autofills[response.url] = response.results;
+        localStorage['mim_autofills'] = JSON.stringify(autofills);
     },
     displayautofill: function (autofill) {
     }
