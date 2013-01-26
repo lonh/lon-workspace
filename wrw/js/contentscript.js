@@ -7,9 +7,9 @@ var record = function() {
     var value = elem.val();
     if (value) {
       return {
-        name: elem.attr('name'),
-        id: elem.attr('id'),
-        value: elem.val()
+        'name': elem.attr('name'),
+        'id': elem.attr('id'),
+        'value': value
       }
     } 
    
