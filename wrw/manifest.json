@@ -10,7 +10,7 @@
   "content_scripts": [
     {
       "matches": ["*://*/*"],
-      "js": ["js/jquery-1.9.0.min.js", "js/jquery.deserialize.min.js", "js/contentscript.js"]
+      "js": ["js/jquery-1.9.0.min.js", "js/jquery.deserialize.min.js", "js/mim-contentscript.js"]
     }
   ],
   "icons": { 
