@@ -641,7 +641,7 @@ var Mustache;
     return $(this).map(function (i, elm) {
       var template = $(elm).html().trim();
       var output = $.mustache(template, view, partials);
-      return $(output).get();
+      return $(output.trim()).get();
     });
   };
 
