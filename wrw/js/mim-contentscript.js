@@ -15,6 +15,10 @@ var record = function() {
    
   }).get();
   
+  var values = $('form').map(function (index, entry) {
+    return $(this).serializeArray();
+  }).get();
+
   return values;
 } 
 
@@ -25,10 +29,10 @@ chrome.extension.onMessage.addListener(
         var response = {
           'title': document.title || window.location.href,
           'hostname': window.location.hostname,
-          'results' : results
+          'forms' : results
         };
 
-        //console.log(response);
+        console.log(response);
         sendResponse(response);
       }
       
