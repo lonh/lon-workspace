@@ -354,15 +354,15 @@ lon.mim.autofill = new function (main) {
   // Private stuff
   var autofillTab = null;
   var autofillLog = null;
-  vst list = null;
+  var list = null;
   var autofills = [];
   // public stuff
   return {
     initialize : function () {
       var o = this;
       
-      autofillTab = $('#autofill-tab');
-      list = $('.ul' autofillTab);
+      autofillTab = $('#autofills-tab');
+      list = $('.list ul', autofillTab);
       
       autofills = localStorage['mim_autofills'] ? JSON.parse(localStorage['mim_autofills']) : [];
       
@@ -379,6 +379,8 @@ lon.mim.autofill = new function (main) {
           );
       });
 
+      $('button.fill', autofillTab).on('click', o.autofillForms);
+      
       o.displayautofill(autofills);
     },
     storeAutofills: function (response) {
@@ -387,8 +389,35 @@ lon.mim.autofill = new function (main) {
         console.log(localStorage['mim_autofills']);
     },
     displayautofill: function (autofills) {
-
+    	list.append($('#templates .autofill-template').mustache({'autofills': autofills}));
+    },
+    autofillForms: function () {
+    	var o = this;
+    	
+    	// Get selected form index
+    	var radioButtons = $("input:radio[name='autofills']", autofillTab);
+    	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
+    	
+    	// Get proper entry from autofills object
+    	var data = autofills[selectedIndex];
+    	
+    	// Set request to page to deserialize form
+    	var target = lon.mim.Monitor.getParameterByName("target");
+    	chrome.tabs.sendMessage(
+                parseInt(target),
+                {
+                  action : "fill",
+                  'target': target,
+                  'data': data 
+                }, 
+                o.fillformCallback  
+              );
+    	
+    },
+    fillformCallback: function () {
+    	
     }
+    
   };
   
 }(lon.mim.Main);

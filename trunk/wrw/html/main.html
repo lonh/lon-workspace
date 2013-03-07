@@ -15,7 +15,7 @@
         <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
         <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
         <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
-        <input type="radio" id="autofill" name="main-menu" /><label for="autofill">Auto Fill</label>
+        <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Auto Fill</label>
     </div>
     <div id="options-tab" class="container">
       <div class="list">
@@ -58,9 +58,9 @@
         <p class="status"></p>
       </div>
     </div>
-    <div id="autofill-tab" class="container">
+    <div id="autofills-tab" class="container">
       <div class="list">
-        <div class="items"></div>
+        <ul></ul>
       </div>
       <div class="actions">
         <button class="record">Record</button>
@@ -139,6 +139,32 @@
         </div>
       </div>
     </div>
+    
+    <ul class="autofill-template">
+      {{#autofills}}
+      <li class="rule">
+        <div class="entry">
+          <input type="radio" class="toggle" name="autofills"></input>
+          <div class="inputs">
+            <a>{{pagename}}:{{hostname}}</a>            
+            <input type="text" value="{{comment}}"></input>
+            <ol>
+            {{#forms}}
+                <li>
+                {{#.}}
+                    <label>{{name}}</label>
+                    <input type="text" value="{{value}}" />
+                    <br />
+                {{/.}}
+                </li>
+            {{/forms}}
+            </ol>
+          </div>
+          <div class="del"></div>
+        </div>
+      </li>
+      {{/autofills}}
+    </ul>
   </div>
 </body>
 </html>
