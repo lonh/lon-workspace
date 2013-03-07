@@ -46,12 +46,13 @@ body {
 /********************************************************/
 #options-tab .list,
 #notifications-tab .list, 
+#autofills-tab .list,
 #monitor-tab .list {
     height: 100%;
     width: 100%;
     padding-bottom: 70px;
 }
-
+#autofills-tab .list ul,
 #options-tab .list ul {
     list-style-type: none;
     padding: 0 0 0 5px;
