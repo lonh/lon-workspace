@@ -146,20 +146,24 @@
         <div class="entry">
           <input type="radio" class="toggle" name="autofills"/>
           <div class="forms-data">
-            <p>{{pagename}}</p>     
+            <a href="#" class="pagename">{{pagename}}</a>
             <div class="field">
                 <label>Notes</label>
-                <input type="text" value="{{comment}}"/>
+                <input type="text" name="comment" value="{{comment}}"/>
+                <input type="hidden" name="pagename" value="{{pagename}}"/>
+                <input type="hidden" name="hostname" value="{{hostname}}"/>
             </div>
             <ol class="fields-list">
                 {{#forms}}
                 <li>
-                {{#.}}
+                  <form>
+                  {{#.}}
                     <div class="field">
                         <label>{{name}}</label>
                         <input type="text" value="{{value}}" />
                     </div>
-                {{/.}}
+                  {{/.}}
+                  </form>
                 </li>
                 {{/forms}}
             </ol>

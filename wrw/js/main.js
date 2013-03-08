@@ -388,6 +388,11 @@ lon.mim.autofill = new function (main) {
           o.saveAutoFills();
       });
 
+      list.on('click', 'a.pagename', function (event) {
+        event.preventDefault();
+        $(this).parent().find('ol.fields-list').slideToggle('slow');
+      });
+
     },
     deleteAutoFills: function () {
     	
