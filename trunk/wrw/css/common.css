@@ -230,8 +230,16 @@ input {
 	min-width: 350px;
 }
 
-#autofills-tab ol li {
+ol.fields-list {
+	display: none;
+}
+	
+ol.fields-list li {
 	padding-bottom: 5px;
 	margin-bottom: 5px;
 	border-bottom: 1px dotted #002D62;
+}
+
+div.forms-data {
+	margin-left: 40px;
 }
