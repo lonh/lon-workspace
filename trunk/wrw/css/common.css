@@ -235,9 +235,9 @@ ol.fields-list {
 }
 	
 ol.fields-list li {
-	padding-bottom: 5px;
-	margin-bottom: 5px;
-	border-bottom: 1px dotted #002D62;
+	padding: 5px;
+	margin: 5px;
+	border: 1px dotted #002D62;
 }
 
 div.forms-data {
