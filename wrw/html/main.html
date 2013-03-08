@@ -145,17 +145,13 @@
       <li class="rule">
         <div class="entry">
           <input type="radio" class="toggle" name="autofills"/>
-          <div>
-            <ol>
-                <li>
-                    <a>{{pagename}}</a>          
-                </li>
-                <li>
-                    <div class="field">
-                        <label>Notes</label>
-	                    <input type="text" value="{{comment}}"/>
-                    </div>         
-                </li>
+          <div class="forms-data">
+            <p>{{pagename}}</p>     
+            <div class="field">
+                <label>Notes</label>
+                <input type="text" value="{{comment}}"/>
+            </div>
+            <ol class="fields-list">
                 {{#forms}}
                 <li>
                 {{#.}}
