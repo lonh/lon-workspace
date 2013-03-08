@@ -78,10 +78,10 @@
       {{#rules}}
       <li class="rule">
         <div class="entry">
-          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
           <div class="inputs">
-            <input type="text" class="source" value="{{source}}"></input>
-            <input type="text" class="replace" value="{{replace}}"></input>
+            <input type="text" class="source" value="{{source}}"/>
+            <input type="text" class="replace" value="{{replace}}"/>
           </div>
           <div class="del"></div>
         </div>
@@ -92,9 +92,9 @@
       {{#watches}}
       <li class="watch">
         <div class="entry">
-          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}></input>
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
           <div class="inputs">
-            <input type="text" class="source watch" value="{{source}}"></input>
+            <input type="text" class="source watch" value="{{source}}"/>
           </div>
           <div class="del"></div>
         </div>
@@ -144,20 +144,28 @@
       {{#autofills}}
       <li class="rule">
         <div class="entry">
-          <input type="radio" class="toggle" name="autofills"></input>
-          <div class="inputs">
-            <a>{{pagename}}:{{hostname}}</a>            
-            <input type="text" value="{{comment}}"></input>
+          <input type="radio" class="toggle" name="autofills"/>
+          <div>
             <ol>
-            {{#forms}}
+                <li>
+                    <a>{{pagename}}</a>          
+                </li>
+                <li>
+                    <div class="field">
+                        <label>Notes</label>
+	                    <input type="text" value="{{comment}}"/>
+                    </div>         
+                </li>
+                {{#forms}}
                 <li>
                 {{#.}}
-                    <label>{{name}}</label>
-                    <input type="text" value="{{value}}" />
-                    <br />
+                    <div class="field">
+                        <label>{{name}}</label>
+                        <input type="text" value="{{value}}" />
+                    </div>
                 {{/.}}
                 </li>
-            {{/forms}}
+                {{/forms}}
             </ol>
           </div>
           <div class="del"></div>

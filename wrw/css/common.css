@@ -210,3 +210,28 @@ input {
   color: #0675EE;
   padding-left: 10px;
 }
+
+/********************************************************/
+/* monitor */
+/********************************************************/
+.field {
+	display: table-row;
+}
+
+.field label, .field input {
+	display: table-cell;
+}
+
+.field label {
+    min-width: 150px;
+}
+
+.field input {
+	min-width: 350px;
+}
+
+#autofills-tab ol li {
+	padding-bottom: 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px dotted #002D62;
+}

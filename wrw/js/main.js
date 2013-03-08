@@ -382,6 +382,15 @@ lon.mim.autofill = new function (main) {
       $('button.fill', autofillTab).on('click', o.autofillForms);
       
       o.displayautofill(autofills);
+      
+      list.on('click', '.del', function (event) {
+          o.deleteAutoFills(this);
+          o.saveAutoFills();
+      });
+
+    },
+    deleteAutoFills: function () {
+    	
     },
     storeAutofills: function (response) {
         autofills.push(response);
