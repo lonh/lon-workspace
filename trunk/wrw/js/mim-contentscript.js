@@ -39,10 +39,16 @@ chrome.extension.onMessage.addListener(
 			
 			break;
 		case 'fill':
-			var forms = request.data.forms;
-			$('form').each(function (index, form) {
-				$(this).deserialize(forms[index]);
-			});
+			var formElements = $('form');
+			if (formElements.length != 0) {				
+				var forms = request.data.forms;
+				formElements.each(function (index, form) {
+					$(this).deserialize(forms[index]);
+				});
+				sendResponse({msg: "Success!"});
+			} else {
+				sendResponse({msg: "No form found!"});
+			}
 			
 			break;
 

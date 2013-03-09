@@ -7,7 +7,7 @@ lon.mim.Main = new function () {
     // Public stuff
     return {
         options: {},
-        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired'},
+        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired', 'AutoFillsChanged': 'autofills.changed', 'AutoFillsAdded': 'autofills.added'},
         eventHub: null,
         initialize: function () {
             var o = this;
@@ -19,6 +19,8 @@ lon.mim.Main = new function () {
             o.eventHub = $.mhub.create()
             o.eventHub.add(o.eventMessages.OptionsChanged);
             o.eventHub.add(o.eventMessages.NotificationFired);
+            o.eventHub.add(o.eventMessages.AutoFillsChanged);
+            o.eventHub.add(o.eventMessages.AutoFillsAdded);
 
             o.eventHub.listen(o.eventMessages.OptionsChanged, function (data) {
                 o.updateOptions();
@@ -57,6 +59,17 @@ lon.mim.Main = new function () {
             // Store into preferences
             this.options.prefs.tab = tabId;
             this.eventHub.send(this.eventMessages.OptionsChanged);
+        },
+        getParameterByName: function(name) {
+            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
+            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            var regex = new RegExp(regexS);
+            var results = regex.exec(window.location.search);
+            if(results == null) {
+               return "";
+           } else {
+               return decodeURIComponent(results[1].replace(/\+/g, " "));
+           }
         },
         loadOptions: function () {
             var mim_options = localStorage['mim_config'];
@@ -219,24 +232,13 @@ lon.mim.Monitor = new function (main) {
             
             this.registerListener();
             
-            target = o.getParameterByName("target");
+            target = main.getParameterByName("tid");
 
             monitorLog = $('#monitor-tab .list .items');
             
             $('#monitor-tab button.clear').click(function () {
                 o.clearLog();
             });
-        },
-        getParameterByName: function(name) {
-             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-             var regexS = "[\\?&]" + name + "=([^&#]*)";
-             var regex = new RegExp(regexS);
-             var results = regex.exec(window.location.search);
-             if(results == null) {
-                return "";
-            } else {
-                return decodeURIComponent(results[1].replace(/\+/g, " "));
-            }
         },
         registerListener: function () {
             var o = this;
@@ -353,56 +355,105 @@ lon.mim.Monitor = new function (main) {
 lon.mim.autofill = new function (main) {
   // Private stuff
   var autofillTab = null;
-  var autofillLog = null;
   var list = null;
   var autofills = [];
+  var wid = main.getParameterByName("wid");
   // public stuff
   return {
     initialize : function () {
       var o = this;
+
+      main.eventHub.listen(main.eventMessages.AutoFillsChanged, function (data) {
+          o.updateAutoFills();
+      });
+      
+      main.eventHub.listen(main.eventMessages.AutoFillsAdded, function (data) {
+          o.addAutoFills(data);
+      });
       
       autofillTab = $('#autofills-tab');
       list = $('.list ul', autofillTab);
       
-      autofills = localStorage['mim_autofills'] ? JSON.parse(localStorage['mim_autofills']) : [];
-      
-      var target = lon.mim.Monitor.getParameterByName("target");
-      
+      // Set up record/fill button events
       $('button.record', autofillTab).on('click', function () {
-        chrome.tabs.sendMessage(
-            parseInt(target),
-            {
-              action : "record",
-              'target': target,
-            }, 
-            o.storeAutofills  
-          );
+    	  
+    	  chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
+  			for ( var i = 0; i < window.tabs.length; i ++) {
+  				var tab = window.tabs[i];
+					if (tab.active) {
+						chrome.tabs.sendMessage(
+		    				  tab.id,
+		    				  {
+		    					  action : "record",
+		    					  'target': tab.id,
+		    				  }, 
+		    				  function (response) {
+		    					  main.eventHub.send(main.eventMessages.AutoFillsAdded, response);
+		    				  }
+			    		  );
+						
+						break;
+					}
+				}
+  		});
       });
 
-      $('button.fill', autofillTab).on('click', o.autofillForms);
+      $('button.fill', autofillTab).on('click', function () {
+    	  o.autofillForms(); 
+      });
       
-      o.displayautofill(autofills);
-      
+      // Set up delete autofill
       list.on('click', '.del', function (event) {
-          o.deleteAutoFills(this);
-          o.saveAutoFills();
+          $(this).closest('li').remove();
+          main.eventHub.send(main.eventMessages.AutoFillsChanged);
       });
 
+      // Set up delete autofill
+      list.on('change', '.form-data input', function (event) {
+    	  main.eventHub.send(main.eventMessages.AutoFillsChanged);
+      });
+      
+      // Set up collapse/expande aufill data section
       list.on('click', 'a.pagename', function (event) {
         event.preventDefault();
         $(this).parent().find('ol.fields-list').slideToggle('slow');
       });
 
+      // Initial load/display auto fills
+      autofills = JSON.parse(localStorage['mim_autofills'] || '[]');
+      o.displayAutofill();
     },
-    deleteAutoFills: function () {
+    updateAutoFills: function () {
+    	autofills.length = 0; // reset
     	
+    	$('.form-data', autofillTab).each(function (index, element) {
+    		var o = $(this);
+    		
+    		var forms = [];
+    		$('form', o).each(function (index, elem) {
+    			forms.push($(this).serializeArray());
+    		});
+    		
+    		autofills.push({
+				'pagename': $('input[name=pagename]', o).val(),
+				'hostname': $('input[name=hostname]', o).val(),
+				'comment': $('input[name=comment]', o).val(),
+				'forms': forms
+    		});
+    	});
+    	
+    	localStorage['mim_autofills'] = JSON.stringify(autofills);
     },
-    storeAutofills: function (response) {
-        autofills.push(response);
-        localStorage['mim_autofills'] = JSON.stringify(autofills);
-        console.log(localStorage['mim_autofills']);
+    addAutoFills: function (autofill) {
+    	if (undefined != autofill && autofill.forms && autofill.forms.length != 0) {
+    		autofills.unshift(autofill);
+    		localStorage['mim_autofills'] = JSON.stringify(autofills);
+    		
+    		list.empty();
+    		this.displayAutofill();
+    	}
     },
-    displayautofill: function (autofills) {
+    displayAutofill: function () {
     	list.append($('#templates .autofill-template').mustache({'autofills': autofills}));
     },
     autofillForms: function () {
@@ -412,26 +463,39 @@ lon.mim.autofill = new function (main) {
     	var radioButtons = $("input:radio[name='autofills']", autofillTab);
     	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
     	
-    	// Get proper entry from autofills object
-    	var data = autofills[selectedIndex];
-    	
-    	// Set request to page to deserialize form
-    	var target = lon.mim.Monitor.getParameterByName("target");
-    	chrome.tabs.sendMessage(
-                parseInt(target),
-                {
-                  action : "fill",
-                  'target': target,
-                  'data': data 
-                }, 
-                o.fillformCallback  
-              );
-    	
+    	if (selectedIndex != -1) {
+    		// Get proper entry from autofills object
+    		var data = autofills[selectedIndex];
+    		
+    		// Set request to page to deserialize form
+    		chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
+    			for ( var i = 0; i < window.tabs.length; i ++) {
+    				var tab = window.tabs[i];
+					if (tab.active) {
+						chrome.tabs.sendMessage(
+		    					tab.id,
+		    					{
+		    						action : "fill",
+		    						'target': tab.id,
+		    						'data': data 
+		    					}, 
+		    					function (response) {
+		    						o.fillformCallback(response);
+		    					}
+		    			);
+						
+						break;
+					}
+				}
+    		});
+    	}
     },
-    fillformCallback: function () {
-    	
-    }
-    
+    fillformCallback: function (response) {
+    	$('.status', autofillTab).html(response.msg).fadeIn('slow');
+        	setTimeout(function() {
+        		$('.status', autofillTab).fadeOut('slow');
+        	}, 2000);
+    	}
   };
   
 }(lon.mim.Main);
