@@ -243,3 +243,9 @@ ol.fields-list li {
 div.form-data {
 	margin-left: 40px;
 }
+
+a.pagename {
+    float:left;
+    margin-bottom: 10px;
+    font-weight: bolder;
+}
