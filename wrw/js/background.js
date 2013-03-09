@@ -58,7 +58,7 @@ var startApp = function() {
         };
 
         chrome.windows.create({
-            url : "../html/main.html" + (tabId ? "?target=" + tabId : ""),
+            url : "../html/main.html?wid=" + window.id + "&tid=" + tabId,
             type : "popup",
             top: window.top,
             left: parseInt(window.left + window.width - 10),

@@ -142,10 +142,10 @@
     
     <ul class="autofill-template">
       {{#autofills}}
-      <li class="rule">
+      <li>
         <div class="entry">
           <input type="radio" class="toggle" name="autofills"/>
-          <div class="forms-data">
+          <div class="form-data">
             <a href="#" class="pagename">{{pagename}}</a>
             <div class="field">
                 <label>Notes</label>
@@ -160,7 +160,7 @@
                   {{#.}}
                     <div class="field">
                         <label>{{name}}</label>
-                        <input type="text" value="{{value}}" />
+                        <input type="text" name="{{name}}" value="{{value}}" />
                     </div>
                   {{/.}}
                   </form>
