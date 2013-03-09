@@ -368,7 +368,7 @@ lon.mim.autofill = new function (main) {
       });
       
       main.eventHub.listen(main.eventMessages.AutoFillsAdded, function (data) {
-          o.addAutoFills(data);
+          o.addAutoFill(data);
       });
       
       autofillTab = $('#autofills-tab');
@@ -457,7 +457,7 @@ lon.mim.autofill = new function (main) {
     	
     	localStorage['mim_autofills'] = JSON.stringify(autofills);
     },
-    addAutoFills: function (autofill) {
+    addAutoFill: function (autofill) {
     	if (undefined != autofill && autofill.forms && autofill.forms.length != 0) {
     		autofills.unshift(autofill);
     		localStorage['mim_autofills'] = JSON.stringify(autofills);
@@ -467,7 +467,9 @@ lon.mim.autofill = new function (main) {
     	}
     },
     displayAutofill: function () {
-    	list.append($('#templates .autofill-template').mustache({'autofills': autofills}));
+        if (autofills && autofills.forms && autofills.forms.length != 0) {
+    	   list.append($('#templates .autofill-template').mustache({'autofills': autofills}));
+        }
     },
     autofillForms: function () {
     	var o = this;
