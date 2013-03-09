@@ -524,7 +524,7 @@ $(function () {
     lon.mim.Main.initialize();
     
     // Set up monitor
-    // !!!IMPORTANT 
+    // !!!IMPORTANT!!!
     // this need to be run before option intialization
     // to catch options.changed event
     lon.mim.Monitor.initialize();
@@ -537,6 +537,4 @@ $(function () {
     
     // Set up autofill page
     lon.mim.autofill.initialize();
-    
-    
 });
