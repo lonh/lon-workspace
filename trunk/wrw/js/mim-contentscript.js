@@ -30,7 +30,7 @@ chrome.extension.onMessage.addListener(
 		case 'record':
 			var results = record();
 			var response = {
-					'pagename': document.title || window.location.href,
+					'pagename': window.location.href,
 					'hostname': window.location.hostname,
 					'forms' : results
 			};
