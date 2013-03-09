@@ -488,6 +488,8 @@ lon.mim.autofill = new function (main) {
 					}
 				}
     		});
+    	} else {
+    		alert('PLEASE SELECT A FORM ENTRY!');
     	}
     },
     fillformCallback: function (response) {
