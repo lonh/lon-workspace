@@ -404,8 +404,14 @@ lon.mim.autofill = new function (main) {
       
       // Set up delete autofill
       list.on('click', '.del', function (event) {
-          $(this).closest('li').remove();
-          main.eventHub.send(main.eventMessages.AutoFillsChanged);
+        $('#dialog-delete-form-entry').dialog({
+            modal: true, buttons: {
+                Yes: function () {},
+                Cancel: function () {$(this).dialog('close');}
+            }
+        });
+          //$(this).closest('li').remove();
+          //main.eventHub.send(main.eventMessages.AutoFillsChanged);
       });
 
       // Set up delete autofill
@@ -489,7 +495,8 @@ lon.mim.autofill = new function (main) {
 				}
     		});
     	} else {
-    		alert('PLEASE SELECT A FORM ENTRY!');
+    		/*alert('PLEASE SELECT A FORM ENTRY!');*/
+            $('#dialog-choose-form').dialog({height: 75, resizable: false, modal: true});
     	}
     },
     fillformCallback: function (response) {
