@@ -404,14 +404,21 @@ lon.mim.autofill = new function (main) {
       
       // Set up delete autofill
       list.on('click', '.del', function (event) {
+        var del = $(this);
         $('#dialog-delete-form-entry').dialog({
-            modal: true, buttons: {
-                Yes: function () {},
-                Cancel: function () {$(this).dialog('close');}
+            modal: true, 
+            buttons: {
+                Yes: function () {
+                    del.closest('li').remove();
+                    main.eventHub.send(main.eventMessages.AutoFillsChanged);
+                    $(this).dialog('close');
+                },
+                Cancel: function () {
+                    $(this).dialog('close');
+                }
             }
         });
-          //$(this).closest('li').remove();
-          //main.eventHub.send(main.eventMessages.AutoFillsChanged);
+          
       });
 
       // Set up delete autofill
