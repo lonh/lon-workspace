@@ -249,3 +249,8 @@ a.pagename {
     margin-bottom: 10px;
     font-weight: bolder;
 }
+
+div#dialog-form-data p {
+    width: 100%;
+    height: 100%;
+}

@@ -356,6 +356,7 @@ lon.mim.autofill = new function (main) {
   // Private stuff
   var autofillTab = null;
   var list = null;
+  var status = null;
   var autofills = [];
   var wid = main.getParameterByName("wid");
   // public stuff
@@ -373,8 +374,9 @@ lon.mim.autofill = new function (main) {
       
       autofillTab = $('#autofills-tab');
       list = $('.list ul', autofillTab);
-      
-      // Set up record/fill button events
+      status = $('.status', autofillTab);
+
+      // Set up record button events
       $('button.record', autofillTab).on('click', function () {
     	  
     	  chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
@@ -398,10 +400,35 @@ lon.mim.autofill = new function (main) {
   		});
       });
 
+      // Set up fill button 
       $('button.fill', autofillTab).on('click', function () {
     	  o.autofillForms(); 
       });
       
+      // Set up form data button
+      $('button.form-data').on('click', function () {
+        var del = $(this);
+        $('#dialog-form-data').dialog({
+            modal: true, 
+            width: 400,
+            height: 450,
+            open: function() {
+                $(this).find('p').html(localStorage['mim_autofills']);
+            },
+            buttons: {
+                Copy: function () {
+                    $(this).dialog('close');
+                },
+                Paste: function () {
+                    $(this).dialog('close');
+                },
+                Cancel: function () {
+                    $(this).dialog('close');
+                }
+            }
+        });
+      });
+
       // Set up delete autofill
       list.on('click', '.del', function (event) {
         var del = $(this);
@@ -447,12 +474,15 @@ lon.mim.autofill = new function (main) {
     			forms.push($(this).serializeArray());
     		});
     		
-    		autofills.push({
-				'pagename': $('input[name=pagename]', o).val(),
-				'hostname': $('input[name=hostname]', o).val(),
-				'comment': $('input[name=comment]', o).val(),
-				'forms': forms
-    		});
+            if (forms.length != 0) {
+                autofills.push({
+                    'pagename': $('input[name=pagename]', o).val(),
+                    'hostname': $('input[name=hostname]', o).val(),
+                    'comment': $('input[name=comment]', o).val(),
+                    'forms': forms
+                });
+            }
+    		
     	});
     	
     	localStorage['mim_autofills'] = JSON.stringify(autofills);
@@ -467,7 +497,7 @@ lon.mim.autofill = new function (main) {
     	}
     },
     displayAutofill: function () {
-        if (autofills && autofills.forms && autofills.forms.length != 0) {
+        if (autofills && autofills.length != 0) {
     	   list.append($('#templates .autofill-template').mustache({'autofills': autofills}));
         }
     },
@@ -509,11 +539,8 @@ lon.mim.autofill = new function (main) {
     	}
     },
     fillformCallback: function (response) {
-    	$('.status', autofillTab).html(response.msg).fadeIn('slow');
-        	setTimeout(function() {
-        		$('.status', autofillTab).fadeOut('slow');
-        	}, 2000);
-    	}
+    	status.html(response.msg).fadeIn('slow', function() {status.fadeOut(3000)});
+    }
   };
   
 }(lon.mim.Main);
