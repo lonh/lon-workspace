@@ -39,8 +39,8 @@ lon.mim.Main = new function () {
             });
             
             $(window).on('resize', function (){
-                options.prefs.width=document.width; 
-                options.prefs.height=document.height;
+                o.options.prefs.width=document.width; 
+                o.options.prefs.height=document.height;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
             });
 
@@ -75,6 +75,8 @@ lon.mim.Main = new function () {
             var mim_options = localStorage['mim_config'];
             var opt = mim_options ? JSON.parse(mim_options) : {};
             opt.prefs = opt.prefs || {};
+            opt.prefs.width = opt.prefs.width || 0;
+            opt.prefs.height = opt.prefs.height || 0;
             opt.rules = opt.rules || [];
             opt.watches = opt.watches || [];
 
