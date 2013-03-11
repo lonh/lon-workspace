@@ -7,7 +7,7 @@ lon.mim.Main = new function () {
     // Public stuff
     return {
         options: {},
-        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired', 'AutoFillsChanged': 'autofills.changed', 'AutoFillsAdded': 'autofills.added'},
+        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired', 'AutoFillsChanged': 'autofills.changed', 'AutoFillsAdded': 'autofills.added', 'AutoFillsUploaded': 'autofills.uploaded'},
         eventHub: null,
         initialize: function () {
             var o = this;
@@ -21,6 +21,7 @@ lon.mim.Main = new function () {
             o.eventHub.add(o.eventMessages.NotificationFired);
             o.eventHub.add(o.eventMessages.AutoFillsChanged);
             o.eventHub.add(o.eventMessages.AutoFillsAdded);
+            o.eventHub.add(o.eventMessages.AutoFillsUploaded);
 
             o.eventHub.listen(o.eventMessages.OptionsChanged, function (data) {
                 o.updateOptions();
@@ -374,6 +375,10 @@ lon.mim.autofill = new function (main) {
           o.addAutoFill(data);
       });
       
+      main.eventHub.listen(main.eventMessages.AutoFillsUploaded, function (data) {
+          o.uploadAutoFill(data);
+      });
+      
       autofillTab = $('#autofills-tab');
       list = $('.list ul', autofillTab);
       status = $('.status', autofillTab);
@@ -412,17 +417,27 @@ lon.mim.autofill = new function (main) {
         var del = $(this);
         $('#dialog-form-data').dialog({
             modal: true, 
-            width: 400,
+            width: 550,
             height: 450,
             open: function() {
-                $(this).find('p').html(localStorage['mim_autofills']);
+                $(this).find('.form-data-content').html(localStorage['mim_autofills']).select();
             },
             buttons: {
-                Copy: function () {
-                    $(this).dialog('close');
-                },
-                Paste: function () {
-                    $(this).dialog('close');
+                Update: function () {
+                	$('#dialog-update-form-entry').dialog({
+                        modal: true, 
+                        buttons: {
+                            Yes: function () {
+                                main.eventHub.send(main.eventMessages.AutoFillsUploaded, $('.form-data-content').val());
+                                
+                                $(this).dialog('close');
+                                $('#dialog-form-data').dialog('close');
+                            },
+                            Cancel: function () {
+                                $(this).dialog('close');
+                            }
+                        }
+                    });
                 },
                 Cancel: function () {
                     $(this).dialog('close');
@@ -497,6 +512,12 @@ lon.mim.autofill = new function (main) {
     		list.empty();
     		this.displayAutofill();
     	}
+    },
+    uploadAutoFill: function (autofillData) {
+    	localStorage['mim_autofills'] = autofillData;
+    	autofills = JSON.parse(autofillData);
+    	list.empty();
+    	this.displayAutofill();
     },
     displayAutofill: function () {
         if (autofills && autofills.length != 0) {
