@@ -250,7 +250,7 @@ a.pagename {
     font-weight: bolder;
 }
 
-div#dialog-form-data p {
+.form-data-content {
     width: 100%;
     height: 100%;
 }
