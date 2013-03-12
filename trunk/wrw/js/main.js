@@ -423,7 +423,7 @@ lon.mim.autofill = new function (main) {
                 $(this).find('.form-data-content').html(localStorage['mim_autofills']).select();
             },
             buttons: {
-                Update: function () {
+                Upload: function () {
                 	$('#dialog-update-form-entry').dialog({
                         modal: true, 
                         buttons: {
