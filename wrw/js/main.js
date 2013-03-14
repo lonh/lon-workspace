@@ -470,12 +470,7 @@ lon.mim.autofill = new function (main) {
     	  main.eventHub.send(main.eventMessages.AutoFillsChanged);
       });
       
-      // Set up collapse/expande aufill data section
-//      list.on('click', 'a.pagename', function (event) {
-//        event.preventDefault();
-//        $(this).parent().find('ol.fields-list').slideToggle('slow');
-//      });
-
+      // Set up click event on form-data to toggle radio button & list
       list.on('click', '.form-data', function (event) {
     	  $(this)
     	  	.siblings('.toggle').trigger('click').end()
