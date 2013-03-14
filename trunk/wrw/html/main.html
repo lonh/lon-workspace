@@ -66,6 +66,7 @@
         <button class="record">Record</button>
         <button class="form-data">Form Data</button>
         <button class="fill">Fill</button>
+        <button class="exit">Exit</button>
       </div>
       <div class="footer">
         <p class="status"></p>
@@ -147,13 +148,13 @@
         <div class="entry">
           <input type="radio" class="toggle" name="autofills"/>
           <div class="form-data">
-            <a href="#" class="pagename">{{pagename}}</a>
             <div class="field">
                 <label>Notes</label>
                 <input type="text" name="comment" value="{{comment}}"/>
                 <input type="hidden" name="pagename" value="{{pagename}}"/>
                 <input type="hidden" name="hostname" value="{{hostname}}"/>
             </div>
+            <a href="#" class="pagename">{{pagename}}</a>
             <ol class="fields-list">
                 {{#forms}}
                 <li>

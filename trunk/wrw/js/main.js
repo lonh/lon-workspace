@@ -471,11 +471,18 @@ lon.mim.autofill = new function (main) {
       });
       
       // Set up collapse/expande aufill data section
-      list.on('click', 'a.pagename', function (event) {
-        event.preventDefault();
-        $(this).parent().find('ol.fields-list').slideToggle('slow');
-      });
+//      list.on('click', 'a.pagename', function (event) {
+//        event.preventDefault();
+//        $(this).parent().find('ol.fields-list').slideToggle('slow');
+//      });
 
+      list.on('click', '.form-data', function (event) {
+    	  $(this)
+    	  	.siblings('.toggle').trigger('click').end()
+    	  	.find('ol.fields-list').slideToggle('slow');
+    	  
+      });
+      
       // Initial load/display auto fills
       autofills = JSON.parse(localStorage['mim_autofills'] || '[]');
       o.displayAutofill();
