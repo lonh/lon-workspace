@@ -206,7 +206,7 @@ lon.mim.notifications = new function (main) {
             var notification = window.webkitNotifications.createNotification(
                 '', // No logo
                 decodedUrl.url, 
-                decodedUrl.paramlist.join('<>'));
+                '');
             notification.show();
 
             notifications.push(notification);
@@ -297,6 +297,7 @@ lon.mim.Monitor = new function (main) {
         },
         appendTrace: function (url) {
           var decodedUrl = this.decodeUrl(url);
+
           monitorLog
             .append($('#templates .request-trace-template').mustache(decodedUrl))
             .prop({'scrollTop': monitorLog.prop('scrollHeight')});
@@ -305,6 +306,11 @@ lon.mim.Monitor = new function (main) {
           var result = {'url': url};
           var decodedUrl = url.split('?');
           result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
+
+          for (var i = result.paramlist.length - 1; i >= 0; i--) {
+              var param = result.paramlist[i].split("=");
+              result.paramlist[i] = {name : param[0], value : param[1]};
+          };
 
           return result;
         },

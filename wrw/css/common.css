@@ -209,6 +209,22 @@ input {
   font-family: Arial;
   color: #0675EE;
   padding-left: 10px;
+  display: table;
+}
+
+.paramlist span
+ {
+    display: table-cell;
+    border-left: 1px dotted #002D62;
+    border-bottom: 1px dotted #002D62;
+}
+
+.paramlist .param {
+    display: table-row;
+}
+
+.paramlist .name {
+    font-weight: bold;
 }
 
 /********************************************************/

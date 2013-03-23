@@ -125,7 +125,9 @@
         <a href="{{url}}" target="_blank">{{url}}</a>
         <div class="paramlist">
           {{#paramlist}}
-            {{{.}}}<br />
+            <div class="param">
+              <span class="name">{{name}}</span><span class="value">{{value}}</span>
+            </div>
           {{/paramlist}}
         </div>
       </div>
@@ -136,7 +138,9 @@
         <a href="{{url}}" target="_blank">{{url}}</a>
         <div class="paramlist">
           {{#paramlist}}
-            {{{.}}}<br />
+            <div class="param">
+              <span class="name">{{name}}</span><span class="value">{{value}}</span>
+            </div>
           {{/paramlist}}
         </div>
       </div>
