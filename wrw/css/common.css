@@ -223,7 +223,7 @@ input {
     display: table-row;
 }
 
-.paramlist .name {
+.paramlist .value {
     font-weight: bold;
 }
 
