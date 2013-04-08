@@ -57,13 +57,16 @@ var startApp = function() {
             }
         };
 
+        var w = parseInt(localStorage['mim_preferences.width']) || 700;
+        var h = parseInt(localStorage['mim_preferences.height']) || 600;
+        
         chrome.windows.create({
             url : "../html/main.html?wid=" + window.id + "&tid=" + tabId,
             type : "popup",
             top: window.top,
-            left: parseInt(window.left + window.width - 10),
-            width : parseInt(localStorage['mim_preferences.width']) || 700,
-            height : parseInt(localStorage['mim_preferences.height']) || 600
+            left: parseInt(window.left + window.width + 30) - w,
+            width : w,
+            height : h
         });
     });
 };
