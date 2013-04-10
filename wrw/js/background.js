@@ -57,8 +57,8 @@ var startApp = function() {
             }
         };
 
-        var w = parseInt(localStorage['mim_preferences.width']) || 640;
-        var h = parseInt(localStorage['mim_preferences.height']) || 400;
+        var w = parseInt(localStorage['mim_preferences.width'] || 640);
+        var h = parseInt(localStorage['mim_preferences.height'] || 400);
         
         chrome.windows.create({
             url : "../html/main.html?wid=" + window.id + "&tid=" + tabId,
