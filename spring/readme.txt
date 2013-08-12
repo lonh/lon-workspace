@@ -1,1 +1,1 @@
-A project to practise Spring framework
+A project to practice Spring framework
