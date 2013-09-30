@@ -53,6 +53,8 @@ lon.mim.Main = new function () {
             $('input#' + defaultTab).attr('checked', 'true').button('refresh');
 
             o.switchTab(defaultTab);
+            
+            $(document).tooltip();
         },
         switchTab: function (tabId) {
             $('.container').hide().filter('#'+tabId+'-tab').show();
