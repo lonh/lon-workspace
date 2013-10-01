@@ -1,7 +1,7 @@
 {
   "name": "M i M",
   "description": "Intercept, modify requests in-flight and record/store/fill form data",
-  "version": "0.1",
+  "version": "0.2",
   "permissions": 
     [ "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
   "background": {
