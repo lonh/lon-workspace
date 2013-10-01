@@ -54,7 +54,13 @@ lon.mim.Main = new function () {
 
             o.switchTab(defaultTab);
             
-            $(document).tooltip();
+            //$(document).tooltip();
+            $(document).tooltip({
+                content: function() {
+                    var element = $(this);
+                    return element.attr("title");
+                }
+            });
         },
         switchTab: function (tabId) {
             $('.container').hide().filter('#'+tabId+'-tab').show();
