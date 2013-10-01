@@ -55,11 +55,11 @@ lon.mim.Main = new function () {
             o.switchTab(defaultTab);
             
             //$(document).tooltip();
-            $('*[title]').tooltip({
+            $('[title]').tooltip({
             	position: { my: 'center bottom-10', at: 'center top' },
-            	show: { 'delay': 300 },
+            	show: { 'delay': 350 },
                 content: function() {
-                    return $(this).attr("title");
+                    return $(this).attr('title');
                 }
             });
         },
