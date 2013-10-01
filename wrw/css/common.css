@@ -8,8 +8,11 @@
     padding: 0px;
     border-radius: 3px;
     color: #002D62;
-    font-size: 12px;
-    font-family: Lucida Grande, sans-serif;
+    font-size: 13px;
+    line-height: 1.5em;
+    word-wrap: break-word;
+    /* font-family: Lucida Grande, sans-serif; */
+    font-family: "Trebuchet MS", Arial, Sans-Serif;
     -webkit-font-smoothing: antialiased;
 }
 

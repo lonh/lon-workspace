@@ -22,12 +22,34 @@
         <ul></ul>
       </div>
       <div class="actions settings">
-        <input type="checkbox" class="toggle" id="calleronly" /><label title="Only intercept/monitor the tab which triggered MiM." for="calleronly">Only monitor on caller tab.</label>
-        <input type="checkbox" class="toggle" id="shownotifications" /><label title="Send desktop notification when 'Watching' request detected." for="shownotifications">Display <b>desktop</b> notifications.</label>
+        <input type="checkbox" class="toggle" id="calleronly" />
+        <label for="calleronly"
+            title="Only intercept/monitor the triggering tab.
+            <br/><br/>Default monitoring all tabs." >
+            Only monitor on caller tab.
+        </label>
+        <input type="checkbox" class="toggle" id="shownotifications" />
+        <label for="shownotifications"
+            title="Send desktop notification when 'Watching' request detected." >
+            Display <b>desktop</b> notifications.
+        </label>
       </div>
       <div class="actions">
-        <button class="new-rule" title="Create new Rules, <br/>with target/replacing values.">New rule</button>
-        <button class="new-watch" title="Create new Watch, send notification when requesting URL contains value specified.">New watch</button>
+        <button class="new-rule" 
+            title="Define a search/replace value pair.<br/><br/>
+            E.g.: with <b>'cat/dog'</b><br/>
+            http://somthing/about/<u>cat</u>.html will become<br/>
+            http://somthing/about/<u>dog</u>.html<br/><br/>
+            All requests are logged in 'Requests' tab.">
+            New rule
+        </button>
+        <button class="new-watch" 
+            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
+            E.g.: with <b>'dog'</b>, <br/>
+            http://somthing/about/<u>dog</u>.html will trigger a notification.<br/><br/>
+            All detected requests are logged in 'Notifications' tab.">
+            New watch
+        </button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
@@ -63,9 +85,18 @@
         <ul></ul>
       </div>
       <div class="actions">
-        <button class="record" title="Record form entries/fields in current page.">Record</button>
-        <button class="form-data" title="Display/Modify recorded form entries/fields.">Form Data</button>
-        <button class="fill" title="Fill in form with selected form data entry.">Fill</button>
+        <button class="record" 
+            title="Record form data from current page.">
+            Record
+        </button>
+        <button class="form-data" 
+            title="Display/Edit/Save recorded form data.">
+            Form Data
+        </button>
+        <button class="fill" 
+            title="Fill form with selected form data.">
+            Fill
+        </button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
