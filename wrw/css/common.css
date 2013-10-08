@@ -12,7 +12,8 @@
     line-height: 1.5em;
     word-wrap: break-word;
     /* font-family: Lucida Grande, sans-serif; */
-    font-family: "Trebuchet MS", Arial, Sans-Serif;
+    /* font-family: "Trebuchet MS", Arial, Sans-Serif; */
+    font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Lucida Grande", sans-serif;
     -webkit-font-smoothing: antialiased;
 }
 
