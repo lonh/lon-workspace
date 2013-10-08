@@ -486,8 +486,9 @@ lon.mim.autofill = new function (main) {
       });
       
       // Set up click event on form-data to toggle radio button & list
-      list.on('click', '.form-data', function (event) {
+      list.on('click', 'div.field', function (event) {
     	  $(this)
+    	  	.parent()
     	  	.siblings('.toggle').trigger('click').end()
     	  	.find('ol.fields-list').slideToggle('slow');
     	  
