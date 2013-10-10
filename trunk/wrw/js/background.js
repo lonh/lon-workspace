@@ -57,14 +57,19 @@ var startApp = function() {
             }
         };
 
-        var w = parseInt(localStorage['mim_preferences.width'] || 640);
-        var h = parseInt(localStorage['mim_preferences.height'] || 400);
+        var mim_options = localStorage['mim_config'];
+        var opt = mim_options ? JSON.parse(mim_options) : {};
+        var prefs = opt.prefs || {};
+        var w = parseInt(prefs.width || 640);
+        var h = parseInt(prefs.height || 400);
+        var t = parseInt(prefs.top || wondow.top);
+        var l = parseInt(prefs.left || (window.left + window.width + 30 - w));
         
         chrome.windows.create({
             url : "../html/main.html?wid=" + window.id + "&tid=" + tabId,
             type : "popup",
-            top: window.top,
-            left: parseInt(window.left + window.width + 30) - w,
+            top: t,
+            left: l,
             width : w,
             height : h
         });

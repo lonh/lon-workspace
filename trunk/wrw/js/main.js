@@ -39,9 +39,11 @@ lon.mim.Main = new function () {
                 event.keyCode === 27 ? window.close() : null;
             });
             
-            $(window).on('resize', function (){
+            $(window).on('resize unload', function (){
                 o.options.prefs.width=document.width; 
                 o.options.prefs.height=document.height;
+                o.options.prefs.top=this.screenTop;
+                o.options.prefs.left=this.screenLeft;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
             });
 
