@@ -62,7 +62,7 @@ var startApp = function() {
         var prefs = opt.prefs || {};
         var w = parseInt(prefs.width || 640);
         var h = parseInt(prefs.height || 400);
-        var t = parseInt(prefs.top || wondow.top);
+        var t = parseInt(prefs.top || window.top);
         var l = parseInt(prefs.left || (window.left + window.width + 30 - w));
         
         chrome.windows.create({
