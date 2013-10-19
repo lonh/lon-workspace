@@ -91,6 +91,7 @@ lon.mim.Main = new function () {
             opt.prefs.height = opt.prefs.height || 0;
             opt.rules = opt.rules || [];
             opt.watches = opt.watches || [];
+            opt.headers = opt.headers || {};
 
             this.options = opt;
         },
@@ -164,6 +165,13 @@ lon.mim.Options = new function (main) {
                 }
             }).get();
 
+            var headers = {
+                    'replace': $('textarea.request-header', optiontab).val(), 
+                    'checked': $('.request-headers .toggle', optiontab).prop('checked')
+                };
+
+
+            main.options.headers = headers;
             main.options.rules = rules;
             main.options.watches = watches;
             main.options.shownotifications = $('#shownotifications', optiontab).prop('checked');
@@ -179,6 +187,7 @@ lon.mim.Options = new function (main) {
         loadOptions: function () {
             list.append($('#templates .rule-template').mustache({rules: main.options.rules}));
             list.append($('#templates .watch-template').mustache({watches: main.options.watches}));
+            list.append($('#templates .request-header-template').mustache({headers: main.options.headers}));
 
              $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
              $('#calleronly', optiontab).prop('checked', main.options.calleronly);
@@ -260,6 +269,13 @@ lon.mim.Monitor = new function (main) {
             // Register onBeforeSendHeaders listener
             chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 
+                if (main.options.headers && main.options.headers.checked) {
+                    var headers = main.options.headers.replace.split(',');
+                    for (var i = headers.length - 1; i >= 0; i--) {
+                        var pair = headers[i].split('=');
+                        details.requestHeaders.push({ name: pair[0].trim(), value: pair[1].trim() });
+                    };
+                }
                 //details.requestHeaders.push({name: 'True-Client-IP', value: '70.38.8.229'});
 
                 for (var i = 0; i < details.requestHeaders.length; ++i) {
