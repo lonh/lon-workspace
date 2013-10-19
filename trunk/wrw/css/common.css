@@ -93,20 +93,21 @@ input {
     margin: 5px 0px;
 }
 
-.toggle:checked ~ * input {
+.toggle:checked ~ * input,
+.toggle:checked ~ * textarea {
     background-color: lightyellow;
     font-weight: bold;
 }
 
-.toggle:checked ~ * input.source {
+.toggle:checked ~ * .source {
     color: red;
 }
 
-.toggle:checked ~ * input.replace {
+.toggle:checked ~ * .replace {
     color: green;
 }
 
-.toggle:checked ~ * input.watch {
+.toggle:checked ~ * .watch {
     color: blue;
 }
 
@@ -161,6 +162,11 @@ input {
 
 .del:HOVER {
     background-image: url('../img/close-hover.png')
+}
+
+.request-header {
+    width: 100%;
+    border: lightgrey solid 1px;
 }
 
 /********************************************************/

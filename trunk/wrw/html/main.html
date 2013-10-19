@@ -135,6 +135,16 @@
       </li>
       {{/watches}}
     </ul>
+    <ul class="request-header-template">
+      {{#headers}}
+      <div class="entry request-headers">
+        <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+        <div class="inputs">
+          <textarea class="replace request-header">{{replace}}</textarea>
+        </div>
+      </div>
+      {{/headers}}
+    </ul>
 
     <!-- Intercepted request log template -->
     <div class="request-log-template">
