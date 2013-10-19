@@ -257,7 +257,21 @@ lon.mim.Monitor = new function (main) {
         registerListener: function () {
             var o = this;
             
-            // Register web request
+            // Register onBeforeSendHeaders listener
+            chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
+
+                for (var i = 0; i < details.requestHeaders.length; ++i) {
+                    console.log(details.requestHeaders[i].name);
+                }
+                return {requestHeaders: details.requestHeaders};
+            },
+            //filters
+            {
+                urls: []
+            },
+            [ 'blocking', 'requestHeaders' ]);
+
+            // Register onBeforeRequest listener
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
 
                 if (main.options.calleronly && info.tabId && info.tabId != target) {
