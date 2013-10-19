@@ -260,9 +260,12 @@ lon.mim.Monitor = new function (main) {
             // Register onBeforeSendHeaders listener
             chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 
+                //details.requestHeaders.push({name: 'True-Client-IP', value: '70.38.8.229'});
+
                 for (var i = 0; i < details.requestHeaders.length; ++i) {
-                    console.log(details.requestHeaders[i].name);
+                    console.log(details.requestHeaders[i].name + '=' + details.requestHeaders[i].value);
                 }
+
                 return {requestHeaders: details.requestHeaders};
             },
             //filters
