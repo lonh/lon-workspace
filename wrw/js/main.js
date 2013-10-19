@@ -116,9 +116,9 @@ lon.mim.Options = new function (main) {
             
             $('button.new-rule', optiontab).on('click', function () { o.newRule(); });
             $('button.new-watch', optiontab).on('click', function () { o.newWatch(); });
-            $('button.save', optiontab).on('click', function () { o.saveOptions(); });
+            $('button.new-header', optiontab).on('click', function () { o.newHeader(); });
             
-            optiontab.on('change', '.source, .replace, .toggle', function () {o.saveOptions();});
+            optiontab.on('change', 'input', function () {o.saveOptions();});
             
             list.on('click', '.del', function (event) {
                     o.deleteOption(this);
@@ -142,6 +142,10 @@ lon.mim.Options = new function (main) {
             list.append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
+        newHeader: function () {
+            list.append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+                .prop({'scrollTop': list.prop('scrollHeight')});
+        },
         deleteOption: function (btn) {
             $(btn).parents('li').remove();
         },
@@ -151,8 +155,9 @@ lon.mim.Options = new function (main) {
                 var elem = $(entry);
                 var source = $('.source', elem).val();
                 var replace = $('.replace', elem).val();
+                var checked = $('.toggle', elem).prop('checked');
                 if (source && replace) {
-                    return [{'source': source, 'replace': replace, 'checked': $('.toggle', elem).prop('checked')}];
+                    return [{'source': source, 'replace': replace, 'checked': checked}];
                 }
             }).get();
             
@@ -160,16 +165,21 @@ lon.mim.Options = new function (main) {
                 var elem = $(entry);
                 var source = $('.source', elem).val();
                 var replace = $('.replace', elem).val();
+                var checked = $('.toggle', elem).prop('checked');
                 if (source && !replace) {
-                    return [{'source': source, 'checked': $('.toggle', elem).prop('checked')}];
+                    return [{'source': source, 'checked': checked}];
                 }
             }).get();
 
-            var headers = {
-                    'replace': $('textarea.request-header', optiontab).val(), 
-                    'checked': $('.request-headers .toggle', optiontab).prop('checked')
-                };
-
+            var headers = entries.map(function (index, entry) {
+                var elem = $(entry);
+                var name = $('.name', elem).val();
+                var value = $('.value', elem).val();
+                var checked = $('.toggle', elem).prop('checked');
+                if (name) {
+                    return [{'name': name, 'value': value, 'checked': checked}];
+                }
+            }).get();
 
             main.options.headers = headers;
             main.options.rules = rules;
@@ -269,18 +279,11 @@ lon.mim.Monitor = new function (main) {
             // Register onBeforeSendHeaders listener
             chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 
-                if (main.options.headers && main.options.headers.checked) {
-                    var headers = main.options.headers.replace.split(',');
-                    for (var i = headers.length - 1; i >= 0; i--) {
-                        var pair = headers[i].split('=');
-                        details.requestHeaders.push({ name: pair[0].trim(), value: pair[1].trim() });
-                    };
-                }
-                //details.requestHeaders.push({name: 'True-Client-IP', value: '70.38.8.229'});
-
-                for (var i = 0; i < details.requestHeaders.length; ++i) {
-                    console.log(details.requestHeaders[i].name + '=' + details.requestHeaders[i].value);
-                }
+                $.each(main.options.headers, function (indx, header) {
+                    if (header.checked) {
+                        details.requestHeaders.push({name: header.name, value: header.value});
+                    }
+                });
 
                 return {requestHeaders: details.requestHeaders};
             },

@@ -51,6 +51,10 @@
             All detected requests are logged in 'Notifications' tab.">
             New watch
         </button>
+        <button class="new-header" 
+            title="Define a request header name/value pair.">
+            New Header
+        </button>
         <button class="exit">Exit</button>
       </div>
       <div class="footer">
@@ -137,12 +141,16 @@
     </ul>
     <ul class="request-header-template">
       {{#headers}}
-      <div class="entry request-headers">
-        <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
-        <div class="inputs">
-          <textarea class="replace request-header" title="Custom request headers, comma separated name/value pairs.">{{replace}}</textarea>
-        </div>
-      </div>
+      <li class="request-headers">
+	      <div class="entry">
+	        <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+	        <div class="inputs">
+	          <input type="text" class="name" value="{{name}}" />
+	          <input type="text" class="value" value="{{value}}" />
+	        </div>
+	        <div class="del"></div>
+	      </div>
+      </li>
       {{/headers}}
     </ul>
 

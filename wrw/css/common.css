@@ -70,10 +70,11 @@ body {
     display: inline-block;
 }
 
-.header p, input.source, input.replace {
+.header p, .inputs input {
     width: 100%;
     margin-right: 5px;
 }
+
 .inputs {
     margin: 0 30px;
 }
@@ -93,8 +94,7 @@ input {
     margin: 5px 0px;
 }
 
-.toggle:checked ~ * input,
-.toggle:checked ~ * textarea {
+.toggle:checked ~ * input {
     background-color: lightyellow;
     font-weight: bold;
 }
@@ -103,7 +103,9 @@ input {
     color: red;
 }
 
-.toggle:checked ~ * .replace {
+.toggle:checked ~ * .replace,
+.toggle:checked ~ * .name,
+.toggle:checked ~ * .value {
     color: green;
 }
 
