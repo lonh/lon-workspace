@@ -94,22 +94,24 @@ input {
     margin: 5px 0px;
 }
 
+/* Colors for enabled options */
 .toggle:checked ~ * input {
     background-color: lightyellow;
     font-weight: bold;
 }
 
-.toggle:checked ~ * .source {
+/*Colors for disabled options */
+.toggle ~ * .source {
     color: red;
 }
 
-.toggle:checked ~ * .replace,
-.toggle:checked ~ * .name,
-.toggle:checked ~ * .value {
+.toggle ~ * .replace {
     color: green;
 }
 
-.toggle:checked ~ * .watch {
+.toggle ~ * .name,
+.toggle ~ * .value,
+.toggle ~ * .watch {
     color: blue;
 }
 

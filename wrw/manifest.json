@@ -23,7 +23,8 @@
     "img/icon.png",
     "img/binoculars-icon-48.png",
     "js/jquery-2.0.3.min.map", 
-    "js/jquery-2.0.3.js"
+    "js/jquery-2.0.3.js",
+    "html/main.html"
   ],
   "browser_action": {
     "default_icon": "img/binoculars-icon-48.png",
