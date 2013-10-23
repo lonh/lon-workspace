@@ -432,10 +432,11 @@ lon.mim.autofill = new function (main) {
           o.uploadAutoFill(data);
       });
       
-      autofillTab = $('#autofills-tab');
-      list = $('.list ul', autofillTab);
+      autofillTab = $('#autofills-tab'),
+      list = $('.list ul', autofillTab),
       status = $('.status', autofillTab);
 
+      
       // Set up record button events
       $('button.record', autofillTab).on('click', function () {
     	  
@@ -559,6 +560,11 @@ lon.mim.autofill = new function (main) {
     	});
     	
     	localStorage['mim_autofills'] = JSON.stringify(autofills);
+    	
+    	$('.status', autofillTab).html('Form data Saved.').fadeIn('slow');
+	        setTimeout(function() {
+	            $('.status').fadeOut('slow');
+	    }, 2000);
     },
     addAutoFill: function (autofill) {
     	if (undefined != autofill && autofill.forms && autofill.forms.length != 0) {
