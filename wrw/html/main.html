@@ -1,35 +1,23 @@
 <html>
 <head>
-  <title>MiM</title>
-  <link type="text/css" href="/css/common.css" rel="stylesheet" />
-  <link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
-  <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+<title>MiM</title>
+<link type="text/css" href="/css/common.css" rel="stylesheet" />
+<link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mustache.js"></script>
+<script type="text/javascript" src="/js/jquery.mHub.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
 </head>
 <body>
   <div id="tabs">
-    <ul id="tab" class="nav nav-tabs">
-      <li class="active"><a href="#options-tab" data-toggle="tab">Options</a></li>
-      <li><a href="#notifications-tab" data-toggle="tab">Notifications</a></li>
-      <li><a href="#monitor-tab" data-toggle="tab">Request</a></li>
-      <li><a href="#autofills-tab" data-toggle="tab">Form</a></li>
-    </ul>
-    <!--
-    <div class="tab-content">
-      <div class="tab-pane fade in active" id="options">Option tab</div>
-      <div class="tab-pane fade" id="notifications">Notifications tab</div>
-      <div class="tab-pane fade" id="requests">Requests tab</div>
-      <div class="tab-pane fade" id="form">Form tab</div>
-    </div>
-    -->
     <div id="main-menu">
         <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
         <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
         <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
         <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Fill Form</label>
     </div>
-    <div class="tab-content">
-    <div id="options-tab" class="container tab-pane fade in active">
+    <div id="options-tab" class="container">
       <div class="list">
         <ul></ul>
       </div>
@@ -73,7 +61,7 @@
         <p class="status"></p>
       </div>
     </div>
-    <div id="notifications-tab" class="container tab-pane fade">
+    <div id="notifications-tab" class="container">
       <div class="list">
         <div class="items"></div>
       </div>
@@ -85,7 +73,7 @@
         <p class="status"></p>
       </div>
     </div>
-    <div id="monitor-tab" class="container tab-pane fade">
+    <div id="monitor-tab" class="container">
       <div class="list">
         <div class="items"></div>
       </div>
@@ -97,7 +85,7 @@
         <p class="status"></p>
       </div>
     </div>
-    <div id="autofills-tab" class="container tab-pane fade">
+    <div id="autofills-tab" class="container">
       <div class="list">
         <ul></ul>
       </div>
@@ -120,7 +108,6 @@
         <p class="status"></p>
       </div>
     </div>
-  </div>
   </div>
 
   <div id="templates">
@@ -259,13 +246,7 @@
     <div id="dialog-form-data" title="Access form data">
       <textarea class="form-data-content"></textarea>
     </div>
+
   </div>
-  
-  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-  <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
-  <script type="text/javascript" src="/js/jquery.mustache.js"></script>
-  <script type="text/javascript" src="/js/jquery.mHub.js"></script>
-  <script type="text/javascript" src="/js/main.js"></script>
-  <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
