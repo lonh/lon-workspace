@@ -1,16 +1,19 @@
 <html>
 <head>
-<title>MiM</title>
-<link type="text/css" href="/css/common.css" rel="stylesheet" />
-<link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
-<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-<script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
-<script type="text/javascript" src="/js/jquery.mustache.js"></script>
-<script type="text/javascript" src="/js/jquery.mHub.js"></script>
-<script type="text/javascript" src="/js/main.js"></script>
+  <title>MiM</title>
+  <link type="text/css" href="/css/common.css" rel="stylesheet" />
+  <link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
+  <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+  <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
 </head>
 <body>
   <div id="tabs">
+    <ul class="nav nav-tabs">
+      <li class="active"><a href="#">Options</a></li>
+      <li><a href="#">Notifications</a></li>
+      <li><a href="#">Request</a></li>
+      <li><a href="#">Form</a></li>
+    </ul>
     <div id="main-menu">
         <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
         <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
@@ -246,7 +249,13 @@
     <div id="dialog-form-data" title="Access form data">
       <textarea class="form-data-content"></textarea>
     </div>
-
   </div>
+  
+  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+  <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
+  <script type="text/javascript" src="/js/jquery.mustache.js"></script>
+  <script type="text/javascript" src="/js/jquery.mHub.js"></script>
+  <script type="text/javascript" src="/js/main.js"></script>
+  <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
 </body>
 </html>
