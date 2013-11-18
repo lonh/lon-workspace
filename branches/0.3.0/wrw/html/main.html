@@ -1,0 +1,252 @@
+<html>
+<head>
+<title>MiM</title>
+<link type="text/css" href="/css/common.css" rel="stylesheet" />
+<link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
+<script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+<script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
+<script type="text/javascript" src="/js/jquery.mustache.js"></script>
+<script type="text/javascript" src="/js/jquery.mHub.js"></script>
+<script type="text/javascript" src="/js/main.js"></script>
+</head>
+<body>
+  <div id="tabs">
+    <div id="main-menu">
+        <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
+        <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
+        <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
+        <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Fill Form</label>
+    </div>
+    <div id="options-tab" class="container">
+      <div class="list">
+        <ul></ul>
+      </div>
+      <div class="actions settings">
+        <input type="checkbox" class="toggle" id="calleronly" />
+        <label for="calleronly"
+            title="Only intercept the triggering tab.
+            <br/>(Default to all tabs)" >
+            Only monitor on calling tab.
+        </label>
+        <input type="checkbox" class="toggle" id="shownotifications" />
+        <label for="shownotifications"
+            title="Send desktop notification when 'Watching' request detected." >
+            Display <b>desktop</b> notifications.
+        </label>
+      </div>
+      <div class="actions">
+        <button class="new-rule" 
+            title="Define a search/replace value pair.<br/><br/>
+            E.g.: with <b>'cat/dog'</b><br/>
+            [http://somthing/about/<u>cat</u>.html]<br/>
+            Replaced with<br/>
+            [http://somthing/about/<u>dog</u>.html]<br/><br/>
+            All requests are logged in 'Requests' tab.">
+            New rule
+        </button>
+        <button class="new-watch" 
+            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
+            E.g.: with <b>'analytics'</b>, <br/>
+            [http://somthing-<u>analytics</u>/about/stuff.html] will trigger a notification.<br/><br/>
+            All detected requests are logged in 'Notifications' tab.">
+            New watch
+        </button>
+        <button class="new-header" 
+            title="Define a request header name/value pair.">
+            New Header
+        </button>
+        <button class="exit">Exit</button>
+      </div>
+      <div class="footer">
+        <p class="status"></p>
+      </div>
+    </div>
+    <div id="notifications-tab" class="container">
+      <div class="list">
+        <div class="items"></div>
+      </div>
+      <div class="actions">
+        <button class="clear">Clear</button>
+        <button class="exit">Exit</button>
+      </div>
+      <div class="footer">
+        <p class="status"></p>
+      </div>
+    </div>
+    <div id="monitor-tab" class="container">
+      <div class="list">
+        <div class="items"></div>
+      </div>
+      <div class="actions">
+        <button class="clear">Clear</button>
+        <button class="exit">Exit</button>
+      </div>
+      <div class="footer">
+        <p class="status"></p>
+      </div>
+    </div>
+    <div id="autofills-tab" class="container">
+      <div class="list">
+        <ul></ul>
+      </div>
+      <div class="actions">
+        <button class="record" 
+            title="Record form data from current page.">
+            Record
+        </button>
+        <button class="form-data" 
+            title="Display/Edit/Save recorded form data.">
+            Form Data
+        </button>
+        <button class="fill" 
+            title="Fill form with selected form data.">
+            Fill
+        </button>
+        <button class="exit">Exit</button>
+      </div>
+      <div class="footer">
+        <p class="status"></p>
+      </div>
+    </div>
+  </div>
+
+  <div id="templates">
+    <!-- Filter rule template -->
+    <ul class="rule-template">
+      {{#rules}}
+      <li class="rule">
+        <div class="entry">
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+          <div class="inputs">
+            <input type="text" class="source" value="{{source}}"/>
+            <input type="text" class="replace" value="{{replace}}"/>
+          </div>
+          <div class="del"></div>
+        </div>
+      </li>
+      {{/rules}}
+    </ul>
+    <ul class="watch-template">
+      {{#watches}}
+      <li class="watch">
+        <div class="entry">
+          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+          <div class="inputs">
+            <input type="text" class="source watch" value="{{source}}"/>
+          </div>
+          <div class="del"></div>
+        </div>
+      </li>
+      {{/watches}}
+    </ul>
+    <ul class="request-header-template">
+      {{#headers}}
+      <li class="request-headers">
+	      <div class="entry">
+	        <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+	        <div class="inputs">
+	          <input type="text" class="name" value="{{name}}" />
+	          <input type="text" class="value" value="{{value}}" />
+	        </div>
+	        <div class="del"></div>
+	      </div>
+      </li>
+      {{/headers}}
+    </ul>
+
+    <!-- Intercepted request log template -->
+    <div class="request-log-template">
+      <div class="request-log">
+        {{#matchers}}
+        <div class="matcher">
+          <div class="source">
+            <span class="head">{{ohead}}</span><span class="body">{{obody}}</span><span class="tail">{{otail}}</span>
+          </div>
+          <div class="result">
+            <span class="head">{{rhead}}</span><span class="body">{{rbody}}</span><span class="tail">{{rtail}}</span>
+          </div>
+        </div>
+        {{/matchers}}
+      </div>
+    </div>
+
+    <div class="request-trace-template">
+      <div class="request-trace">
+        <a href="{{url}}" target="_blank">{{url}}</a>
+        <div class="paramlist">
+          {{#paramlist}}
+            <div class="param">
+              <span class="name">{{name}}</span><span class="value">{{value}}</span>
+            </div>
+          {{/paramlist}}
+        </div>
+      </div>
+    </div>
+
+    <div class="notification-log-template">
+      <div class="notification-log">
+        <a href="{{url}}" target="_blank">{{url}}</a>
+        <div class="paramlist">
+          {{#paramlist}}
+            <div class="param">
+              <span class="name">{{name}}</span><span class="value">{{value}}</span>
+            </div>
+          {{/paramlist}}
+        </div>
+      </div>
+    </div>
+    
+    <ul class="autofill-template">
+      {{#autofills}}
+      <li>
+        <div class="entry">
+          <input type="radio" class="toggle" name="autofills"/>
+          <div class="form-data">
+            <div class="field">
+                <label>Notes</label>
+                <input type="text" name="comment" value="{{comment}}"/>
+                <input type="hidden" name="pagename" value="{{pagename}}"/>
+                <input type="hidden" name="hostname" value="{{hostname}}"/>
+            </div>
+            <a href="#" class="pagename">{{pagename}}</a>
+            <ol class="fields-list">
+                {{#forms}}
+                <li>
+                  <form>
+                  {{#.}}
+                    <div class="field">
+                        <label>{{name}}</label>
+                        <input type="text" name="{{name}}" value="{{value}}" />
+                    </div>
+                  {{/.}}
+                  </form>
+                </li>
+                {{/forms}}
+            </ol>
+          </div>
+          <div class="del"></div>
+        </div>
+      </li>
+      {{/autofills}}
+    </ul>
+
+    <!-- Dialogs  -->
+    <div id="dialog-delete-form-entry" title="Confirmation">
+      <p>This will delete the form data from local storage and cannot be undo!</p>
+    </div>
+
+    <div id="dialog-update-form-entry" title="Confirmation">
+      <p>This will replace the form data in your local storage and cannot be undo!</p>
+    </div>
+    
+    <div id="dialog-choose-form" title="Message">
+      <p>Please choose a form entry!</p>
+    </div>
+  
+    <div id="dialog-form-data" title="Access form data">
+      <textarea class="form-data-content"></textarea>
+    </div>
+
+  </div>
+</body>
+</html>
