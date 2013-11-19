@@ -66,7 +66,7 @@ lon.mim.Main = new function () {
             });
         },
         switchTab: function (tabId) {
-            $('.container').hide().filter('#'+tabId+'-tab').show();
+            //$('.container').hide().filter('#'+tabId+'-tab').show();
             
             // Store into preferences
             this.options.prefs.tab = tabId;

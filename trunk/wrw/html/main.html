@@ -1,10 +1,11 @@
-<html>
+<!DOCTYPE html>
+<html lang="en">
 <head>
   <title>MiM</title>
   <link type="text/css" href="/css/common.css" rel="stylesheet" />
-  <link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" />
+  <!-- <link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" /> -->
   <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" />
+  <!-- <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
 </head>
 <body>
   <div id="tabs">
@@ -14,156 +15,192 @@
       <li><a href="#monitor-tab" data-toggle="tab">Request</a></li>
       <li><a href="#autofills-tab" data-toggle="tab">Form</a></li>
     </ul>
-    <!--
-    <div class="tab-content">
-      <div class="tab-pane fade in active" id="options">Option tab</div>
-      <div class="tab-pane fade" id="notifications">Notifications tab</div>
-      <div class="tab-pane fade" id="requests">Requests tab</div>
-      <div class="tab-pane fade" id="form">Form tab</div>
-    </div>
-    -->
+    <!-- 
     <div id="main-menu">
         <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
         <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
         <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
         <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Fill Form</label>
     </div>
+     -->
     <div class="tab-content">
-    <div id="options-tab" class="container tab-pane fade in active">
-      <div class="list">
-        <ul></ul>
-      </div>
-      <div class="actions settings">
-        <input type="checkbox" class="toggle" id="calleronly" />
-        <label for="calleronly"
-            title="Only intercept the triggering tab.
-            <br/>(Default to all tabs)" >
-            Only monitor on calling tab.
-        </label>
-        <input type="checkbox" class="toggle" id="shownotifications" />
-        <label for="shownotifications"
-            title="Send desktop notification when 'Watching' request detected." >
-            Display <b>desktop</b> notifications.
-        </label>
-      </div>
-      <div class="actions">
-        <button class="new-rule" 
-            title="Define a search/replace value pair.<br/><br/>
-            E.g.: with <b>'cat/dog'</b><br/>
-            [http://somthing/about/<u>cat</u>.html]<br/>
-            Replaced with<br/>
-            [http://somthing/about/<u>dog</u>.html]<br/><br/>
-            All requests are logged in 'Requests' tab.">
-            New rule
-        </button>
-        <button class="new-watch" 
-            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
-            E.g.: with <b>'analytics'</b>, <br/>
-            [http://somthing-<u>analytics</u>/about/stuff.html] will trigger a notification.<br/><br/>
-            All detected requests are logged in 'Notifications' tab.">
-            New watch
-        </button>
-        <button class="new-header" 
-            title="Define a request header name/value pair.">
-            New Header
-        </button>
-        <button class="exit">Exit</button>
-      </div>
-      <div class="footer">
-        <p class="status"></p>
-      </div>
-    </div>
-    <div id="notifications-tab" class="container tab-pane fade">
-      <div class="list">
-        <div class="items"></div>
-      </div>
-      <div class="actions">
-        <button class="clear">Clear</button>
-        <button class="exit">Exit</button>
-      </div>
-      <div class="footer">
-        <p class="status"></p>
-      </div>
-    </div>
-    <div id="monitor-tab" class="container tab-pane fade">
-      <div class="list">
-        <div class="items"></div>
-      </div>
-      <div class="actions">
-        <button class="clear">Clear</button>
-        <button class="exit">Exit</button>
-      </div>
-      <div class="footer">
-        <p class="status"></p>
-      </div>
-    </div>
-    <div id="autofills-tab" class="container tab-pane fade">
-      <div class="list">
-        <ul></ul>
-      </div>
-      <div class="actions">
-        <button class="record" 
-            title="Record form data from current page.">
-            Record
-        </button>
-        <button class="form-data" 
-            title="Display/Edit/Save recorded form data.">
-            Form Data
-        </button>
-        <button class="fill" 
-            title="Fill form with selected form data.">
-            Fill
-        </button>
-        <button class="exit">Exit</button>
-      </div>
-      <div class="footer">
-        <p class="status"></p>
-      </div>
-    </div>
-  </div>
+	    <div id="options-tab" class="container tab-pane in active">
+	      <ul class="nav nav-pills">
+		      <li class="active"><a href="#replace-rules" data-toggle="pill"><i class="glyphicon white glyphicon-sort"></i> Replace Rules</a></li>
+			  <li><a href="#watches" data-toggle="pill">Watches</a></li>
+			  <li><a href="#custom-headers" data-toggle="pill">Custom Headers</a></li>
+			  <li class="dropdown">
+			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+			     <ul class="dropdown-menu" role="menu">
+			         <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Select All</a></li>
+			         <li><a href="#">De-select All</a></li>
+			         <li><a href="#">Remove All</a></li>
+			         <li class="divider"></li>
+			         <li><a href="#"><i class="glyphicon glyphicon-ok"></i> New</a></li>
+			     </ul>
+			  </li>
+		  </ul>
+		  <div class="tab-content">
+		      <div id="replace-rules" class="container tab-pane in active">
+		          rules
+		      </div>
+		      <div id="watches" class="container tab-pane">
+		          watches
+		      </div>
+		      <div id="custom-headers" class="container tab-pane">
+		          headers
+		      </div>
+		  </div>
+		  
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="actions settings">
+	        <input type="checkbox" class="toggle" id="calleronly" />
+	        <label for="calleronly"
+	            title="Only intercept the triggering tab.
+	            <br/>(Default to all tabs)" >
+	            Only monitor on calling tab.
+	        </label>
+	        <input type="checkbox" class="toggle" id="shownotifications" />
+	        <label for="shownotifications"
+	            title="Send desktop notification when 'Watching' request detected." >
+	            Display <b>desktop</b> notifications.
+	        </label>
+	      </div>
+	      <div class="actions">
+	        <button class="new-rule" 
+	            title="Define a search/replace value pair.<br/><br/>
+	            E.g.: with <b>'cat/dog'</b><br/>
+	            [http://somthing/about/<u>cat</u>.html]<br/>
+	            Replaced with<br/>
+	            [http://somthing/about/<u>dog</u>.html]<br/><br/>
+	            All requests are logged in 'Requests' tab.">
+	            New rule
+	        </button>
+	        <button class="new-watch" 
+	            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
+	            E.g.: with <b>'analytics'</b>, <br/>
+	            [http://somthing-<u>analytics</u>/about/stuff.html] will trigger a notification.<br/><br/>
+	            All detected requests are logged in 'Notifications' tab.">
+	            New watch
+	        </button>
+	        <button class="new-header" 
+	            title="Define a request header name/value pair.">
+	            New Header
+	        </button>
+	        <button class="exit">Exit</button>
+	      </div>
+	      <div class="footer">
+	        <p class="status"></p>
+	      </div>
+	    </div>
+	    <div id="notifications-tab" class="container tab-pane">
+	      <div class="list">
+	        <div class="items"></div>
+	      </div>
+	      <div class="actions">
+	        <button class="clear">Clear</button>
+	        <button class="exit">Exit</button>
+	      </div>
+	      <div class="footer">
+	        <p class="status"></p>
+	      </div>
+	    </div>
+	    <div id="monitor-tab" class="container tab-pane">
+	      <div class="list">
+	        <div class="items"></div>
+	      </div>
+	      <div class="actions">
+	        <button class="clear">Clear</button>
+	        <button class="exit">Exit</button>
+	      </div>
+	      <div class="footer">
+	        <p class="status"></p>
+	      </div>
+	    </div>
+	    <div id="autofills-tab" class="container tab-pane">
+	      <div class="list">
+	        <ul></ul>
+	      </div>
+	      <div class="actions">
+	        <button class="record" 
+	            title="Record form data from current page.">
+	            Record
+	        </button>
+	        <button class="form-data" 
+	            title="Display/Edit/Save recorded form data.">
+	            Form Data
+	        </button>
+	        <button class="fill" 
+	            title="Fill form with selected form data.">
+	            Fill
+	        </button>
+	        <button class="exit">Exit</button>
+	      </div>
+	      <div class="footer">
+	        <p class="status"></p>
+	      </div>
+	    </div>
+	  </div>
   </div>
 
   <div id="templates">
     <!-- Filter rule template -->
     <ul class="rule-template">
       {{#rules}}
-      <li class="rule">
-        <div class="entry">
-          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
-          <div class="inputs">
-            <input type="text" class="source" value="{{source}}"/>
-            <input type="text" class="replace" value="{{replace}}"/>
+      <div class="rule row">
+        <div class="entry input-group">
+            <span class="input-group-addon">
+                <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+            </span>
+          <div class="/*inputs*/">
+            <input type="text" class="source form-control" value="{{source}}"/>
+            <input type="text" class="replace form-control" value="{{replace}}"/>
           </div>
-          <div class="del"></div>
+          <span class="input-group-addon">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+          </span>
+          <!-- <div class="del"></div> -->
         </div>
-      </li>
+      </div>
       {{/rules}}
     </ul>
     <ul class="watch-template">
       {{#watches}}
-      <li class="watch">
-        <div class="entry">
-          <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
-          <div class="inputs">
-            <input type="text" class="source watch" value="{{source}}"/>
+      <div class="watch row">
+        <div class="entry input-group">
+          <span class="input-group-addon">
+            <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+          </span>
+          <div class="/*inputs*/">
+            <input type="text" class="source watch form-control" value="{{source}}"/>
           </div>
-          <div class="del"></div>
+          <span class="input-group-addon">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+          </span>
+         <!--  <div class="del"></div> -->
         </div>
-      </li>
+      </div>
       {{/watches}}
     </ul>
     <ul class="request-header-template">
       {{#headers}}
-      <li class="request-headers">
-	      <div class="entry">
-	        <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
-	        <div class="inputs">
-	          <input type="text" class="name" value="{{name}}" />
-	          <input type="text" class="value" value="{{value}}" />
+      <div class="request-headers row">
+	      <div class="entry input-group">
+	        <span class="input-group-addon">
+	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+	        </span>
+	        <div class="/*inputs*/">
+	          <input type="text" class="name form-control" value="{{name}}" />
+	          <input type="text" class="value form-control" value="{{value}}" />
 	        </div>
-	        <div class="del"></div>
+	        <span class="input-group-addon">
+	            <button type="button" class="close" aria-hidden="true">&times;</button>
+	        </span>
+	        <!-- <div class="del"></div> -->
 	      </div>
-      </li>
+      </div>
       {{/headers}}
     </ul>
 
