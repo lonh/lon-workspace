@@ -115,16 +115,16 @@ lon.mim.Options = new function (main) {
             optiontab = $('#options-tab');
             list = $('.list', optiontab);
             
-            $('button.new-rule', optiontab).on('click', function () { o.newRule(); });
-            $('button.new-watch', optiontab).on('click', function () { o.newWatch(); });
-            $('button.new-header', optiontab).on('click', function () { o.newHeader(); });
+            $('.new-rule', optiontab).on('click', function () { o.newRule(); });
+            $('.new-watch', optiontab).on('click', function () { o.newWatch(); });
+            $('.new-header', optiontab).on('click', function () { o.newHeader(); });
             
             optiontab.on('change', 'input', function () {o.saveOptions();});
             
-            /*list.on('click', '.del', function (event) {
+            optiontab.on('click', '.close', function (event) {
                     o.deleteOption(this);
                     o.saveOptions();
-                })
+                });/*
                 .sortable({ 
                     axis: 'y',
                     containment: 'parent',
@@ -148,7 +148,7 @@ lon.mim.Options = new function (main) {
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {
-            $(btn).parents('li').remove();
+            $(btn).parents('.row').remove();
         },
         saveOptions: function () {
             var entries = $('.entry', optiontab);

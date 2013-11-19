@@ -33,9 +33,9 @@
 			    <li class="dropdown">
 			      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
 			      <ul class="dropdown-menu" role="menu">
-			         <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Select All</a></li>
-			         <li><a href="#">De-select All</a></li>
-			         <li><a href="#">Remove All</a></li>
+			         <li><a href="#" class="new-rule">New replace rule</a></li>
+			         <li><a href="#" class="new-watch">New watch</a></li>
+			         <li><a href="#" class="new-header">New header</a></li>
 			         <li class="divider"></li>
 			         <li><a href="#"><i class="glyphicon glyphicon-ok"></i> New</a></li>
 			     </ul>
@@ -43,9 +43,7 @@
 		  </ul>
 		  <div class="tab-content">
 		      <div id="replace-rules" class="container tab-pane in active">
-            
 		        <div class="list">
-              <ul></ul>
             </div>
 		      </div>
 		      <div id="watches" class="container tab-pane">
@@ -157,13 +155,13 @@
     <ul class="rule-template">
       {{#rules}}
       <div class="rule row">
-        <div class="entry input-group">
+        <div class="entry input-group input-group-sm">
             <span class="input-group-addon">
                 <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
             </span>
           <div class="/*inputs*/">
-            <input type="text" class="source form-control" value="{{source}}"/>
-            <input type="text" class="replace form-control" value="{{replace}}"/>
+            <input type="text" class="source form-control" value="{{source}}" placeholder="String to search for in request url.">
+            <input type="text" class="replace form-control" value="{{replace}}" placeholder="Replace with." >
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -176,12 +174,12 @@
     <ul class="watch-template">
       {{#watches}}
       <div class="watch row">
-        <div class="entry input-group">
+        <div class="entry input-group input-group-sm">
           <span class="input-group-addon">
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
           </span>
           <div class="/*inputs*/">
-            <input type="text" class="source watch form-control" value="{{source}}"/>
+            <input type="text" class="source watch form-control" value="{{source}}" placeholder="String to watch for in request url." />
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -194,13 +192,13 @@
     <ul class="request-header-template">
       {{#headers}}
       <div class="request-headers row">
-	      <div class="entry input-group">
+	      <div class="entry input-group input-group-sm">
 	        <span class="input-group-addon">
 	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
 	        </span>
 	        <div class="/*inputs*/">
-	          <input type="text" class="name form-control" value="{{name}}" />
-	          <input type="text" class="value form-control" value="{{value}}" />
+	          <input type="text" class="name form-control" value="{{name}}" placeholder="Custom request header name." />
+	          <input type="text" class="value form-control" value="{{value}}" placeholder="Custom request header value." />
 	        </div>
 	        <span class="input-group-addon">
 	            <button type="button" class="close" aria-hidden="true">&times;</button>
