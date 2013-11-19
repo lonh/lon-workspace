@@ -8,7 +8,7 @@
   <!-- <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
 </head>
 <body>
-  <div id="tabs">
+  <div class="container">
     <ul id="tab" class="nav nav-tabs">
       <li class="active"><a href="#options-tab" data-toggle="tab">Options</a></li>
       <li><a href="#notifications-tab" data-toggle="tab">Notifications</a></li>
@@ -26,12 +26,13 @@
     <div class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
 	      <ul class="nav nav-pills">
-		      <li class="active"><a href="#replace-rules" data-toggle="pill"><i class="glyphicon white glyphicon-sort"></i> Replace Rules</a></li>
-			  <li><a href="#watches" data-toggle="pill">Watches</a></li>
-			  <li><a href="#custom-headers" data-toggle="pill">Custom Headers</a></li>
-			  <li class="dropdown">
-			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
-			     <ul class="dropdown-menu" role="menu">
+		      <li class="active"><a href="#replace-rules" data-toggle="pill">Replace Rules</a></li>
+			    <li><a href="#watches" data-toggle="pill">Watches</a></li>
+			    <li><a href="#custom-headers" data-toggle="pill">Custom Headers</a></li>
+          <li><a href="#others" data-toggle="pill">Settings</a></li>
+			    <li class="dropdown">
+			      <a class="dropdown-toggle" data-toggle="dropdown" href="#">Actions <span class="caret"></span></a>
+			      <ul class="dropdown-menu" role="menu">
 			         <li><a href="#"><i class="glyphicon glyphicon-cog"></i> Select All</a></li>
 			         <li><a href="#">De-select All</a></li>
 			         <li><a href="#">Remove All</a></li>
@@ -42,7 +43,10 @@
 		  </ul>
 		  <div class="tab-content">
 		      <div id="replace-rules" class="container tab-pane in active">
-		          rules
+            
+		        <div class="list">
+              <ul></ul>
+            </div>
 		      </div>
 		      <div id="watches" class="container tab-pane">
 		          watches
@@ -50,25 +54,28 @@
 		      <div id="custom-headers" class="container tab-pane">
 		          headers
 		      </div>
+          <div id="others" class="container tab-pane">
+            <input type="checkbox" class="toggle" id="calleronly" />
+            <label for="calleronly" data-toggle="tooltip" data-placement="top" data-html="true"
+              title="Only intercept triggering tab<br/>(Default to all tabs)" >
+              Only monitor on calling tab.
+            </label>
+            <br/>
+            <input type="checkbox" class="toggle" id="shownotifications" />
+            <label for="shownotifications" data-toggle="tooltip" data-placement="top" data-html="true"
+              title="Send desktop notification when 'Watching' request detected." >
+              Display <b>desktop</b> notifications.
+            </label>
+          </div>
 		  </div>
 		  
-	      <div class="list">
-	        <ul></ul>
-	      </div>
+	      
 	      <div class="actions settings">
-	        <input type="checkbox" class="toggle" id="calleronly" />
-	        <label for="calleronly"
-	            title="Only intercept the triggering tab.
-	            <br/>(Default to all tabs)" >
-	            Only monitor on calling tab.
-	        </label>
-	        <input type="checkbox" class="toggle" id="shownotifications" />
-	        <label for="shownotifications"
-	            title="Send desktop notification when 'Watching' request detected." >
-	            Display <b>desktop</b> notifications.
-	        </label>
+	        
+	        
+	        
 	      </div>
-	      <div class="actions">
+	      <!-- <div class="actions">
 	        <button class="new-rule" 
 	            title="Define a search/replace value pair.<br/><br/>
 	            E.g.: with <b>'cat/dog'</b><br/>
@@ -90,7 +97,7 @@
 	            New Header
 	        </button>
 	        <button class="exit">Exit</button>
-	      </div>
+	      </div> -->
 	      <div class="footer">
 	        <p class="status"></p>
 	      </div>

@@ -57,13 +57,14 @@ lon.mim.Main = new function () {
             o.switchTab(defaultTab);
             
             //$(document).tooltip();
-            $('[title]').tooltip({
+            /*$('[title]').tooltip({
             	position: { my: 'center bottom-10', at: 'center top' },
             	show: { 'delay': 350 },
                 content: function() {
                     return $(this).attr('title');
                 }
-            });
+            });*/
+            $('[title]').tooltip({});
         },
         switchTab: function (tabId) {
             //$('.container').hide().filter('#'+tabId+'-tab').show();
@@ -112,7 +113,7 @@ lon.mim.Options = new function (main) {
             var o = this;
             
             optiontab = $('#options-tab');
-            list = $('.list ul', optiontab);
+            list = $('.list', optiontab);
             
             $('button.new-rule', optiontab).on('click', function () { o.newRule(); });
             $('button.new-watch', optiontab).on('click', function () { o.newWatch(); });
@@ -120,7 +121,7 @@ lon.mim.Options = new function (main) {
             
             optiontab.on('change', 'input', function () {o.saveOptions();});
             
-            list.on('click', '.del', function (event) {
+            /*list.on('click', '.del', function (event) {
                     o.deleteOption(this);
                     o.saveOptions();
                 })
@@ -130,7 +131,7 @@ lon.mim.Options = new function (main) {
                     revert: false,
                     'update': o.saveOptions
                 })
-                .disableSelection();
+                .disableSelection();*/
 
             this.loadOptions();
         },
