@@ -325,7 +325,7 @@ lon.mim.Monitor = new function (main) {
             },
             // filters
             {
-                urls: []
+                urls: ['<all_urls>']
             },
             // extraInfoSpec
             [ 'blocking' ]);

@@ -26,6 +26,19 @@
     <div class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
 	      <ul class="nav nav-pills">
+<<<<<<< .mine
+		      <li class="active"><a href="#replace-rules" data-toggle="pill"><i class="glyphicon white glyphicon-sort small"></i> Search/Replaces</a></li>
+			  <li><a href="#watches" data-toggle="pill"><i class="glyphicon glyphicon-eye-open"></i> Watches</a></li>
+			  <li><a href="#custom-headers" data-toggle="pill"><i class="glyphicon glyphicon-header small"></i> Custom Headers</a></li>
+			  <li><a href="#blocks" data-toggle="pill"><i class="glyphicon glyphicon-stop"></i> Blocks</a></li>
+			  <li class="dropdown">
+			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
+			     <ul class="dropdown-menu" role="menu">
+			         <li><a href="#">Search/Replace</a></li>
+			         <li><a href="#">Watch</a></li>
+			         <li><a href="#">Block</a></li>
+			         <li><a href="#">Custom Header</a></li>
+=======
 		      <li class="active"><a href="#replace-rules" data-toggle="pill">Replace Rules</a></li>
 			    <li><a href="#watches" data-toggle="pill">Watches</a></li>
 			    <li><a href="#custom-headers" data-toggle="pill">Custom Headers</a></li>
@@ -38,6 +51,7 @@
 			         <li><a href="#" class="new-header">New header</a></li>
 			         <li class="divider"></li>
 			         <li><a href="#"><i class="glyphicon glyphicon-ok"></i> New</a></li>
+>>>>>>> .r168
 			     </ul>
 			  </li>
 		  </ul>
@@ -48,6 +62,9 @@
 		      </div>
 		      <div id="watches" class="container tab-pane">
 		          watches
+		      </div>
+		      <div id="blocks" class="container tab-pane">
+		          blocks
 		      </div>
 		      <div id="custom-headers" class="container tab-pane">
 		          headers
@@ -74,7 +91,7 @@
 	        
 	      </div>
 	      <!-- <div class="actions">
-	        <button class="new-rule" 
+	        <button type="button" class="btn btn-default btn-sm new-rule"  data-toggle="tooltip"
 	            title="Define a search/replace value pair.<br/><br/>
 	            E.g.: with <b>'cat/dog'</b><br/>
 	            [http://somthing/about/<u>cat</u>.html]<br/>
@@ -83,18 +100,18 @@
 	            All requests are logged in 'Requests' tab.">
 	            New rule
 	        </button>
-	        <button class="new-watch" 
+	        <button type="button" class="btn btn-default btn-sm new-watch" 
 	            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
 	            E.g.: with <b>'analytics'</b>, <br/>
 	            [http://somthing-<u>analytics</u>/about/stuff.html] will trigger a notification.<br/><br/>
 	            All detected requests are logged in 'Notifications' tab.">
 	            New watch
 	        </button>
-	        <button class="new-header" 
+	        <button type="button" class="btn btn-default btn-sm new-header" 
 	            title="Define a request header name/value pair.">
 	            New Header
 	        </button>
-	        <button class="exit">Exit</button>
+	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
 	      </div> -->
 	      <div class="footer">
 	        <p class="status"></p>
@@ -105,8 +122,8 @@
 	        <div class="items"></div>
 	      </div>
 	      <div class="actions">
-	        <button class="clear">Clear</button>
-	        <button class="exit">Exit</button>
+	        <button type="button" class="btn btn-default btn-sm clear">Clear</button>
+	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
 	      </div>
 	      <div class="footer">
 	        <p class="status"></p>
@@ -117,8 +134,8 @@
 	        <div class="items"></div>
 	      </div>
 	      <div class="actions">
-	        <button class="clear">Clear</button>
-	        <button class="exit">Exit</button>
+	        <button type="button" class="btn btn-default btn-sm clear">Clear</button>
+	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
 	      </div>
 	      <div class="footer">
 	        <p class="status"></p>
@@ -129,19 +146,13 @@
 	        <ul></ul>
 	      </div>
 	      <div class="actions">
-	        <button class="record" 
-	            title="Record form data from current page.">
-	            Record
-	        </button>
-	        <button class="form-data" 
-	            title="Display/Edit/Save recorded form data.">
-	            Form Data
-	        </button>
-	        <button class="fill" 
-	            title="Fill form with selected form data.">
-	            Fill
-	        </button>
-	        <button class="exit">Exit</button>
+	        <button type="button" class="btn btn-default btn-sm record" 
+	            title="Record form data from current page.">Record</button>
+	        <button type="button" class="btn btn-default btn-sm form-data" 
+	            title="Display/Edit/Save recorded form data.">Form Data</button>
+	        <button type="button" class="btn btn-default btn-sm fill" 
+	            title="Fill form with selected form data.">Fill</button>
+	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
 	      </div>
 	      <div class="footer">
 	        <p class="status"></p>
@@ -304,7 +315,7 @@
   </div>
   
   <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-  <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script>
+  <!-- <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script> -->
   <script type="text/javascript" src="/js/jquery.mustache.js"></script>
   <script type="text/javascript" src="/js/jquery.mHub.js"></script>
   <script type="text/javascript" src="/js/main.js"></script>
