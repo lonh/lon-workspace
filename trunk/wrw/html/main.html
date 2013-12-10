@@ -48,14 +48,14 @@
 		      <div id="custom-headers" class="container tab-pane"></div>
 		      <div id="misc" class="container tab-pane">
                   <input type="checkbox" class="toggle" id="calleronly" />
-		          <label for="calleronly"
-		                title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
+		          <label for="calleronly" 
+		              title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
 		                Only monitor on calling tab.
 		          </label>
 		          <br/>
 		          <input type="checkbox" class="toggle" id="shownotifications" />
-		          <label for="shownotifications"
-		                title="Send desktop notification when 'Watching' request detected." >
+		          <label for="shownotifications" 
+		              title="Send desktop notification when 'Watching' request detected." >
 		                Display <b>desktop</b> notifications.
 		          </label>
               </div>
@@ -291,9 +291,28 @@
       <p>Please choose a form entry!</p>
     </div>
   
-    <div id="dialog-form-data" title="Access form data">
+    <!-- Modal -->
+	<div class="modal fade" id="dialog-form-data" tabindex="-1" role="dialog" aria-hidden="true">
+	  <div class="modal-dialog">
+	    <div class="modal-content">
+	      <div class="modal-header">
+	        <h4 class="modal-title" id="myModalLabel">Access form data</h4>
+	      </div>
+	      <div class="modal-body">
+	        <textarea class="form-data-content"></textarea>
+	      </div>
+	      <div class="modal-footer">
+	        <button type="button" class="btn btn-default small" data-dismiss="modal">Close</button>
+	        <button type="button" class="btn btn-primary small">Save changes</button>
+	      </div>
+	    </div><!-- /.modal-content -->
+	  </div><!-- /.modal-dialog -->
+	</div><!-- /.modal -->
+  
+    <!-- <div id="dialog-form-data" title="Access form data">
       <textarea class="form-data-content"></textarea>
-    </div>
+    </div> -->
+    
   </div>
   
   <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
