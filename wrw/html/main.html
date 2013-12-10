@@ -26,10 +26,11 @@
     <div class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
 	      <ul class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#replace-rules"><i class="glyphicon glyphicon-sort small"></i> Search/Replaces</a></li>
+		      <li class="active"><a data-toggle="pill" href="#replace-rules"><i class="glyphicon glyphicon-sort small"></i> Replaces</a></li>
 			  <li><a data-toggle="pill" href="#watches"><i class="glyphicon glyphicon-eye-open small"></i> Watches</a></li>
 			  <li><a data-toggle="pill" href="#custom-headers"><i class="glyphicon glyphicon-header small"></i> Custom Headers</a></li>
 			  <li><a data-toggle="pill" href="#blocks"><i class="glyphicon glyphicon-stop small"></i> Blocks</a></li>
+			  <li><a data-toggle="pill" href="#misc">Miscs</a></li>
 			  <li class="dropdown">
 			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
 			     <ul class="dropdown-menu pull-right" role="menu">
@@ -40,42 +41,29 @@
 			     </ul>
 			  </li>
 		  </ul>
-		  <div>
-		      <div id="replace-rules" class="container tab-pane in active">
-			      <div class="list">
-			        <ul></ul>
-			      </div>
-		      </div>
-		      <div id="watches" class="container tab-pane">
-		          <div class="list">
-                    <ul></ul>
-                  </div>
-		      </div>
-		      <div id="blocks" class="container tab-pane">
-		          <div class="list">
-                    <ul></ul>
-                  </div>
-		      </div>
-		      <div id="custom-headers" class="container tab-pane">
-		          <div class="list">
-                    <ul></ul>
-                  </div>
-		      </div>
+		  <div class="tab-content">
+		      <div id="replace-rules" class="container tab-pane in active"></div>
+		      <div id="watches" class="container tab-pane"></div>
+		      <div id="blocks" class="container tab-pane"></div>
+		      <div id="custom-headers" class="container tab-pane"></div>
+		      <div id="misc" class="container tab-pane">
+                  <input type="checkbox" class="toggle" id="calleronly" />
+		          <label for="calleronly"
+		                title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
+		                Only monitor on calling tab.
+		          </label>
+		          <br/>
+		          <input type="checkbox" class="toggle" id="shownotifications" />
+		          <label for="shownotifications"
+		                title="Send desktop notification when 'Watching' request detected." >
+		                Display <b>desktop</b> notifications.
+		          </label>
+              </div>
 		  </div>
 		  
 	      <div class="actions settings">
-	        <input type="checkbox" class="toggle" id="calleronly" />
-	        <label for="calleronly" data-toggle="tooltip"
-	            title="Only intercept the triggering tab.
-	            <br/>(Default to all tabs)" >
-	            Only monitor on calling tab.
-	        </label>
-	        <input type="checkbox" class="toggle" id="shownotifications" />
-	        <label for="shownotifications"
-	            title="Send desktop notification when 'Watching' request detected." >
-	            Display <b>desktop</b> notifications.
-	        </label>
 	      </div>
+	      
 	      <!--
 	      <div class="actions">
 	        <button type="button" class="btn btn-default btn-sm new-rule" 
