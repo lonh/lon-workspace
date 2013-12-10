@@ -28,11 +28,11 @@ lon.mim.Main = new function () {
             });
 
             // Set up top tab buttons
-            $('#main-menu').buttonset();
+            //$('#main-menu').buttonset();
             // Set up tab actions
-            $('#main-menu input').on('click', function(event){
-                o.switchTab($(this).attr('id'));
-            });
+//            $('#main-menu input').on('click', function(event){
+//                o.switchTab($(this).attr('id'));
+//            });
             
             // ESC to close
             $(document).keyup(function(event) {
@@ -47,14 +47,14 @@ lon.mim.Main = new function () {
                 o.eventHub.send(o.eventMessages.OptionsChanged);
             });
 
-            $('button').button();
+            //$('button').button();
             $('button.exit').on('click', function () { window.close(); });
             
             // retrieve previous stored tab id
             var defaultTab = o.options.prefs.tab || 'options';
             $('input#' + defaultTab).attr('checked', 'true').button('refresh');
 
-            o.switchTab(defaultTab);
+            //o.switchTab(defaultTab);
             
             //$(document).tooltip();
             /*$('[title]').tooltip({
@@ -64,7 +64,7 @@ lon.mim.Main = new function () {
                     return $(this).attr('title');
                 }
             });*/
-            $('[title]').tooltip({});
+            $('[title]').tooltip({html: true});
         },
         switchTab: function (tabId) {
             //$('.container').hide().filter('#'+tabId+'-tab').show();
@@ -136,15 +136,19 @@ lon.mim.Options = new function (main) {
             this.loadOptions();
         },
         newRule: function () {
-            list.append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
+            $('#replace-rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         }, 
         newWatch: function () {
-            list.append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
+            $('#watches').append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newHeader: function () {
-            list.append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+            $('#custom-headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+                .prop({'scrollTop': list.prop('scrollHeight')});
+        },
+        newBlock: function () {
+            $('#blocks').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {

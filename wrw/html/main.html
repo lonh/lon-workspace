@@ -8,7 +8,7 @@
   <!-- <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
 </head>
 <body>
-  <div class="container">
+  <div id="container">
     <ul id="tab" class="nav nav-tabs">
       <li class="active"><a href="#options-tab" data-toggle="tab">Options</a></li>
       <li><a href="#notifications-tab" data-toggle="tab">Notifications</a></li>
@@ -26,57 +26,59 @@
     <div class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
 	      <ul class="nav nav-pills">
-		      <li class="active"><a href="#replace-rules" data-toggle="pill"><i class="glyphicon white glyphicon-sort small"></i> Search/Replaces</a></li>
-			  <li><a href="#watches" data-toggle="pill"><i class="glyphicon glyphicon-eye-open"></i> Watches</a></li>
-			  <li><a href="#custom-headers" data-toggle="pill"><i class="glyphicon glyphicon-header small"></i> Custom Headers</a></li>
-			  <li><a href="#blocks" data-toggle="pill"><i class="glyphicon glyphicon-stop"></i> Blocks</a></li>
+		      <li class="active"><a data-toggle="pill" href="#replace-rules"><i class="glyphicon glyphicon-sort small"></i> Search/Replaces</a></li>
+			  <li><a data-toggle="pill" href="#watches"><i class="glyphicon glyphicon-eye-open small"></i> Watches</a></li>
+			  <li><a data-toggle="pill" href="#custom-headers"><i class="glyphicon glyphicon-header small"></i> Custom Headers</a></li>
+			  <li><a data-toggle="pill" href="#blocks"><i class="glyphicon glyphicon-stop small"></i> Blocks</a></li>
 			  <li class="dropdown">
 			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
-			     <ul class="dropdown-menu" role="menu">
-			         <li><a href="#">Search/Replace</a></li>
-			         <li><a href="#">Watch</a></li>
-			         <li><a href="#">Block</a></li>
-			         <li><a href="#">Custom Header</a></li>
+			     <ul class="dropdown-menu pull-right" role="menu">
+			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Search/Replace</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
 			     </ul>
 			  </li>
 		  </ul>
-		  <div class="tab-content">
+		  <div>
 		      <div id="replace-rules" class="container tab-pane in active">
-		        <div class="list">
-            </div>
+			      <div class="list">
+			        <ul></ul>
+			      </div>
 		      </div>
 		      <div id="watches" class="container tab-pane">
-		          watches
+		          <div class="list">
+                    <ul></ul>
+                  </div>
 		      </div>
 		      <div id="blocks" class="container tab-pane">
-		          blocks
+		          <div class="list">
+                    <ul></ul>
+                  </div>
 		      </div>
 		      <div id="custom-headers" class="container tab-pane">
-		          headers
+		          <div class="list">
+                    <ul></ul>
+                  </div>
 		      </div>
-          <div id="others" class="container tab-pane">
-            <input type="checkbox" class="toggle" id="calleronly" />
-            <label for="calleronly" data-toggle="tooltip" data-placement="top" data-html="true"
-              title="Only intercept triggering tab<br/>(Default to all tabs)" >
-              Only monitor on calling tab.
-            </label>
-            <br/>
-            <input type="checkbox" class="toggle" id="shownotifications" />
-            <label for="shownotifications" data-toggle="tooltip" data-placement="top" data-html="true"
-              title="Send desktop notification when 'Watching' request detected." >
-              Display <b>desktop</b> notifications.
-            </label>
-          </div>
 		  </div>
 		  
-	      
 	      <div class="actions settings">
-	        
-	        
-	        
+	        <input type="checkbox" class="toggle" id="calleronly" />
+	        <label for="calleronly" data-toggle="tooltip"
+	            title="Only intercept the triggering tab.
+	            <br/>(Default to all tabs)" >
+	            Only monitor on calling tab.
+	        </label>
+	        <input type="checkbox" class="toggle" id="shownotifications" />
+	        <label for="shownotifications"
+	            title="Send desktop notification when 'Watching' request detected." >
+	            Display <b>desktop</b> notifications.
+	        </label>
 	      </div>
-	      <!-- <div class="actions">
-	        <button type="button" class="btn btn-default btn-sm new-rule"  data-toggle="tooltip"
+	      <!--
+	      <div class="actions">
+	        <button type="button" class="btn btn-default btn-sm new-rule" 
 	            title="Define a search/replace value pair.<br/><br/>
 	            E.g.: with <b>'cat/dog'</b><br/>
 	            [http://somthing/about/<u>cat</u>.html]<br/>
@@ -97,7 +99,8 @@
 	            New Header
 	        </button>
 	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
-	      </div> -->
+	      </div>
+	      -->
 	      <div class="footer">
 	        <p class="status"></p>
 	      </div>
@@ -132,11 +135,17 @@
 	      </div>
 	      <div class="actions">
 	        <button type="button" class="btn btn-default btn-sm record" 
-	            title="Record form data from current page.">Record</button>
+	            title="Record form data from current page.">
+	            Record
+	        </button>
 	        <button type="button" class="btn btn-default btn-sm form-data" 
-	            title="Display/Edit/Save recorded form data.">Form Data</button>
+	            title="Display/Edit/Save recorded form data.">
+	            Form Data
+	        </button>
 	        <button type="button" class="btn btn-default btn-sm fill" 
-	            title="Fill form with selected form data.">Fill</button>
+	            title="Fill form with selected form data.">
+	            Fill
+	        </button>
 	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
 	      </div>
 	      <div class="footer">
@@ -151,13 +160,13 @@
     <ul class="rule-template">
       {{#rules}}
       <div class="rule row">
-        <div class="entry input-group input-group-sm">
+        <div class="entry input-group">
             <span class="input-group-addon">
                 <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
             </span>
           <div class="/*inputs*/">
-            <input type="text" class="source form-control" value="{{source}}" placeholder="String to search for in request url.">
-            <input type="text" class="replace form-control" value="{{replace}}" placeholder="Replace with." >
+            <input type="text" class="source form-control" value="{{source}}"/>
+            <input type="text" class="replace form-control" value="{{replace}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -170,12 +179,12 @@
     <ul class="watch-template">
       {{#watches}}
       <div class="watch row">
-        <div class="entry input-group input-group-sm">
+        <div class="entry input-group">
           <span class="input-group-addon">
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
           </span>
           <div class="/*inputs*/">
-            <input type="text" class="source watch form-control" value="{{source}}" placeholder="String to watch for in request url." />
+            <input type="text" class="source watch form-control" value="{{source}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -188,13 +197,13 @@
     <ul class="request-header-template">
       {{#headers}}
       <div class="request-headers row">
-	      <div class="entry input-group input-group-sm">
+	      <div class="entry input-group">
 	        <span class="input-group-addon">
 	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
 	        </span>
 	        <div class="/*inputs*/">
-	          <input type="text" class="name form-control" value="{{name}}" placeholder="Custom request header name." />
-	          <input type="text" class="value form-control" value="{{value}}" placeholder="Custom request header value." />
+	          <input type="text" class="name form-control" value="{{name}}" />
+	          <input type="text" class="value form-control" value="{{value}}" />
 	        </div>
 	        <span class="input-group-addon">
 	            <button type="button" class="close" aria-hidden="true">&times;</button>
