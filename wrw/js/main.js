@@ -194,10 +194,13 @@ lon.mim.Options = new function (main) {
             
             main.eventHub.send(main.eventMessages.OptionsChanged);
             
-            $('.status', optiontab).html('Options Saved.').fadeIn('slow');
-                setTimeout(function() {
-                    $('.status').fadeOut('slow');
-            }, 2000);
+//            $('.status', optiontab).html('Options Saved.').fadeIn('slow');
+//                setTimeout(function() {
+//                    $('.status').fadeOut('slow');
+//            }, 2000);
+            
+            $(".options-saved").stop(true, true).show().fadeOut(1500);
+            
         },
         loadOptions: function () {
             list.append($('#templates .rule-template').mustache({rules: main.options.rules}));

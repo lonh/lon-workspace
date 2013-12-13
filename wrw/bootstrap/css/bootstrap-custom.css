@@ -1,0 +1,77 @@
+/***
+*
+*
+*
+***/
+html, body {
+    width: 100%;
+    height: 100%;
+    margin:0;
+    padding:0;
+    overflow: hidden;
+}
+    
+body, 
+.dropdown-menu, 
+.form-control {
+	font-size: 12.5px;
+}
+
+.form-control {
+	height: 25px;
+	line-height: auto;
+}
+
+.nav > li > a {
+	padding: 3px 5px;
+} 
+
+ul, ol {
+	margin: 3px;
+}
+
+label {
+	font-weight: normal;
+}
+
+.nav-tabs, .nav-pills {
+	position: absolute;
+	width: 100%;
+}
+
+.tab-content {
+	height: 100%;
+	padding-top: 30px;
+}
+
+.tab-pane {
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 100%;
+}
+
+.input-group-addon {
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
+
+
+.alert {
+	bottom: 0px;
+	left: 10px;
+	position: absolute;
+	padding: 5px;
+	display: none;
+}
+
+/**
+NOT REALLY BOOTSTRAP
+**/
+
+
+
+
+* {
+	box-sizing: border-box;
+	font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
+}
