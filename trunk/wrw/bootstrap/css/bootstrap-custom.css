@@ -14,7 +14,7 @@ html, body {
 body, 
 .dropdown-menu, 
 .form-control {
-	font-size: 12.5px;
+	font-size: 12px;
 }
 
 .form-control {
@@ -34,14 +34,13 @@ label {
 	font-weight: normal;
 }
 
-.nav-tabs, .nav-pills {
+.nav-pills {
 	position: absolute;
-	width: 100%;
+	bottom: 5px;
 }
 
 .tab-content {
 	height: 100%;
-	padding-top: 30px;
 }
 
 .tab-pane {
@@ -69,7 +68,18 @@ NOT REALLY BOOTSTRAP
 **/
 
 
+#main-nav-tab {
+	float: left;
+	width: 100%;
+}
 
+#main-tab-content {
+	padding-top: 30px;
+}
+
+#options-tab {
+	padding-bottom: 30px;
+}
 
 * {
 	box-sizing: border-box;

@@ -9,7 +9,7 @@
   <!-- <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
 </head>
 <body>
-    <ul id="tab" class="nav nav-tabs">
+    <ul id="main-nav-tab" class="nav nav-tabs">
       <li class="active"><a href="#options-tab" data-toggle="tab">Options</a></li>
       <li><a href="#notifications-tab" data-toggle="tab">Notifications</a></li>
       <li><a href="#monitor-tab" data-toggle="tab">Request</a></li>
@@ -23,43 +23,44 @@
         <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Fill Form</label>
     </div>
      -->
-    <div class="tab-content">
+    <div id="main-tab-content" class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
-	      <ul class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#replace-rules"><i class="glyphicon glyphicon-sort small"></i> Replaces</a></li>
-			  <li><a data-toggle="pill" href="#watches"><i class="glyphicon glyphicon-eye-open small"></i> Watches</a></li>
-			  <li><a data-toggle="pill" href="#custom-headers"><i class="glyphicon glyphicon-header small"></i> Custom Headers</a></li>
-			  <li><a data-toggle="pill" href="#blocks"><i class="glyphicon glyphicon-stop small"></i> Blocks</a></li>
-			  <li><a data-toggle="pill" href="#misc">Miscs</a></li>
-			  <li class="dropdown">
-			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
-			     <ul class="dropdown-menu pull-right" role="menu">
-			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Search/Replace</a></li>
-			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
-			         <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
-			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
-			     </ul>
-			  </li>
-		  </ul>
-		  <div class="tab-content">
-		      <div id="replace-rules" class="container tab-pane in active"></div>
-		      <div id="watches" class="container tab-pane"></div>
-		      <div id="blocks" class="container tab-pane"></div>
-		      <div id="custom-headers" class="container tab-pane"></div>
-		      <div id="misc" class="container tab-pane">
+        <div class="tab-content">
+          <div id="replace-rules" class="container tab-pane in active"></div>
+          <div id="watches" class="container tab-pane"></div>
+          <div id="blocks" class="container tab-pane"></div>
+          <div id="custom-headers" class="container tab-pane"></div>
+          <div id="misc" class="container tab-pane">
                   <input type="checkbox" class="toggle" id="calleronly" />
-		          <label for="calleronly" 
-		              title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
-		                Only monitor on calling tab.
-		          </label>
-		          <br/>
-		          <input type="checkbox" class="toggle" id="shownotifications" />
-		          <label for="shownotifications" 
-		              title="Send desktop notification when 'Watching' request detected." >
-		                Display <b>desktop</b> notifications.
-		          </label>
-              </div>
-		  </div>
+              <label for="calleronly" 
+                  title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
+                    Only monitor on calling tab.
+              </label>
+              <br/>
+              <input type="checkbox" class="toggle" id="shownotifications" />
+              <label for="shownotifications" 
+                  title="Send desktop notification when 'Watching' request detected." >
+                    Display <b>desktop</b> notifications.
+              </label>
+            </div>
+        </div>
+	      <ul class="nav nav-pills">
+		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
+			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
+			    <li><a data-toggle="pill" href="#custom-headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
+			    <li><a data-toggle="pill" href="#blocks"><!-- <i class="glyphicon glyphicon-stop small"></i>  -->Blocks</a></li>
+			    <li><a data-toggle="pill" href="#misc">Misc</a></li>
+			    <li class="dropup">
+			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
+			     <ul class="dropdown-menu" role="menu">
+			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Rule</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
+               <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
+			     </ul>
+			    </li>
+		    </ul>
+		    
 		  
 	      <!--
 	      <div class="actions">
