@@ -145,8 +145,8 @@
                 <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
             </span>
           <div class="/*inputs*/">
-            <input type="text" class="source form-control" value="{{source}}"/>
-            <input type="text" class="replace form-control" value="{{replace}}"/>
+            <input type="text" class="source form-control" placeholder="Search string in request" value="{{source}}"/>
+            <input type="text" class="replace form-control" placeholder="Replace with" value="{{replace}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -164,7 +164,25 @@
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
           </span>
           <div class="/*inputs*/">
-            <input type="text" class="source watch form-control" value="{{source}}"/>
+            <input type="text" class="source watch form-control" placeholder="Capture request with string ..." value="{{source}}"/>
+          </div>
+          <span class="input-group-addon">
+            <button type="button" class="close" aria-hidden="true">&times;</button>
+          </span>
+         <!--  <div class="del"></div> -->
+        </div>
+      </div>
+      {{/watches}}
+    </ul>
+    <ul class="block-template">
+      {{#watches}}
+      <div class="block row">
+        <div class="entry input-group">
+          <span class="input-group-addon">
+            <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+          </span>
+          <div class="/*inputs*/">
+            <input type="text" class="source block form-control" placeholder="Block request with string" value="{{source}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
@@ -182,8 +200,8 @@
 	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
 	        </span>
 	        <div class="/*inputs*/">
-	          <input type="text" class="name form-control" value="{{name}}" />
-	          <input type="text" class="value form-control" value="{{value}}" />
+	          <input type="text" class="name form-control" placeholder="Header Name" value="{{name}}" />
+	          <input type="text" class="value form-control" placeholder="Header Value" value="{{value}}" />
 	        </div>
 	        <span class="input-group-addon">
 	            <button type="button" class="close" aria-hidden="true">&times;</button>
