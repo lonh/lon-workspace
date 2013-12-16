@@ -68,7 +68,7 @@ NOT REALLY BOOTSTRAP
 **/
 
 
-/*#main-nav-tab {
+#main-nav-tab, #options-nav {
 	float: left;
 	width: 100%;
 }
@@ -79,7 +79,8 @@ NOT REALLY BOOTSTRAP
 
 #options-tab {
 	padding-bottom: 30px;
-}*/
+}
+
 
 * {
 	box-sizing: border-box;

@@ -25,7 +25,7 @@
      -->
     <div id="main-tab-content" class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
-	      <ul class="nav nav-pills">
+	      <ul id="options-nav" class="nav nav-pills">
 		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
 			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
 			    <li><a data-toggle="pill" href="#custom-headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
@@ -41,7 +41,7 @@
 			     </ul>
 			    </li>
 		    </ul>
-        <div class="tab-content">
+        <div id="options-tab-content" class="tab-content">
           <div id="replace-rules" class="container tab-pane in active"></div>
           <div id="watches" class="container tab-pane"></div>
           <div id="blocks" class="container tab-pane"></div>
@@ -94,9 +94,9 @@
 	      <div class="list">
 	        <div class="items"></div>
 	      </div>
-	      <div class="actions">
-	        <button type="button" class="btn btn-default btn-sm clear">Clear</button>
-	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
+	      <div class="actions btn-group btn-group-sm">
+	        <button type="button" class="btn btn-default clear">Clear</button>
+	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
 	    
@@ -104,9 +104,9 @@
 	      <div class="list">
 	        <div class="items"></div>
 	      </div>
-	      <div class="actions">
-	        <button type="button" class="btn btn-default btn-sm clear">Clear</button>
-	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
+	      <div class="actions btn-group btn-group-sm">
+	        <button type="button" class="btn btn-default clear">Clear</button>
+	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
 	    
@@ -114,20 +114,14 @@
 	      <div class="list">
 	        <ul></ul>
 	      </div>
-	      <div class="actions">
-	        <button type="button" class="btn btn-default btn-sm record" 
-	            title="Record form data from current page.">
-	            Record
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm form-data" 
-	            title="Display/Edit/Save recorded form data.">
-	            Form Data
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm fill" 
-	            title="Fill form with selected form data.">
-	            Fill
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
+	      <div class="actions btn-group btn-group-sm">
+	        <button type="button" class="btn btn-default record" 
+	            title="Record form data from current page.">Record</button>
+	        <button type="button" class="btn btn-default form-data" 
+	            title="Display/Edit/Save recorded form data.">Form Data</button>
+	        <button type="button" class="btn btn-default fill" 
+	            title="Fill form with selected form data.">Fill</button>
+	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
 	  </div>
