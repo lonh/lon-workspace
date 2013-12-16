@@ -24,7 +24,7 @@
     </div>
      -->
     <div id="main-tab-content" class="tab-content">
-	    <div id="options-tab" class="container tab-pane in active">
+	    <div id="options-tab" class="tab-pane in active">
 	      <ul id="options-nav" class="nav nav-pills">
 		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
 			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
@@ -34,7 +34,7 @@
 			    <li class="dropdown">
 			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
 			     <ul class="dropdown-menu" role="menu">
-			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Rule</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Search/replace Rule</a></li>
 			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
 			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
                <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
@@ -42,11 +42,11 @@
 			    </li>
 		    </ul>
         <div id="options-tab-content" class="tab-content">
-          <div id="replace-rules" class="container tab-pane in active"></div>
-          <div id="watches" class="container tab-pane"></div>
-          <div id="blocks" class="container tab-pane"></div>
-          <div id="custom-headers" class="container tab-pane"></div>
-          <div id="misc" class="container tab-pane">
+          <div id="replace-rules" class="tab-pane in active"></div>
+          <div id="watches" class="tab-pane"></div>
+          <div id="blocks" class="tab-pane"></div>
+          <div id="custom-headers" class="tab-pane"></div>
+          <div id="misc" class="tab-pane">
                   <input type="checkbox" class="toggle" id="calleronly" />
               <label for="calleronly" 
                   title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
@@ -90,30 +90,24 @@
 
 	    </div>
 	    
-	    <div id="notifications-tab" class="container tab-pane">
-	      <div class="list">
-	        <div class="items"></div>
-	      </div>
+	    <div id="notifications-tab" class="tab-pane">
+	      <div class="list"></div>
 	      <div class="actions btn-group btn-group-sm">
 	        <button type="button" class="btn btn-default clear">Clear</button>
 	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
 	    
-	    <div id="monitor-tab" class="container tab-pane">
-	      <div class="list">
-	        <div class="items"></div>
-	      </div>
+	    <div id="monitor-tab" class="tab-pane">
+	      <div class="list"></div>
 	      <div class="actions btn-group btn-group-sm">
 	        <button type="button" class="btn btn-default clear">Clear</button>
 	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
 	    
-	    <div id="autofills-tab" class="container tab-pane">
-	      <div class="list">
-	        <ul></ul>
-	      </div>
+	    <div id="autofills-tab" class="tab-pane">
+	      <div class="list"></div>
 	      <div class="actions btn-group btn-group-sm">
 	        <button type="button" class="btn btn-default record" 
 	            title="Record form data from current page.">Record</button>
@@ -130,11 +124,11 @@
   <!-- Mesasges -->
   <div class="alert alert-success options-saved">Options saved.</div>   
     
-  <div id="templates">
+  <div id="templates" style="display:none;">
     <!-- Filter rule template -->
     <ul class="rule-template">
       {{#rules}}
-      <div class="rule row">
+      <div class="rule">
         <div class="entry input-group">
           <span class="input-group-addon">
             <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
@@ -153,7 +147,7 @@
     </ul>
     <ul class="watch-template">
       {{#watches}}
-      <div class="watch row">
+      <div class="watch">
         <div class="entry input-group">
           <span class="input-group-addon">
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
@@ -171,7 +165,7 @@
     </ul>
     <ul class="block-template">
       {{#watches}}
-      <div class="block row">
+      <div class="block">
         <div class="entry input-group">
           <span class="input-group-addon">
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
@@ -189,7 +183,7 @@
     </ul>
     <ul class="request-header-template">
       {{#headers}}
-      <div class="request-headers row">
+      <div class="request-headers">
 	      <div class="entry input-group">
 	        <span class="input-group-addon">
 	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
