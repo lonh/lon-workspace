@@ -25,6 +25,22 @@
      -->
     <div id="main-tab-content" class="tab-content">
 	    <div id="options-tab" class="container tab-pane in active">
+	      <ul class="nav nav-pills">
+		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
+			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
+			    <li><a data-toggle="pill" href="#custom-headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
+			    <li><a data-toggle="pill" href="#blocks"><!-- <i class="glyphicon glyphicon-stop small"></i>  -->Blocks</a></li>
+			    <li><a data-toggle="pill" href="#misc">Misc</a></li>
+			    <li class="dropdown">
+			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
+			     <ul class="dropdown-menu" role="menu">
+			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Rule</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
+			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
+               <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
+			     </ul>
+			    </li>
+		    </ul>
         <div class="tab-content">
           <div id="replace-rules" class="container tab-pane in active"></div>
           <div id="watches" class="container tab-pane"></div>
@@ -44,22 +60,6 @@
               </label>
             </div>
         </div>
-	      <ul class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
-			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
-			    <li><a data-toggle="pill" href="#custom-headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
-			    <li><a data-toggle="pill" href="#blocks"><!-- <i class="glyphicon glyphicon-stop small"></i>  -->Blocks</a></li>
-			    <li><a data-toggle="pill" href="#misc">Misc</a></li>
-			    <li class="dropup">
-			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
-			     <ul class="dropdown-menu" role="menu">
-			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Rule</a></li>
-			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
-			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
-               <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
-			     </ul>
-			    </li>
-		    </ul>
 		    
 		  
 	      <!--
