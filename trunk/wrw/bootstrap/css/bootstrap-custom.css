@@ -73,16 +73,23 @@ NOT REALLY BOOTSTRAP
 	width: 100%;
 }
 
-#main-tab-content {
+#main-tab-content, 
+#options-tab-content { 
 	padding-top: 30px;
 }
 
-#options-tab {
-	padding-bottom: 30px;
+#notifications-tab,
+#monitor-tab,
+#autofills-tab {
+	padding-bottom: 35px;
 }
 
 
 * {
 	box-sizing: border-box;
 	font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
+}
+
+.input-group:has(input:checked) input {
+	color: red;
 }

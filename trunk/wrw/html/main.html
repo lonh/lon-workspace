@@ -136,10 +136,10 @@
       {{#rules}}
       <div class="rule row">
         <div class="entry input-group">
-            <span class="input-group-addon">
-                <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
-            </span>
-          <div class="/*inputs*/">
+          <span class="input-group-addon">
+            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+          </span>
+          <div>
             <input type="text" class="source form-control" placeholder="Search string in request" value="{{source}}"/>
             <input type="text" class="replace form-control" placeholder="Replace with" value="{{replace}}"/>
           </div>
@@ -253,6 +253,7 @@
       {{#autofills}}
       <li>
         <div class="entry">
+          <button type="button" class="close" aria-hidden="true">&times;</button>
           <input type="radio" class="toggle" name="autofills"/>
           <div class="form-data">
             <div class="field">
@@ -277,7 +278,7 @@
                 {{/forms}}
             </ol>
           </div>
-          <div class="del"></div>
+          <!-- <div class="del"></div> -->
         </div>
       </li>
       {{/autofills}}
