@@ -216,7 +216,7 @@ lon.mim.Options = new function (main) {
 lon.mim.notifications = new function (main) {
   // Private stuff
   var notificationsTab = null;
-  //var notificationLog = null;
+  var notificationLog = null;
   var notifications = [];
   // public stuff
   return {
@@ -224,7 +224,7 @@ lon.mim.notifications = new function (main) {
       var o = this;
       
       notificationsTab = $('#notifications-tab');
-      //notificationLog = $('.list .items', notificationsTab);
+      notificationLog = $('.list', notificationsTab);
       
       $('button.clear', notificationsTab).on('click', function () {  
         while (notifications.length) {
@@ -252,7 +252,7 @@ lon.mim.notifications = new function (main) {
       });
     },
     displayNotification: function (notification) {
-        notificationsTab
+        notificationLog
             .append($('#templates .notification-log-template').mustache(notification))
             .prop({'scrollTop': notificationLog.prop('scrollHeight')});
     }
