@@ -17,7 +17,8 @@ Overwrite some of the default bootstrap style
     
 body, 
 .dropdown-menu, 
-.form-control {
+.form-control,
+.input-group-addon  {
 	font-size: 13px;
 }
 
@@ -58,6 +59,14 @@ label {
     padding-bottom: 0px;
 }
 
+.form-group {
+	margin-bottom: 5px;
+}
+
+.modal-content {
+	display: table;
+	margin: auto;
+}
 
 .alert {
 	bottom: 0px;
@@ -66,6 +75,20 @@ label {
 	padding: 5px;
 	display: none;
 }
+
+/**
+Customize modal dialog 
+**/
+.modal-header,
+.modal-body,
+.modal-fotter {
+    padding: 5px;	
+}
+
+.modal-footer {
+	margin-top: 5px;
+}
+
 
 /**
 NOT REALLY BOOTSTRAP

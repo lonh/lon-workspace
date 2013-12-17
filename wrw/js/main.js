@@ -441,7 +441,7 @@ lon.mim.autofill = new function (main) {
       });
       
       autofillTab = $('#autofills-tab'),
-      list = $('.list ul', autofillTab),
+      list = $('.list', autofillTab),
       status = $('.status', autofillTab);
 
       
@@ -509,23 +509,37 @@ lon.mim.autofill = new function (main) {
       });
 
       // Set up delete autofill
-      list.on('click', '.del', function (event) {
-        var del = $(this);
-        $('#dialog-delete-form-entry').dialog({
-            modal: true, 
-            buttons: {
-                Yes: function () {
-                    del.closest('li').remove();
-                    main.eventHub.send(main.eventMessages.AutoFillsChanged);
-                    $(this).dialog('close');
-                },
-                Cancel: function () {
-                    $(this).dialog('close');
-                }
-            }
-        });
-          
-      });
+//      list.on('click', '.del', function (event) {
+//        var del = $(this);
+//        $('#dialog-delete-form-entry').dialog({
+//            modal: true, 
+//            buttons: {
+//                Yes: function () {
+//                    del.closest('li').remove();
+//                    main.eventHub.send(main.eventMessages.AutoFillsChanged);
+//                    $(this).dialog('close');
+//                },
+//                Cancel: function () {
+//                    $(this).dialog('close');
+//                }
+//            }
+//        });
+//          
+//      });
+      
+	  list.on('click', '.close', function (event) {
+	    var del = $(this);
+	    var dialog = $('#dialog-delete-form-entry');
+	    
+	    dialog.modal('show');
+	    dialog.find('.ok').click(function (event) {
+	    	del.parents('div.entry').remove();
+	    	main.eventHub.send(main.eventMessages.AutoFillsChanged);
+	    	$('#dialog-delete-form-entry').modal('hide');	    	
+	    });
+	  });
+
+      
 
       // Set up delete autofill
       list.on('change', '.form-data input', function (event) {
@@ -533,11 +547,10 @@ lon.mim.autofill = new function (main) {
       });
       
       // Set up click event on form-data to toggle radio button & list
-      list.on('click', 'div.field', function (event) {
+      list.on('click', 'a.pagename', function (event) {
     	  $(this)
-    	  	.parent()
     	  	.siblings('.toggle').trigger('click').end()
-    	  	.find('ol.fields-list').slideToggle('slow');
+    	  	.siblings('ol.fields-list').slideToggle('slow');
     	  
       });
       
@@ -569,10 +582,11 @@ lon.mim.autofill = new function (main) {
     	
     	localStorage['mim_autofills'] = JSON.stringify(autofills);
     	
-    	$('.status', autofillTab).html('Form data Saved.').fadeIn('slow');
-	        setTimeout(function() {
-	            $('.status').fadeOut('slow');
-	    }, 2000);
+//    	$('.status', autofillTab).html('Form data Saved.').fadeIn('slow');
+//	        setTimeout(function() {
+//	            $('.status').fadeOut('slow');
+//	    }, 2000);
+    	$(".form-data-saved").stop(true, true).show().fadeOut(1500);
     },
     addAutoFill: function (autofill) {
     	if (undefined != autofill && autofill.forms && autofill.forms.length != 0) {

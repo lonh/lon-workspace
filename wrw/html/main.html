@@ -123,6 +123,7 @@
     
   <!-- Mesasges -->
   <div class="alert alert-success options-saved">Options saved.</div>   
+  <div class="alert alert-success form-data-saved">Form data saved.</div>   
     
   <div id="templates" style="display:none;">
     <!-- Filter rule template -->
@@ -243,28 +244,31 @@
       </div>
     </div>
     
-    <ul class="autofill-template">
+    <div class="autofill-template">
       {{#autofills}}
-      <li>
         <div class="entry">
-          <button type="button" class="close" aria-hidden="true">&times;</button>
-          <input type="radio" class="toggle" name="autofills"/>
+          <button type="button" class="close" aria-hidden="true" >&times;</button>
           <div class="form-data">
-            <div class="field">
-                <label>Notes</label>
-                <input type="text" name="comment" value="{{comment}}"/>
-                <input type="hidden" name="pagename" value="{{pagename}}"/>
-                <input type="hidden" name="hostname" value="{{hostname}}"/>
-            </div>
+            <input type="radio" class="toggle" name="autofills"/>
             <a href="#" class="pagename">{{pagename}}</a>
+            <div class="input-group notes">
+	            <span class="input-group-addon">Notes:</span>
+	            <div>
+    	            <input type="text" class="form-control" name="comment" value="{{comment}}" />
+	                <input type="hidden" name="pagename" value="{{pagename}}"/>
+	                <input type="hidden" name="hostname" value="{{hostname}}"/>
+	            </div>
+	        </div>
             <ol class="fields-list">
                 {{#forms}}
                 <li>
-                  <form>
+                  <form class="form-horizontal" role="form">
                   {{#.}}
-                    <div class="field">
-                        <label>{{name}}</label>
-                        <input type="text" name="{{name}}" value="{{value}}" />
+                    <div class="form-group">
+                        <label for="{{name}}" class="col-xs-3 control-label">{{name}}</label>
+                        <div class="col-xs-9">
+	                        <input type="text" class="form-control" id="{{name}}" name="{{name}}" value="{{value}}" >
+                        </div>
                     </div>
                   {{/.}}
                   </form>
@@ -272,16 +276,15 @@
                 {{/forms}}
             </ol>
           </div>
-          <!-- <div class="del"></div> -->
         </div>
-      </li>
       {{/autofills}}
-    </ul>
+    </div>
 
     <!-- Dialogs  -->
-    <div id="dialog-delete-form-entry" title="Confirmation">
+    <!-- <div id="dialog-delete-form-entry" title="Confirmation">
       <p>This will delete the form data from local storage and cannot be undo!</p>
-    </div>
+    </div> -->
+    
 
     <div id="dialog-update-form-entry" title="Confirmation">
       <p>This will replace the form data in your local storage and cannot be undo!</p>
@@ -312,6 +315,29 @@
     <!-- <div id="dialog-form-data" title="Access form data">
       <textarea class="form-data-content"></textarea>
     </div> -->
+    
+    
+  </div> <!-- /.templates -->    
+    
+  <div class="modal fade" id="dialog-delete-form-entry" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5 class="modal-title">Delete form data entry!</h5>
+        </div>
+        <div class="modal-body">
+          <p>This will delete the form data from local storage and cannot be undo!</p>
+        </div>
+        <div class="modal-footer">
+	        <div class="btn-group btn-group-sm">
+	          <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+	          <button type="button" class="btn btn-primary ok">OK</button>
+	        </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
   
   <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
   <!-- <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script> -->
