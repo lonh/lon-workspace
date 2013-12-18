@@ -7,7 +7,12 @@ lon.mim.Main = new function () {
     // Public stuff
     return {
         options: {},
-        eventMessages: {'OptionsChanged': 'options.changed', 'NotificationFired':'notification.fired', 'AutoFillsChanged': 'autofills.changed', 'AutoFillsAdded': 'autofills.added', 'AutoFillsUploaded': 'autofills.uploaded'},
+        eventMessages: {
+        	'OptionsChanged': 'options.changed', 
+        	'NotificationFired':'notification.fired', 
+        	'AutoFillsChanged': 'autofills.changed', 
+        	'AutoFillsAdded': 'autofills.added', 
+        	'AutoFillsUploaded': 'autofills.uploaded'},
         eventHub: null,
         initialize: function () {
             var o = this;
@@ -136,7 +141,7 @@ lon.mim.Options = new function (main) {
             this.loadOptions();
         },
         newRule: function () {
-            $('#replace-rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
+            $('#rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         }, 
         newWatch: function () {
@@ -144,7 +149,7 @@ lon.mim.Options = new function (main) {
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newHeader: function () {
-            $('#custom-headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+            $('#headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newBlock: function () {
@@ -152,7 +157,7 @@ lon.mim.Options = new function (main) {
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {
-            $(btn).parents('.row').remove();
+            $(btn).parents('.entry').remove();
         },
         saveOptions: function () {
             var entries = $('.entry', optiontab);
@@ -168,8 +173,7 @@ lon.mim.Options = new function (main) {
             
             var watches = entries.map(function (index, entry) {
                 var elem = $(entry);
-                var source = $('.source', elem).val();
-                var replace = $('.replace', elem).val();
+                var source = $('.watch', elem).val();
                 var checked = $('.toggle', elem).prop('checked');
                 if (source && !replace) {
                     return [{'source': source, 'checked': checked}];
@@ -185,27 +189,31 @@ lon.mim.Options = new function (main) {
                     return [{'name': name, 'value': value, 'checked': checked}];
                 }
             }).get();
+            
+            var blocks = entries.map(function (index, entry) {
+                var elem = $(entry);
+                var bock = $('.block', elem).val();
+                var checked = $('.toggle', elem).prop('checked');
+                if (name) {
+                    return [{'block': block, 'checked': checked}];
+                }
+            }).get();
 
             main.options.headers = headers;
             main.options.rules = rules;
             main.options.watches = watches;
+            main.options.block = block;
             main.options.shownotifications = $('#shownotifications', optiontab).prop('checked');
             main.options.calleronly = $('#calleronly', optiontab).prop('checked');
             
             main.eventHub.send(main.eventMessages.OptionsChanged);
             
-//            $('.status', optiontab).html('Options Saved.').fadeIn('slow');
-//                setTimeout(function() {
-//                    $('.status').fadeOut('slow');
-//            }, 2000);
-            
             $(".options-saved").stop(true, true).show().fadeOut(1500);
-            
         },
         loadOptions: function () {
-            list.append($('#templates .rule-template').mustache({rules: main.options.rules}));
-            list.append($('#templates .watch-template').mustache({watches: main.options.watches}));
-            list.append($('#templates .request-header-template').mustache({headers: main.options.headers}));
+            $('#rules', optiontab).append($('#templates .rule-template').mustache({rules: main.options.rules}));
+            $('#watches', optiontab).append($('#templates .watch-template').mustache({watches: main.options.watches}));
+            $('#headers', optiontab).append($('#templates .request-header-template').mustache({headers: main.options.headers}));
 
              $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
              $('#calleronly', optiontab).prop('checked', main.options.calleronly);
