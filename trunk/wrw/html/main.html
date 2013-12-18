@@ -3,10 +3,8 @@
 <head>
   <title>MiM</title>
   <link type="text/css" href="/css/common.css" rel="stylesheet" />
-  <!-- <link type="text/css" href="/jquery-ui-1.10.0.custom/css/smoothness/jquery-ui-1.10.0.custom.min.css" rel="stylesheet" /> -->
   <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
   <link type="text/css" href="/bootstrap/css/bootstrap-custom.css" rel="stylesheet" />
-  <!-- <link type="text/css" href="/bootstrap/css/bootstrap-theme.min.css" rel="stylesheet" /> -->
 </head>
 <body>
     <ul id="main-nav-tab" class="nav nav-tabs">
@@ -15,54 +13,53 @@
       <li><a href="#monitor-tab" data-toggle="tab">Request</a></li>
       <li><a href="#autofills-tab" data-toggle="tab">Form</a></li>
     </ul>
-    <!-- 
-    <div id="main-menu">
-        <input type="radio" id="options" name="main-menu" /><label for="options">Options</label>
-        <input type="radio" id="notifications" name="main-menu" /><label for="notifications">Notifications</label>
-        <input type="radio" id="monitor" name="main-menu" /><label for="monitor">Requests</label>
-        <input type="radio" id="autofills" name="main-menu" /><label for="autofills">Fill Form</label>
-    </div>
-     -->
+
     <div id="main-tab-content" class="tab-content">
 	    <div id="options-tab" class="tab-pane in active">
-	      <ul id="options-nav" class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
-			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
-			    <li><a data-toggle="pill" href="#headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
-			    <li><a data-toggle="pill" href="#blocks"><!-- <i class="glyphicon glyphicon-stop small"></i>  -->Blocks</a></li>
-			    <li><a data-toggle="pill" href="#misc">Misc</a></li>
-			    <li class="dropdown">
+	       <ul id="options-nav" class="nav nav-pills">
+		      <li class="active"><a data-toggle="pill" href="#rules">Rules</a></li>
+			  <li><a data-toggle="pill" href="#watches">Watches</a></li>
+			  <li><a data-toggle="pill" href="#headers">Headers</a></li>
+			  <li><a data-toggle="pill" href="#blocks">Blocks</a></li>
+			  <li><a data-toggle="pill" href="#misc">Misc</a></li>
+			  <li class="dropdown">
 			     <a class="dropdown-toggle" data-toggle="dropdown" href="#">New <span class="caret"></span></a>
 			     <ul class="dropdown-menu" role="menu">
 			         <li role="presentation"><a role="menuitem" href="#" class="new-rule">Search/replace Rule</a></li>
 			         <li role="presentation"><a role="menuitem" href="#" class="new-watch">Watch</a></li>
 			         <li role="presentation"><a role="menuitem" href="#" class="new-header">Custom Header</a></li>
-               <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
+                     <li role="presentation"><a role="menuitem" href="#" class="new-block">Block</a></li>
 			     </ul>
-			    </li>
-		    </ul>
-        <div id="options-tab-content" class="tab-content">
-          <div id="rules" class="tab-pane in active"></div>
-          <div id="watches" class="tab-pane"></div>
-          <div id="blocks" class="tab-pane"></div>
-          <div id="headers" class="tab-pane"></div>
-          <div id="misc" class="tab-pane">
-                  <input type="checkbox" class="toggle" id="calleronly" />
-              <label for="calleronly" 
-                  title="Only intercept the triggering tab.<br/>(Default to all tabs)" >
-                    Only monitor on calling tab.
-              </label>
-              <br/>
-              <input type="checkbox" class="toggle" id="shownotifications" />
-              <label for="shownotifications" 
-                  title="Send desktop notification when 'Watching' request detected." >
-                    Display <b>desktop</b> notifications.
-              </label>
-            </div>
-        </div>
-		    
-		  
-	      <!--
+			  </li>
+		   </ul>
+			<div id="options-tab-content" class="tab-content">
+				<div id="rules" class="tab-pane in active"></div>
+				<div id="watches" class="tab-pane"></div>
+				<div id="blocks" class="tab-pane"></div>
+				<div id="headers" class="tab-pane"></div>
+				<div id="misc" class="tab-pane">
+					<input type="checkbox" class="toggle" id="calleronly" /> 
+					<label
+						for="calleronly"
+						title="Only intercept the triggering tab.<br/>(Default to all tabs)">
+						Only monitor on calling tab. </label> 
+				    <br />
+				    <input type="checkbox"
+						class="toggle" id="shownotifications" /> <label
+						for="shownotifications"
+						title="Send desktop notification when 'Watching' request detected.">
+						Display <b>desktop</b> notifications.
+					</label>
+					<br />
+					<input type="checkbox" class="toggle" id="logallrequests" />
+					<label for="logallrequests"
+						title="Log all requests in 'Request' tab.<br/>(Default to replaced/watched/blocked).">
+						Log all requests. </label>
+				</div>
+			</div>
+
+
+			<!--
 	      <div class="actions">
 	        <button type="button" class="btn btn-default btn-sm new-rule" 
 	            title="Define a search/replace value pair.<br/><br/>
@@ -124,72 +121,66 @@
   <!-- Mesasges -->
   <div class="alert alert-success options-saved">Options saved.</div>   
   <div class="alert alert-success form-data-saved">Form data saved.</div>   
+  <div class="alert alert-success form-data-filled"></div>   
     
   <div id="templates" style="display:none;">
     <!-- Filter rule template -->
     <div class="rule-template">
       {{#rules}}
-      <div class="rule">
         <div class="entry input-group">
           <span class="input-group-addon">
-            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
+            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
           </span>
           <div>
             <input type="text" class="source form-control" placeholder="Search string in request" value="{{source}}"/>
-            <input type="text" class="replace form-control" placeholder="Replace with" value="{{replace}}"/>
+            <input type="text" class="replace form-control" placeholder="Replace with ..." value="{{replace}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
           </span>
           <!-- <div class="del"></div> -->
         </div>
-      </div>
       {{/rules}}
     </div>
     <ul class="watch-template">
       {{#watches}}
-      <div class="watch">
         <div class="entry input-group">
           <span class="input-group-addon">
-            <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
           </span>
-          <div class="/*inputs*/">
-            <input type="text" class="watch form-control" placeholder="Capture request with string ..." value="{{source}}"/>
+          <div>
+            <input type="text" class="watch form-control" placeholder="Capture requests that contains ..." value="{{source}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
           </span>
          <!--  <div class="del"></div> -->
         </div>
-      </div>
       {{/watches}}
     </ul>
     <ul class="block-template">
-      {{#watches}}
-      <div class="block">
+      {{#blocks}}
         <div class="entry input-group">
           <span class="input-group-addon">
-            <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
           </span>
-          <div class="/*inputs*/">
-            <input type="text" class="source block form-control" placeholder="Block request with string" value="{{source}}"/>
+          <div>
+            <input type="text" class="block form-control" placeholder="Block requests that contains ..." value="{{block}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
           </span>
          <!--  <div class="del"></div> -->
         </div>
-      </div>
-      {{/watches}}
+      {{/blocks}}
     </ul>
     <ul class="request-header-template">
       {{#headers}}
-      <div class="request-headers">
 	      <div class="entry input-group">
 	        <span class="input-group-addon">
-	           <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
+	           <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
 	        </span>
-	        <div class="/*inputs*/">
+	        <div>
 	          <input type="text" class="name form-control" placeholder="Header Name" value="{{name}}" />
 	          <input type="text" class="value form-control" placeholder="Header Value" value="{{value}}" />
 	        </div>
@@ -198,7 +189,6 @@
 	        </span>
 	        <!-- <div class="del"></div> -->
 	      </div>
-      </div>
       {{/headers}}
     </ul>
 
@@ -279,45 +269,46 @@
         </div>
       {{/autofills}}
     </div>
-
-    <!-- Dialogs  -->
-    <!-- <div id="dialog-delete-form-entry" title="Confirmation">
-      <p>This will delete the form data from local storage and cannot be undo!</p>
-    </div> -->
-    
-
-    <div id="dialog-update-form-entry" title="Confirmation">
-      <p>This will replace the form data in your local storage and cannot be undo!</p>
-    </div>
-    
-    <div id="dialog-choose-form" title="Message">
-      <p>Please choose a form entry!</p>
-    </div>
-  
-    <!-- Modal -->
-	<div class="modal fade" id="dialog-form-data" tabindex="-1" role="dialog" aria-hidden="true">
-	  <div class="modal-dialog">
-	    <div class="modal-content">
-	      <div class="modal-header">
-	        <h4 class="modal-title" id="myModalLabel">Access form data</h4>
-	      </div>
-	      <div class="modal-body">
-	        <textarea class="form-data-content"></textarea>
-	      </div>
-	      <div class="modal-footer">
-	        <button type="button" class="btn btn-default small" data-dismiss="modal">Close</button>
-	        <button type="button" class="btn btn-primary small">Save changes</button>
-	      </div>
-	    </div><!-- /.modal-content -->
-	  </div><!-- /.modal-dialog -->
-	</div><!-- /.modal -->
-  
-    <!-- <div id="dialog-form-data" title="Access form data">
-      <textarea class="form-data-content"></textarea>
-    </div> -->
-    
     
   </div> <!-- /.templates -->    
+  <div class="modal fade" id="dialog-choose-form" tabindex="-1" role="dialog" aria-hidden="true">
+    <div class="modal-dialog">
+      <div class="modal-content">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+          <h5>Fill form data</h5>
+        </div>
+        <div class="modal-body">
+          <span>Please choose a form entry!</span>
+        </div>
+        <div class="modal-footer">
+            <div class="btn-group btn-group-sm">
+              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+            </div>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
+  
+  <!-- Modal -->
+   <div class="modal fade" id="dialog-form-data" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Form data</h5>
+      </div>
+      <div class="modal-body">
+        <textarea class="form-data-content"></textarea>
+      </div>
+      <div class="modal-footer">
+        <div class="btn-group btn-group-sm">
+           <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
+           <button type="button" class="btn btn-primary save">Save changes</button>
+        </div>
+      </div>
+        </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal -->
     
   <div class="modal fade" id="dialog-delete-form-entry" tabindex="-1" role="dialog" aria-hidden="true">
     <div class="modal-dialog">
@@ -327,7 +318,7 @@
           <h5 class="modal-title">Delete form data entry!</h5>
         </div>
         <div class="modal-body">
-          <p>This will delete the form data from local storage and cannot be undo!</p>
+          <span>This will delete the form data from local storage and cannot be undo!</span>
         </div>
         <div class="modal-footer">
 	        <div class="btn-group btn-group-sm">
@@ -340,7 +331,6 @@
   </div><!-- /.modal -->
   
   <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-  <!-- <script type="text/javascript" src="/jquery-ui-1.10.0.custom/js/jquery-ui-1.10.0.custom.min.js"></script> -->
   <script type="text/javascript" src="/js/jquery.mustache.js"></script>
   <script type="text/javascript" src="/js/jquery.mHub.js"></script>
   <script type="text/javascript" src="/js/main.js"></script>
