@@ -26,9 +26,9 @@
     <div id="main-tab-content" class="tab-content">
 	    <div id="options-tab" class="tab-pane in active">
 	      <ul id="options-nav" class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#replace-rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
+		      <li class="active"><a data-toggle="pill" href="#rules"><!-- <i class="glyphicon glyphicon-sort small"></i> -->Rules</a></li>
 			    <li><a data-toggle="pill" href="#watches"><!-- <i class="glyphicon glyphicon-eye-open small"></i>  -->Watches</a></li>
-			    <li><a data-toggle="pill" href="#custom-headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
+			    <li><a data-toggle="pill" href="#headers"><!-- <i class="glyphicon glyphicon-header small"></i>  -->Headers</a></li>
 			    <li><a data-toggle="pill" href="#blocks"><!-- <i class="glyphicon glyphicon-stop small"></i>  -->Blocks</a></li>
 			    <li><a data-toggle="pill" href="#misc">Misc</a></li>
 			    <li class="dropdown">
@@ -42,10 +42,10 @@
 			    </li>
 		    </ul>
         <div id="options-tab-content" class="tab-content">
-          <div id="replace-rules" class="tab-pane in active"></div>
+          <div id="rules" class="tab-pane in active"></div>
           <div id="watches" class="tab-pane"></div>
           <div id="blocks" class="tab-pane"></div>
-          <div id="custom-headers" class="tab-pane"></div>
+          <div id="headers" class="tab-pane"></div>
           <div id="misc" class="tab-pane">
                   <input type="checkbox" class="toggle" id="calleronly" />
               <label for="calleronly" 
@@ -127,7 +127,7 @@
     
   <div id="templates" style="display:none;">
     <!-- Filter rule template -->
-    <ul class="rule-template">
+    <div class="rule-template">
       {{#rules}}
       <div class="rule">
         <div class="entry input-group">
@@ -145,7 +145,7 @@
         </div>
       </div>
       {{/rules}}
-    </ul>
+    </div>
     <ul class="watch-template">
       {{#watches}}
       <div class="watch">
@@ -154,7 +154,7 @@
             <input type="checkbox" class="/* toggle */" {{#checked}}checked=checked{{/checked}}/>
           </span>
           <div class="/*inputs*/">
-            <input type="text" class="source watch form-control" placeholder="Capture request with string ..." value="{{source}}"/>
+            <input type="text" class="watch form-control" placeholder="Capture request with string ..." value="{{source}}"/>
           </div>
           <span class="input-group-addon">
             <button type="button" class="close" aria-hidden="true">&times;</button>
