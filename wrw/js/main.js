@@ -38,8 +38,8 @@ lon.mim.Main = new function () {
             });
             
             $(window).on('resize unload', function (){
-                o.options.prefs.width=document.width; 
-                o.options.prefs.height=document.height;
+                o.options.prefs.width=$(document).width(); 
+                o.options.prefs.height=$(document).height();
                 o.options.prefs.top=this.screenTop;
                 o.options.prefs.left=this.screenLeft;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
