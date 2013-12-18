@@ -32,13 +32,6 @@ lon.mim.Main = new function () {
                 o.updateOptions();
             });
 
-            // Set up top tab buttons
-            //$('#main-menu').buttonset();
-            // Set up tab actions
-//            $('#main-menu input').on('click', function(event){
-//                o.switchTab($(this).attr('id'));
-//            });
-            
             // ESC to close
             $(document).keyup(function(event) {
                 event.keyCode === 27 ? window.close() : null;
@@ -52,28 +45,11 @@ lon.mim.Main = new function () {
                 o.eventHub.send(o.eventMessages.OptionsChanged);
             });
 
-            //$('button').button();
             $('button.exit').on('click', function () { window.close(); });
-            
-            // retrieve previous stored tab id
-            var defaultTab = o.options.prefs.tab || 'options';
-            $('input#' + defaultTab).attr('checked', 'true').button('refresh');
-
-            //o.switchTab(defaultTab);
-            
-            //$(document).tooltip();
-            /*$('[title]').tooltip({
-            	position: { my: 'center bottom-10', at: 'center top' },
-            	show: { 'delay': 350 },
-                content: function() {
-                    return $(this).attr('title');
-                }
-            });*/
+           
             $('[title]').tooltip({html: true});
         },
         switchTab: function (tabId) {
-            //$('.container').hide().filter('#'+tabId+'-tab').show();
-            
             // Store into preferences
             this.options.prefs.tab = tabId;
             this.eventHub.send(this.eventMessages.OptionsChanged);
@@ -97,7 +73,8 @@ lon.mim.Main = new function () {
             opt.prefs.height = opt.prefs.height || 0;
             opt.rules = opt.rules || [];
             opt.watches = opt.watches || [];
-            opt.headers = opt.headers || {};
+            opt.headers = opt.headers || [];
+            opt.blocks = opt.blocks || [];
 
             this.options = opt;
         },
@@ -123,88 +100,88 @@ lon.mim.Options = new function (main) {
             $('.new-rule', optiontab).on('click', function () { o.newRule(); });
             $('.new-watch', optiontab).on('click', function () { o.newWatch(); });
             $('.new-header', optiontab).on('click', function () { o.newHeader(); });
+            $('.new-block', optiontab).on('click', function () { o.newBlock(); });
             
-            optiontab.on('change', 'input', function () {o.saveOptions();});
-            
-            optiontab.on('click', '.close', function (event) {
-                    o.deleteOption(this);
-                    o.saveOptions();
-                });/*
-                .sortable({ 
-                    axis: 'y',
-                    containment: 'parent',
-                    revert: false,
-                    'update': o.saveOptions
-                })
-                .disableSelection();*/
+            optiontab
+            	.on('change', 'input', function () {o.saveOptions();})
+            	.on('click', '.close', function (event) {
+	                o.deleteOption(this);
+	                o.saveOptions();
+	            });
 
             this.loadOptions();
         },
         newRule: function () {
+        	optiontab.find('a[href=#rules]').tab('show');
             $('#rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         }, 
         newWatch: function () {
+        	optiontab.find('a[href=#watches]').tab('show');
             $('#watches').append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newHeader: function () {
+        	optiontab.find('a[href=#headers]').tab('show');
             $('#headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newBlock: function () {
-            $('#blocks').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+        	optiontab.find('a[href=#blocks]').tab('show');
+            $('#blocks').append($('#templates .block-template').mustache({"blocks": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         deleteOption: function (btn) {
             $(btn).parents('.entry').remove();
         },
         saveOptions: function () {
-            var entries = $('.entry', optiontab);
-            var rules = entries.map(function (index, entry) {
+            var rules = optiontab.find('#rules .entry').map(function (index, entry) {
                 var elem = $(entry);
-                var source = $('.source', elem).val();
-                var replace = $('.replace', elem).val();
-                var checked = $('.toggle', elem).prop('checked');
+                var source = elem.find('.source').val();
+                var replace = elem.find('.replace').val();
+                var checked = elem.find('.toggle').prop('checked');
                 if (source && replace) {
                     return [{'source': source, 'replace': replace, 'checked': checked}];
                 }
             }).get();
             
-            var watches = entries.map(function (index, entry) {
+            var watches = optiontab.find('#watches .entry').map(function (index, entry) {
                 var elem = $(entry);
-                var source = $('.watch', elem).val();
-                var checked = $('.toggle', elem).prop('checked');
-                if (source && !replace) {
-                    return [{'source': source, 'checked': checked}];
+                var watch = elem.find('.watch').val();
+                var checked = elem.find('.toggle').prop('checked');
+                if (watch) {
+                    return [{'source': watch, 'checked': checked}];  // backwards compatibility 'source'
                 }
             }).get();
 
-            var headers = entries.map(function (index, entry) {
+            var headers = optiontab.find('#headers .entry').map(function (index, entry) {
                 var elem = $(entry);
-                var name = $('.name', elem).val();
-                var value = $('.value', elem).val();
-                var checked = $('.toggle', elem).prop('checked');
+                var name = elem.find('.name').val();
+                var value = elem.find('.value').val();
+                var checked = elem.find('.toggle').prop('checked');
                 if (name) {
                     return [{'name': name, 'value': value, 'checked': checked}];
                 }
             }).get();
             
-            var blocks = entries.map(function (index, entry) {
+            var blocks = optiontab.find('#blocks .entry').map(function (index, entry) {
                 var elem = $(entry);
-                var bock = $('.block', elem).val();
-                var checked = $('.toggle', elem).prop('checked');
-                if (name) {
+                var block = elem.find('.block').val();
+                var checked = elem.find('.toggle').prop('checked');
+                if (block) {
                     return [{'block': block, 'checked': checked}];
                 }
             }).get();
 
-            main.options.headers = headers;
-            main.options.rules = rules;
-            main.options.watches = watches;
-            main.options.block = block;
-            main.options.shownotifications = $('#shownotifications', optiontab).prop('checked');
-            main.options.calleronly = $('#calleronly', optiontab).prop('checked');
+            $.extend(main.options, {
+            	'headers' : headers,
+                'rules' : rules,
+                'watches' :  watches,
+                'blocks' : blocks,
+                'shownotifications' : $('#shownotifications', optiontab).prop('checked'),
+                'calleronly' : $('#calleronly', optiontab).prop('checked'),
+                'logallrequests' : $('#logallrequests', optiontab).prop('checked')
+            });
             
             main.eventHub.send(main.eventMessages.OptionsChanged);
             
@@ -213,10 +190,12 @@ lon.mim.Options = new function (main) {
         loadOptions: function () {
             $('#rules', optiontab).append($('#templates .rule-template').mustache({rules: main.options.rules}));
             $('#watches', optiontab).append($('#templates .watch-template').mustache({watches: main.options.watches}));
+            $('#blocks', optiontab).append($('#templates .block-template').mustache({blocks: main.options.blocks}));
             $('#headers', optiontab).append($('#templates .request-header-template').mustache({headers: main.options.headers}));
 
              $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
              $('#calleronly', optiontab).prop('checked', main.options.calleronly);
+             $('#logallrequests', optiontab).prop('checked', main.options.logallrequests);
         }
     }
 }(lon.mim.Main);
@@ -241,7 +220,7 @@ lon.mim.notifications = new function (main) {
             } catch(e){}
          };
 
-         notificationsTab.empty();
+         notificationLog.empty();
       });
 
       //$(document).on('notification.fired', function (event, decodedUrl) {
@@ -283,7 +262,7 @@ lon.mim.Monitor = new function (main) {
             
             target = main.getParameterByName("tid") + 0;
 
-            monitorLog = $('#monitor-tab .list .items');
+            monitorLog = $('#monitor-tab .list');
             
             $('#monitor-tab button.clear').click(function () {
                 o.clearLog();
@@ -316,7 +295,22 @@ lon.mim.Monitor = new function (main) {
                     return;
                 }
 
-                var logs = [], redirectedRequest = null;
+                var logs = [], redirectedRequest = null, blockedRequest = false;
+                
+                $.each(main.options.blocks, function (indx, block) {
+                    if (block.checked && info.url.indexOf(block.block) !== -1) {
+                    	logs.push({'origin': info.url, 'block': block});
+                    	blockedRequest = true;
+                    	return false;
+                    }
+                });
+                
+                if (blockedRequest) {
+                	o.displayLogging(logs);
+                    return { cancel : true };
+                }
+                
+                
                 $.each(main.options.rules, function (indx, rule) {
                     var origin = redirectedRequest || info.url;
                     if (rule.checked && origin.indexOf(rule.source) !== -1) {
@@ -335,12 +329,15 @@ lon.mim.Monitor = new function (main) {
                     return { redirectUrl : redirectedRequest };
                 } else {
                     o.checkRequestForWatch(info);
-                    o.appendTrace(info.url);
+                    
+                    if (main.options.logallrequests) {
+                    	o.appendTrace(info.url);                    	
+                    }
                 }
             },
             // filters
             {
-                urls: ['<all_urls>']
+                urls: []
             },
             // extraInfoSpec
             [ 'blocking' ]);
@@ -382,17 +379,28 @@ lon.mim.Monitor = new function (main) {
         },
         displayLogging: function (logs) {
             var matchers = $.map(logs, function(log, index) {
-                var origins = log.origin.split(log.rule.source);
-                var results = log.result.split(log.rule.replace);
-
-                return {
-                    ohead: origins[0],
-                    obody: log.rule.source,
-                    otail: origins.length > 1 ? origins[1] : null,
-                    rhead: results[0],
-                    rbody: log.rule.replace,
-                    rtail: results.length > 1 ? results[1] : null
-                };
+            	
+            	if (log.block) {
+            		var origins = log.origin.split(log.block.block);
+            		return {
+            			ohead: "[BLOCKED] " + origins[0],
+                        obody: log.block.block,
+                        otail: origins.length > 1 ? origins[1] : null,
+            		};
+            	} else {
+            		var origins = log.origin.split(log.rule.source);
+            		var results = log.result.split(log.rule.replace);
+            		
+            		return {
+            			ohead: "[ORIGIN] " + origins[0],
+            			obody: log.rule.source,
+            			otail: origins.length > 1 ? origins[1] : null,
+            			rhead: "[REDIRECT] " + results[0],
+            			rbody: log.rule.replace,
+            			rtail: results.length > 1 ? results[1] : null
+            		};
+            	}
+            	
             });
 
             //TODO while there are more than one occurrences, this is only displaying first one
@@ -484,67 +492,32 @@ lon.mim.autofill = new function (main) {
       
       // Set up form data button
       $('button.form-data').on('click', function () {
-        var del = $(this);
-        $('#dialog-form-data').dialog({
-            modal: true, 
-            width: 550,
-            height: 450,
-            open: function() {
-                $(this).find('.form-data-content').html(localStorage['mim_autofills']).select();
-            },
-            buttons: {
-                Upload: function () {
-                	$('#dialog-update-form-entry').dialog({
-                        modal: true, 
-                        buttons: {
-                            Yes: function () {
-                                main.eventHub.send(main.eventMessages.AutoFillsUploaded, $('.form-data-content').val());
-                                
-                                $(this).dialog('close');
-                                $('#dialog-form-data').dialog('close');
-                            },
-                            Cancel: function () {
-                                $(this).dialog('close');
-                            }
-                        }
-                    });
-                },
-                Cancel: function () {
-                    $(this).dialog('close');
-                }
-            }
-        });
+    	  var dialog = $('#dialog-form-data');
+    	  dialog
+    	  .on('shown.bs.modal', function () {
+    		  dialog.find('.form-data-content').html(localStorage['mim_autofills']).select();
+    		  dialog.find('.save').off().click(function (e) {
+    			  main.eventHub.send(main.eventMessages.AutoFillsUploaded, $('.form-data-content').val());
+    			  dialog.modal('hide');
+    		  });
+    	  })
+    	  .modal('show');
       });
 
-      // Set up delete autofill
-//      list.on('click', '.del', function (event) {
-//        var del = $(this);
-//        $('#dialog-delete-form-entry').dialog({
-//            modal: true, 
-//            buttons: {
-//                Yes: function () {
-//                    del.closest('li').remove();
-//                    main.eventHub.send(main.eventMessages.AutoFillsChanged);
-//                    $(this).dialog('close');
-//                },
-//                Cancel: function () {
-//                    $(this).dialog('close');
-//                }
-//            }
-//        });
-//          
-//      });
       
 	  list.on('click', '.close', function (event) {
-	    var del = $(this);
+	    var close = $(this);
 	    var dialog = $('#dialog-delete-form-entry');
 	    
-	    dialog.modal('show');
-	    dialog.find('.ok').click(function (event) {
-	    	del.parents('div.entry').remove();
-	    	main.eventHub.send(main.eventMessages.AutoFillsChanged);
-	    	$('#dialog-delete-form-entry').modal('hide');	    	
-	    });
+	    dialog
+	    	.on('shown.bs.modal', function (e) {
+	    		dialog.find('.ok').off('click').on('click', function (event) {
+	    			close.parents('div.entry').remove();
+	    			main.eventHub.send(main.eventMessages.AutoFillsChanged);
+	    			dialog.modal('hide');	    	
+	    		});
+	    	})	
+	    	.modal('show');
 	  });
 
       
@@ -590,10 +563,6 @@ lon.mim.autofill = new function (main) {
     	
     	localStorage['mim_autofills'] = JSON.stringify(autofills);
     	
-//    	$('.status', autofillTab).html('Form data Saved.').fadeIn('slow');
-//	        setTimeout(function() {
-//	            $('.status').fadeOut('slow');
-//	    }, 2000);
     	$(".form-data-saved").stop(true, true).show().fadeOut(1500);
     },
     addAutoFill: function (autofill) {
@@ -649,12 +618,11 @@ lon.mim.autofill = new function (main) {
 				}
     		});
     	} else {
-    		/*alert('PLEASE SELECT A FORM ENTRY!');*/
-            $('#dialog-choose-form').dialog({height: 75, resizable: false, modal: true});
+            $('#dialog-choose-form').modal('show');
     	}
     },
     fillformCallback: function (response) {
-    	status.html(response.msg).fadeIn('slow', function() {status.fadeOut(3000)});
+    	$(".form-data-saved").html(response.msg).stop(true, true).show().fadeOut(1500);
     }
   };
   
