@@ -8,7 +8,7 @@ html, body {
     height: 100%;
     margin:0;
     padding:5px;
-    /* overflow: hidden; */
+    overflow: hidden;
 }
 
 /**
@@ -42,11 +42,6 @@ ul, ol {
 label {
 	font-weight: normal;
 }
-
-/*.nav-pills {
-	position: absolute;
-	bottom: 5px;
-}*/
 
 .tab-content {
 	height: 100%;
@@ -94,31 +89,4 @@ Customize modal dialog
 
 .modal-footer {
 	margin-top: 5px;
-}
-
-
-/**
-NOT REALLY BOOTSTRAP
-**/
-
-#main-nav-tab, #options-nav {
-	float: left;
-	width: 100%;
-}
-
-#main-tab-content, 
-#options-tab-content { 
-	padding-top: 30px;
-}
-
-#notifications-tab,
-#monitor-tab,
-#autofills-tab {
-	padding-bottom: 35px;
-}
-
-
-* {
-	box-sizing: border-box;
-	font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
 }

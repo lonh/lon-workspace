@@ -2,70 +2,14 @@
 /********************************************************/
 /* general */
 /********************************************************/
-xxx* {
+* {
     box-sizing: border-box;
-    margin: 0px;
-    padding: 0px;
-    border-radius: 3px;
-    color: #002D62;
-    font-size: 13px;
-    line-height: 1.5em;
-    word-wrap: break-word;
-     font-family: Lucida Grande, sans-serif; 
-    /* font-family: "Trebuchet MS", Arial, Sans-Serif; */
     font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
-    /* -webkit-font-smoothing: antialiased; */
 }
-
-body {
-    /* margin-top: 5px; */
-    /*overflow: hidden;*/
-}
-
-/* #tabs{
-    position: relative;
-    margin: 5px;
-} */
-
-/* #main-menu {
-    position: absolute;
-    z-index: 100;
-    margin: 5px 0 0 15px;
-} */
-
-.container {
-    /*position: relative;
-    z-index: 10;
-    float: left;
-    padding-top: 30px;
-    width:100%;
-    height: 100%;*/
-    /* padding-top: 5px; */
-}
-
-/* #templates {
-    display: none;
-} */
 
 /********************************************************/
 /* options */
 /********************************************************/
-/*#options-tab .list,
-#notifications-tab .list, 
-#autofills-tab .list,
-#monitor-tab .list {
-    height: 100%;
-    width: 100%;
-    padding-bottom: 70px;
-}*/
-/* #autofills-tab .list ul,
-#options-tab .list ul {
-    list-style-type: none;
-    padding: 0 0 0 5px;
-    width: 100%;
-    height: 100%;
-    overflow-y: auto;
-} */
 
 .list {
 	height: 100%;
@@ -73,36 +17,6 @@ body {
 	overflow-y: auto;
 	overflow-x: hidden;
 }
-
-
-/* .header p {
-    padding-left: 20px;
-    display: inline-block;
-}
-
-.header p, .inputs input {
-    width: 100%;
-    margin-right: 5px;
-} */
-
-/* .inputs {
-    margin: 0 30px;
-}
-
-input {
-    border: lightgrey solid 1px;
-    padding: 3px;
-} */
-
-/*.toggle {
-    float: left;
-    margin: 20px 0;
-    width: 20px;
-}
-
-.watch .entry .toggle {
-    margin: 5px 0px;
-}*/
 
 /* Colors for enabled options */
 .toggle:checked ~ * input {
@@ -127,71 +41,22 @@ input {
 
 /* Action buttons on the bottom */
 .actions {
-    /*text-align: center;
-    width: 100%;*/
     position: absolute !important;
     bottom: 6px;
     right: 20px;
 }
 
-/*.settings {
-    bottom: 45px;
-}
-
-.settings .toggle {
-    margin: 2px;
-    float: none;
-    width: auto;
-}*/
-
-/* .template {
-    display: none;
-} */
-
-/* .footer {
-    position: absolute;
-    margin-left: 15px;
-    bottom: 12px;
-}
-
-.footer p {
-    color: red;
-} */
-
 .entry {
     border: 1px silver solid;
     box-shadow: 5px 5px 5px silver;
-    /*height: 65px;*/
     margin: 5px;
     padding: 5px;
     position: relative;
 }
 
-/*.del {
-    height: 16px;
-    width: 16px;
-    background: transparent url('../img/close.png') 0 0 no-repeat;
-    top: 2px;
-    right: 2px;
-    position: absolute;
-}
-
-.del:HOVER {
-    background-image: url('../img/close-hover.png')
-}*/
-
-.request-header {
-    width: 100%;
-    border: lightgrey solid 1px;
-}
-
 /********************************************************/
 /* monitor */
 /********************************************************/
-.list .items {
-    height: 100%;
-    overflow-y: auto;
-}
 
 .request-log {
     margin: 10px;
@@ -258,21 +123,6 @@ input {
 /********************************************************/
 /* monitor */
 /********************************************************/
-/* .field {
-	display: table-row;
-}
-
-.field label, .field input {
-	display: table-cell;
-}
-
-.field label {
-    min-width: 150px;
-}
-
-.field input {
-	min-width: 350px;
-} */
 
 ol.fields-list {
 	display: none;
@@ -284,10 +134,6 @@ ol.fields-list li {
 	margin: 5px;
 	border: 1px dotted #002D62;
 }
-
-/* div.form-data {
-	margin-left: 40px;
-} */
 
 a.pagename {
     font-weight: bolder;
@@ -303,4 +149,25 @@ a.pagename {
     width: 100%;
     height: 100%;
     min-height: 100px;
+}
+
+
+/**
+NOT REALLY BOOTSTRAP
+**/
+
+#main-nav-tab, #options-nav {
+    float: left;
+    width: 100%;
+}
+
+#main-tab-content, 
+#options-tab-content { 
+    padding-top: 30px;
+}
+
+#notifications-tab,
+#monitor-tab,
+#autofills-tab {
+    padding-bottom: 35px;
 }
