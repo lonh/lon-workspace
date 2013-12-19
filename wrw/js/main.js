@@ -185,6 +185,8 @@ lon.mim.Options = new function (main) {
             
             main.eventHub.send(main.eventMessages.OptionsChanged);
             
+            this.updateOptionVisual();
+
             $(".options-saved").stop(true, true).show().fadeOut(1500);
         },
         loadOptions: function () {
@@ -196,6 +198,12 @@ lon.mim.Options = new function (main) {
              $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
              $('#calleronly', optiontab).prop('checked', main.options.calleronly);
              $('#logallrequests', optiontab).prop('checked', main.options.logallrequests);
+
+             // Update option visual stat
+             this.updateOptionVisual();
+        },
+        updateOptionVisual: function () {
+            optiontab.find('.entry').removeClass('selected').has('.toggle:checked').addClass('selected');
         }
     }
 }(lon.mim.Main);

@@ -7,6 +7,10 @@
     font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
 }
 
+a {
+    color: #002D62;
+}
+
 /********************************************************/
 /* options */
 /********************************************************/
@@ -19,23 +23,24 @@
 }
 
 /* Colors for enabled options */
-.toggle:checked ~ * input {
+.selected input {
     background-color: lightyellow;
     font-weight: bold;
 }
 
 /*Colors for disabled options */
-.toggle ~ * .source {
+input.source, 
+input.block {
     color: red;
 }
 
-.toggle ~ * .replace {
+input.replace {
     color: green;
 }
 
-.toggle ~ * .name,
-.toggle ~ * .value,
-.toggle ~ * .watch {
+input.name,
+input.value,
+input.watch {
     color: blue;
 }
 
@@ -100,7 +105,7 @@
 .paramlist {
   font-family: Arial;
   color: #0675EE;
-  padding-left: 10px;
+  padding-left: 5px;
   display: table;
 }
 
@@ -109,6 +114,7 @@
     border-right: solid 1px #a8c3e0;
     border-bottom: solid 1px #a8c3e0;
     border-radius: 0px;
+    padding: 1px;
 }
 
 .paramlist .param {
