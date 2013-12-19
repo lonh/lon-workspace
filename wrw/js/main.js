@@ -268,7 +268,7 @@ lon.mim.Monitor = new function (main) {
             
             this.registerListener();
             
-            target = main.getParameterByName("tid") + 0;
+            target = main.getParameterByName("tid");
 
             monitorLog = $('#monitor-tab .list');
             
