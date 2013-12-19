@@ -23,6 +23,7 @@ a {
 }
 
 /* Colors for enabled options */
+.toggle:checked ~ * input, 
 .selected input {
     background-color: lightyellow;
     font-weight: bold;
