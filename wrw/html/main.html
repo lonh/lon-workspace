@@ -39,52 +39,16 @@
 				<div id="headers" class="tab-pane"></div>
 				<div id="misc" class="tab-pane">
 					<input type="checkbox" class="toggle" id="calleronly" /> 
-					<label
-						for="calleronly"
-						title="Only intercept the triggering tab.<br/>(Default to all tabs)">
-						Only monitor on calling tab. </label> 
+					<label for="calleronly">Only monitor the calling tab. </label> 
 				    <br />
 				    <input type="checkbox"
 						class="toggle" id="shownotifications" /> <label
-						for="shownotifications"
-						title="Send desktop notification when 'Capture' request detected.">
-						Display <b>desktop</b> notifications.
-					</label>
+						for="shownotifications">Send <b>desktop</b> notifications.</label>
 					<br />
 					<input type="checkbox" class="toggle" id="logallrequests" />
-					<label for="logallrequests"
-						title="Log all requests in 'Request' tab.<br/>(Default to replaced/watched/blocked).">
-						Log all requests. </label>
+					<label for="logallrequests">Monitor and display all traffic.</label>
 				</div>
 			</div>
-
-
-			<!--
-	      <div class="actions">
-	        <button type="button" class="btn btn-default btn-sm new-rule" 
-	            title="Define a search/replace value pair.<br/><br/>
-	            E.g.: with <b>'cat/dog'</b><br/>
-	            [http://somthing/about/<u>cat</u>.html]<br/>
-	            Replaced with<br/>
-	            [http://somthing/about/<u>dog</u>.html]<br/><br/>
-	            All requests are logged in 'Requests' tab.">
-	            New rule
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm new-watch" 
-	            title="Define a watching value, trigger notification when request contains the value.<br/><br/>
-	            E.g.: with <b>'analytics'</b>, <br/>
-	            [http://somthing-<u>analytics</u>/about/stuff.html] will trigger a notification.<br/><br/>
-	            All detected requests are logged in 'Notifications' tab.">
-	            New watch
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm new-header" 
-	            title="Define a request header name/value pair.">
-	            New Header
-	        </button>
-	        <button type="button" class="btn btn-default btn-sm exit">Exit</button>
-	      </div>
-	      -->
-
 	    </div>
 	    
 	    <div id="notifications-tab" class="tab-pane">
@@ -106,12 +70,9 @@
 	    <div id="autofills-tab" class="tab-pane">
 	      <div class="list"></div>
 	      <div class="actions btn-group btn-group-sm">
-	        <button type="button" class="btn btn-default record" 
-	            title="Record form data from current page.">Record</button>
-	        <button type="button" class="btn btn-default form-data" 
-	            title="Display/Edit/Save recorded form data.">Form Data</button>
-	        <button type="button" class="btn btn-default fill" 
-	            title="Fill form with selected form data.">Fill</button>
+	        <button type="button" class="btn btn-default record">Record</button>
+	        <button type="button" class="btn btn-default form-data">Edit</button>
+	        <button type="button" class="btn btn-default fill">Populate</button>
 	        <button type="button" class="btn btn-default exit">Exit</button>
 	      </div>
 	    </div>
@@ -276,7 +237,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h5>Fill form data</h5>
+          <h5>Populate form data</h5>
         </div>
         <div class="modal-body">
           <span>Please choose a form entry!</span>
@@ -295,7 +256,7 @@
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
-        <h5 class="modal-title">Form data</h5>
+        <h5 class="modal-title">Edit form data</h5>
       </div>
       <div class="modal-body">
         <textarea class="form-data-content"></textarea>
