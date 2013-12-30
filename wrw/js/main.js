@@ -44,7 +44,7 @@ lon.mim.Main = new function () {
                 o.options.prefs.left=this.screenLeft;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
 
-                // should discharg all notification event too
+                // should discharge all notification event too
             });
 
             $('button.exit').on('click', function () { window.close(); });
