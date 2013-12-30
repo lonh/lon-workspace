@@ -38,11 +38,13 @@ lon.mim.Main = new function () {
             });
             
             $(window).on('resize unload', function (){
-                o.options.prefs.width=$(document).width(); 
-                o.options.prefs.height=$(document).height();
+                o.options.prefs.width=window.outerWidth; 
+                o.options.prefs.height=window.outerHeight;
                 o.options.prefs.top=this.screenTop;
                 o.options.prefs.left=this.screenLeft;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
+
+                // should discharg all notification event too
             });
 
             $('button.exit').on('click', function () { window.close(); });
