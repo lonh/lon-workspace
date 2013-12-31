@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>FS</title>
+  <!-- <link type="text/css" href="/css/common.css" rel="stylesheet" /> -->
+  <style type="text/css">
+    button, input {
+	   font-size: 1.3em;
+    }
+    
+  </style>
+</head>
+<body style="font-size: 62.5%;">
+    <div>
+        <button id="control">START</button>
+        <h2 class="time"></h2>
+        <label class="hour"></label>
+        <label class="minute"></label>
+        <label class="second"></label>
+    </div>
+    <div>
+        <h3>Alarm list</h3>
+        <button id="new-alarm">New Alarm</button>
+        <br/>
+        <input name="selector" value="" placeholder="jQuery selector" />
+        <input name="time" value="" type="datetime-local" placeholder="Execution time" />
+        <input name="action" value="" placeholder="Action (click, submit, mousedown, etc.,)" />
+        <input name="parameter" value="" placeholder="Parameter (optional)" />
+    </div>
+  
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.mustache.js"></script>
+    <script type="text/javascript" src="/js/jquery.mHub.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>

@@ -1,0 +1,34 @@
+{
+  "name": "Fair Start",
+  "description": "Fair start - calling some actions at certain time",
+  "version": "0.1",
+  "permissions": 
+    [ "tabs", "notifications", "*://*/*" ],
+  "background": {
+    "scripts": [ "js/background.js" ]
+  },
+  "content_scripts": [
+    {
+      "matches": ["*://*/*"],
+      "js": ["js/jquery-2.0.3.min.js", 
+              "js/jquery.deserialize.min.js", 
+              "js/fs-contentscript.js"]
+    }
+  ],
+  "icons": { 
+    "16": "img/stopwatch-icon-16.png",
+    "48": "img/stopwatch-icon-48.png"
+  },
+  "web_accessible_resources": [
+    "img/icon.png",
+    "img/binoculars-icon-48.png",
+    "js/jquery-2.0.3.min.map", 
+    "js/jquery-2.0.3.js",
+    "html/main.html"
+  ],
+  "browser_action": {
+    "default_icon": "img/stopwatch-icon-48.png",
+    "default_title": "FS"
+  },
+  "manifest_version": 2
+}

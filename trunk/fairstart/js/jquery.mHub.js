@@ -1,0 +1,58 @@
+﻿(function() {
+    jQuery.mhub = {
+        create:function() {
+            return {
+                msgHub:{},
+                add:function(name) {
+                    if ( !this.msgHub[name] ) {
+                        this.msgHub[name] = [];
+                        return true;
+                    } else {
+                        // this name being used;
+                        return false;
+                    }
+                    
+                },
+                remove:function(name) {
+                    if ( this.msgHub[name] ) {
+                        delete this.msgHub[name];
+                        return true;
+                    } else {
+                        return false;
+                    }
+                },
+                send:function(name,msg) {
+                    var len,i;
+                    if ( this.msgHub[name] ) {
+                        len = this.msgHub[name].length;
+                        for (i = 0 ; i < len ; i++) {
+                            if (typeof (this.msgHub[name][i].callback) === "function") {
+                                if (this.msgHub[name][i].scope) {
+                                    var that = this.msgHub[name][i].scope;
+                                    this.msgHub[name][i].callback.apply(that,[name,msg]);
+                                } else {
+                                    this.msgHub[name][i].callback(msg);
+                                }
+                            } else {
+                                throw("Error in mhub.send, callback is not a function on mhub name = "+name);
+                            }
+                        }
+                        return true;
+                    } else {
+                        // no such hub
+                        return false;
+                    }
+                },
+                listen:function(name,callback,scope) {
+                    if (this.msgHub[name]) {
+                        this.msgHub[name].push({"callback":callback,"scope":scope});
+                        return true;
+                    } else {
+                        //this no such hub;
+                        return false;
+                    }
+                }
+            }
+        }
+    };
+}());
