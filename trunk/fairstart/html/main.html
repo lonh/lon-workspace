@@ -4,6 +4,11 @@
   <title>FS</title>
   <!-- <link type="text/css" href="/css/common.css" rel="stylesheet" /> -->
   <style type="text/css">
+    * {
+        box-sizing: border-box;
+        font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
+    }
+
     html {
         font-size: 62.5%;
     }
@@ -11,27 +16,26 @@
         font-size: 1.3rem;
     }
     button, input {
-       min-width: 15rem;
+       width: 100%;
     }
     
   </style>
 </head>
 <body>
-    <div>
-        <label>Current: </label>
-        <span class="time"></span>
-    </div>
-    <div>
-        <h3>Alarm</h3>
-        <input name="time" value="" type="datetime-local" placeholder="Execution time" />
+    <h3 class="time"></h3>
+    <div class="alarm">
+        <input name="time" value="" type="time" placeholder="Execution time" />
+        <br />
+        <input name="name" value="" placeholder="Name" />
         <br />
         <input name="selector" value="" placeholder="Selector(e.g.: #submit)" />
         <br />
         <input name="action" value="" placeholder="Action(e.g.: click)" />
         <br >
-        <input name="parameter" value="" placeholder="Parameter(opt.)" />
+        <input name="parameter" value="" placeholder="[Parameter]" />
         <br />
         <button id="control">START</button>
+        <button id="test">TEST</button>
     </div>
     </div>
   

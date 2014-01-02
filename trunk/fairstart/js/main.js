@@ -6,20 +6,34 @@ lon.fs.Main = new function () {
     var timer = null;
     var alarmTimeout = null;
     var control = $('#control');
+    var wid = null;
     eventHub = $.mhub.create();
     
     // Public stuff
     return {
         options: {},
         eventMessages: {
-        	'OptionsChanged': 'options.changed', 
-        	'AlarmFired':'alarm.fired'},
+            'OptionsChanged': 'options.changed', 
+            'AlarmFired':'alarm.fired'},
         eventHub: null,
         initialize: function () {
             var o = this;
             
+            o.updateTime();
+
+            timer = setInterval(o.updateTime, 1000);
+
+            var d =  new Date();
+            d.setMinutes(d.getMinutes() + 3);
+            /*$('input[name=time]').val(
+                d.getFullYear()+"-"+o.pad(d.getMonth()+1, 2)+"-"+o.pad(d.getDate(), 2)+
+                "T"+d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":00.001");*/
+            $('input[name=time]').val(d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":01.001");
+            
             // Load options first
             o.loadOptions();
+
+            wid = o.getParameterByName("wid");
 
             // Set up event hub
             eventHub.add(o.eventMessages.OptionsChanged);
@@ -48,17 +62,17 @@ lon.fs.Main = new function () {
 
             //$('[title]').tooltip({html: true});
             
-            timer = setInterval(o.updateTime, 1000);
 
             control.on('click', function (e) {
-            	$(this).text() == 'START'? o.start(o) : o.stop(o);
+                $(this).text() == 'START'? o.start(o) : o.stop(o);
             });
+
+
+
+            // Set up record button events
+            $('button#test').on('click', o.executeAlarm);
+
             
-            var d =  new Date();
-            d.setMinutes(d.getMinutes()+5);
-            $('input[name=time]').val(
-                d.getFullYear()+"-"+o.pad(d.getMonth()+1, 2)+"-"+o.pad(d.getDate(), 2)+
-                "T"+d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":00.001");
         },
         start: function (o) {
         	control.html('STOP');
@@ -67,14 +81,14 @@ lon.fs.Main = new function () {
             var date = new Date();
             //$('.time').html(date.toLocaleString());
 
-            var alarmTime = new Date($('input[name=time]').val());
-            var timeout = alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime();
+            var alarmTime = new Date(date.toLocaleDateString() + " " + $('input[name=time]').val());
+            var timeout = alarmTime.getTime() - date.getTime();
 
             alarmTimeout = setTimeout(o.executeAlarm, timeout);
         },
         stop: function (o) {
         	control.html('START');
-        	//clearInterval(timer);
+        	clearTimeout(alarmTimeout);
         },
         updateTime: function () {
         	var date = new Date();
@@ -86,7 +100,25 @@ lon.fs.Main = new function () {
 
         },
         executeAlarm : function () {
-alert('hello');
+            chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
+                for ( var i = 0; i < window.tabs.length; i ++) {
+                    var tab = window.tabs[i];
+                    if (tab.active) {
+                        chrome.tabs.sendMessage(
+                               tab.id,
+                               {
+                                   action : "record",
+                                   'target': tab.id,
+                               }, 
+                               function (response) {
+                                   main.eventHub.send(main.eventMessages.AutoFillsAdded, response);
+                               }
+                           );
+                         
+                        break;
+                    }
+                }
+            });
         },
         pad: function (number, length) {
             var str = '' + number;
