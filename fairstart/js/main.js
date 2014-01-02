@@ -4,6 +4,7 @@ lon.fs = lon.fs || {};
 lon.fs.Main = new function () {
     // Private stuff
     var timer = null;
+    var alarmTimeout = null;
     var control = $('#control');
     eventHub = $.mhub.create();
     
@@ -47,23 +48,52 @@ lon.fs.Main = new function () {
 
             //$('[title]').tooltip({html: true});
             
+            timer = setInterval(o.updateTime, 1000);
+
             control.on('click', function (e) {
             	$(this).text() == 'START'? o.start(o) : o.stop(o);
             });
             
-            $('input[name=time]').val(new Date().toJSON());
+            var d =  new Date();
+            d.setMinutes(d.getMinutes()+5);
+            $('input[name=time]').val(
+                d.getFullYear()+"-"+o.pad(d.getMonth()+1, 2)+"-"+o.pad(d.getDate(), 2)+
+                "T"+d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":00.001");
         },
         start: function (o) {
         	control.html('STOP');
-        	timer = setInterval(o.displayTime, 50);
+        	//timer = setInterval(o.updateTime, 15);
+
+            var date = new Date();
+            //$('.time').html(date.toLocaleString());
+
+            var alarmTime = new Date($('input[name=time]').val());
+            var timeout = alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime();
+
+            alarmTimeout = setTimeout(o.executeAlarm, timeout);
         },
         stop: function (o) {
         	control.html('START');
-        	clearInterval(timer);
+        	//clearInterval(timer);
         },
-        displayTime: function () {
+        updateTime: function () {
         	var date = new Date();
-        	$('.time').html(date.toLocaleString() + " " + date.getMilliseconds());
+        	$('.time').html(date.toLocaleString());
+
+            //var alarmTime = new Date($('input[name=time]').val());
+
+            //$('input[name=parameter]').val((alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime()) / 1000);
+
+        },
+        executeAlarm : function () {
+alert('hello');
+        },
+        pad: function (number, length) {
+            var str = '' + number;
+            while (str.length < length) {
+                str = '0' + str;
+            }
+            return str;
         },
         getParameterByName: function(name) {
             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");

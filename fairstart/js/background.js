@@ -57,11 +57,11 @@ var startApp = function() {
             }
         };
 
-        var mim_options = localStorage['mim_config'];
+        var mim_options = localStorage['fs_config'];
         var opt = mim_options ? JSON.parse(mim_options) : {};
         var prefs = opt.prefs || {};
-        var w = parseInt(prefs.width || 640);
-        var h = parseInt(prefs.height || 400);
+        var w = parseInt(prefs.width || 500);
+        var h = parseInt(prefs.height || 300);
         var t = parseInt(prefs.top || window.top);
         var l = parseInt(prefs.left || (window.left + window.width + 30 - w));
         
