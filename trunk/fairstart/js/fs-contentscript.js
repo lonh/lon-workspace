@@ -56,7 +56,8 @@ chrome.extension.onMessage.addListener(
 			break;
 		}*/
     	
-    	$('body').css('background', 'red');
+    	//$('body').css('background', 'red');
+    	eval(request.action);
 
     	return true;
     }
