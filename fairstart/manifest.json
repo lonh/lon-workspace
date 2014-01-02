@@ -1,6 +1,6 @@
 {
   "name": "Fair Start",
-  "description": "Fair start - trigger actions at specified time",
+  "description": "Fair start - trigger actions at specified time like a stopwatch.",
   "version": "0.1",
   "permissions": 
     [ "tabs", "notifications", "*://*/*" ],
