@@ -26,7 +26,7 @@ var record = function() {
 
 chrome.extension.onMessage.addListener(
     function(request, sender, sendResponse) {
-    	switch (request.action) {
+/*    	switch (request.action) {
 		case 'record':
 			var results = record();
 			var response = {
@@ -54,8 +54,10 @@ chrome.extension.onMessage.addListener(
 
 		default:
 			break;
-		}
+		}*/
     	
+    	$('body').css('background', 'red');
+
     	return true;
     }
 );
