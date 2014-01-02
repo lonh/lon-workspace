@@ -107,7 +107,7 @@ lon.fs.Main = new function () {
                         chrome.tabs.sendMessage(
                                tab.id,
                                {
-                                   action : "record",
+                                   action : $('input[name=action]').val(),
                                    'target': tab.id,
                                }, 
                                function (response) {
