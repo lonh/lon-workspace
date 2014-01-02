@@ -6,34 +6,25 @@ lon.fs.Main = new function () {
     var timer = null;
     var alarmTimeout = null;
     var control = $('#control');
+    var alarmsList = $('#alarms-list');
+    var template = $('#template');
     var wid = null;
-    eventHub = $.mhub.create();
+    var eventHub = $.mhub.create();
     
     // Public stuff
     return {
         options: {},
         eventMessages: {
-            'OptionsChanged': 'options.changed', 
-            'AlarmFired':'alarm.fired'},
-        eventHub: null,
+        	'OptionsChanged': 'options.changed', 
+            'AlarmFired':'alarm.fired'
+        },
         initialize: function () {
             var o = this;
-            
-            o.updateTime();
-
-            timer = setInterval(o.updateTime, 1000);
-
-            var d =  new Date();
-            d.setMinutes(d.getMinutes() + 3);
-            /*$('input[name=time]').val(
-                d.getFullYear()+"-"+o.pad(d.getMonth()+1, 2)+"-"+o.pad(d.getDate(), 2)+
-                "T"+d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":00.001");*/
-            $('input[name=time]').val(d.getHours()+":" + o.pad(d.getMinutes(), 2) + ":01.001");
             
             // Load options first
             o.loadOptions();
 
-            wid = o.getParameterByName("wid");
+            wid = o.getParameterByName('wid');
 
             // Set up event hub
             eventHub.add(o.eventMessages.OptionsChanged);
@@ -48,31 +39,60 @@ lon.fs.Main = new function () {
                 event.keyCode === 27 ? window.close() : null;
             });
             
-            $(window).on('resize unload', function (){
-                o.options.prefs.width=window.outerWidth; 
-                o.options.prefs.height=window.outerHeight;
-                o.options.prefs.top=this.screenTop;
-                o.options.prefs.left=this.screenLeft;
-                o.eventHub.send(o.eventMessages.OptionsChanged);
-
-                // should discharge all notification event too
+            $(window).on('unload', function (e) {
+            	$.extend(o.options.prefs, {
+            		width: this.outerWidth, 
+            		height: this.outerHeight,
+            		top: this.screenTop,
+            		left: this.screenLeft
+            	});
+            	
+                eventHub.send(o.eventMessages.OptionsChanged);
             });
 
-            $('button.exit').on('click', function () { window.close(); });
-
-            //$('[title]').tooltip({html: true});
+            o.setupButtons();
             
-
-            control.on('click', function (e) {
-                $(this).text() == 'START'? o.start(o) : o.stop(o);
-            });
-
-
-
-            // Set up record button events
-            $('button#test').on('click', o.executeAlarm);
-
+            // Start the timer
+            timer = setInterval(o.updateTime, 1000);
             
+            var d =  new Date();
+            d.setMinutes(d.getMinutes() + 10);
+            $('input[name=time]').val(
+            		[d.getFullYear(), '-', o.pad(d.getMonth()+1, 2), '-', o.pad(d.getDate(), 2), 
+            		 'T', d.getHours(), ':', o.pad(d.getMinutes(), 2), ':01.001'].join(''));
+            //$('input[name=time]').val(d.getHours()+':' + o.pad(d.getMinutes(), 2) + ':01.001');
+            
+        },
+        setupButtons: function () {
+        	var o = this;
+        	
+        	$('button#new-alarm').on('click', function () {
+        		template.find('div.alarm').clone().appendTo(alarmsList);
+        	});
+        	
+        	// Set up record button events
+        	$('button#test').on('click', o.executeAlarm);
+        	
+        	// Alarm butotn actions
+        	alarmsList.on('click', 'button.add-action', function (e) {
+        		template.find('div.action').clone().appendTo($(this).parents('div.actions-list'));
+        	})
+        	.on('click', 'button.remove-action', function (e) {
+        		$(this).parents('div.action').remove();
+        	})
+        	.on('click', 'button.delete-alarm', function (e) {
+        		$(this).parents('div.alarm').remove();
+        	})
+        	.on('click', 'button.add-queue', function (e) {
+        		//$(this).parents('div.alarm').remove();
+        	})
+        	.on('click', 'button.remove-queue', function (e) {
+        		//$(this).parents('div.alarm').remove();
+        	})
+        	.on('click', 'button.test', function (e) {
+        		o.executeAlarm($(this).parents('div.alarm'));
+        	});
+        	
         },
         start: function (o) {
         	control.html('STOP');
@@ -81,7 +101,7 @@ lon.fs.Main = new function () {
             var date = new Date();
             //$('.time').html(date.toLocaleString());
 
-            var alarmTime = new Date(date.toLocaleDateString() + " " + $('input[name=time]').val());
+            var alarmTime = new Date(date.toLocaleDateString() + ' ' + $('input[name=time]').val());
             var timeout = alarmTime.getTime() - date.getTime();
 
             alarmTimeout = setTimeout(o.executeAlarm, timeout);
@@ -99,7 +119,7 @@ lon.fs.Main = new function () {
             //$('input[name=parameter]').val((alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime()) / 1000);
 
         },
-        executeAlarm : function () {
+        executeAlarm : function (alarm) {
             chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
                 for ( var i = 0; i < window.tabs.length; i ++) {
                     var tab = window.tabs[i];
@@ -107,11 +127,11 @@ lon.fs.Main = new function () {
                         chrome.tabs.sendMessage(
                                tab.id,
                                {
-                                   action : $('input[name=action]').val(),
+                                   action : alarm.find('*[name=action]').val(),
                                    'target': tab.id,
                                }, 
                                function (response) {
-                                   main.eventHub.send(main.eventMessages.AutoFillsAdded, response);
+                                   eventHub.send(main.eventMessages.AutoFillsAdded, response);
                                }
                            );
                          
@@ -128,14 +148,14 @@ lon.fs.Main = new function () {
             return str;
         },
         getParameterByName: function(name) {
-            name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
-            var regexS = "[\\?&]" + name + "=([^&#]*)";
+            name = name.replace(/[\[]/, '\\\[').replace(/[\]]/, '\\\]');
+            var regexS = '[\\?&]' + name + '=([^&#]*)';
             var regex = new RegExp(regexS);
             var results = regex.exec(window.location.search);
             if(results == null) {
-               return "";
+               return '';
            } else {
-               return decodeURIComponent(results[1].replace(/\+/g, " "));
+               return decodeURIComponent(results[1].replace(/\+/g, ' '));
            }
         },
         loadOptions: function () {
@@ -144,7 +164,6 @@ lon.fs.Main = new function () {
             opt.prefs = opt.prefs || {};
             opt.prefs.width = opt.prefs.width || 0;
             opt.prefs.height = opt.prefs.height || 0;
-            opt.watches = opt.watches || [];
 
             this.options = opt;
         },
@@ -184,22 +203,22 @@ lon.fs.Main = new function () {
 //        },
 //        newRule: function () {
 //        	optiontab.find('a[href=#rules]').tab('show');
-//            $('#rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
+//            $('#rules').append($('#templates .rule-template').mustache({'rules': [{checked: true}]}))
 //                .prop({'scrollTop': list.prop('scrollHeight')});
 //        }, 
 //        newWatch: function () {
 //        	optiontab.find('a[href=#watches]').tab('show');
-//            $('#watches').append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
+//            $('#watches').append($('#templates .watch-template').mustache({'watches': [{checked: true}]}))
 //                .prop({'scrollTop': list.prop('scrollHeight')});
 //        },
 //        newHeader: function () {
 //        	optiontab.find('a[href=#headers]').tab('show');
-//            $('#headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
+//            $('#headers').append($('#templates .request-header-template').mustache({'headers': [{checked: true}]}))
 //                .prop({'scrollTop': list.prop('scrollHeight')});
 //        },
 //        newBlock: function () {
 //        	optiontab.find('a[href=#blocks]').tab('show');
-//            $('#blocks').append($('#templates .block-template').mustache({"blocks": [{checked: true}]}))
+//            $('#blocks').append($('#templates .block-template').mustache({'blocks': [{checked: true}]}))
 //                .prop({'scrollTop': list.prop('scrollHeight')});
 //        },
 //        deleteOption: function (btn) {
@@ -258,7 +277,7 @@ lon.fs.Main = new function () {
 //            
 //            this.updateOptionVisual();
 //
-//            $(".options-saved").stop(true, true).show().fadeOut(1500);
+//            $('.options-saved').stop(true, true).show().fadeOut(1500);
 //        },
 //        loadOptions: function () {
 //            $('#rules', optiontab).append($('#templates .rule-template').mustache({rules: main.options.rules}));
@@ -339,7 +358,7 @@ lon.fs.Main = new function () {
 //            
 //            this.registerListener();
 //            
-//            target = main.getParameterByName("tid");
+//            target = main.getParameterByName('tid');
 //
 //            monitorLog = $('#monitor-tab .list');
 //            
@@ -444,10 +463,10 @@ lon.fs.Main = new function () {
 //        decodeUrl: function (url) {
 //          var result = {'url': url};
 //          var decodedUrl = url.split('?');
-//          result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
+//          result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split('&') : [];
 //
 //          for (var i = result.paramlist.length - 1; i >= 0; i--) {
-//              var param = result.paramlist[i].split("=");
+//              var param = result.paramlist[i].split('=');
 //              result.paramlist[i] = {name : param[0], value : param[1]};
 //          };
 //
@@ -462,7 +481,7 @@ lon.fs.Main = new function () {
 //            	if (log.block) {
 //            		var origins = log.origin.split(log.block.block);
 //            		return {
-//            			ohead: "[BLOCKED] " + origins[0],
+//            			ohead: '[BLOCKED] ' + origins[0],
 //                        obody: log.block.block,
 //                        otail: origins.length > 1 ? origins[1] : null,
 //            		};
@@ -471,10 +490,10 @@ lon.fs.Main = new function () {
 //            		var results = log.result.split(log.rule.replace);
 //            		
 //            		return {
-//            			ohead: "[ORIGIN] " + origins[0],
+//            			ohead: '[ORIGIN] ' + origins[0],
 //            			obody: log.rule.source,
 //            			otail: origins.length > 1 ? origins[1] : null,
-//            			rhead: "[REDIRECT] " + results[0],
+//            			rhead: '[REDIRECT] ' + results[0],
 //            			rbody: log.rule.replace,
 //            			rtail: results.length > 1 ? results[1] : null
 //            		};
@@ -484,7 +503,7 @@ lon.fs.Main = new function () {
 //
 //            //TODO while there are more than one occurrences, this is only displaying first one
 //            monitorLog
-//                .append($('#templates .request-log-template').mustache({"matchers": matchers}))
+//                .append($('#templates .request-log-template').mustache({'matchers': matchers}))
 //                .prop({'scrollTop': monitorLog.prop('scrollHeight')});
 //        },
 //        updateOptions: function (data) {
@@ -517,7 +536,7 @@ lon.fs.Main = new function () {
 //  var list = null;
 //  var status = null;
 //  var autofills = [];
-//  var wid = main.getParameterByName("wid");
+//  var wid = main.getParameterByName('wid');
 //  // public stuff
 //  return {
 //    initialize : function () {
@@ -550,7 +569,7 @@ lon.fs.Main = new function () {
 //						chrome.tabs.sendMessage(
 //		    				  tab.id,
 //		    				  {
-//		    					  action : "record",
+//		    					  action : 'record',
 //		    					  'target': tab.id,
 //		    				  }, 
 //		    				  function (response) {
@@ -642,7 +661,7 @@ lon.fs.Main = new function () {
 //    	
 //    	localStorage[.fs.autofills'] = JSON.stringify(autofills);
 //    	
-//    	$(".form-data-saved").stop(true, true).show().fadeOut(1500);
+//    	$('.form-data-saved').stop(true, true).show().fadeOut(1500);
 //    },
 //    addAutoFill: function (autofill) {
 //    	if (undefined != autofill && autofill.forms && autofill.forms.length != 0) {
@@ -668,7 +687,7 @@ lon.fs.Main = new function () {
 //    	var o = this;
 //    	
 //    	// Get selected form index
-//    	var radioButtons = $("input:radio[name='autofills']", autofillTab);
+//    	var radioButtons = $('input:radio[name='autofills']', autofillTab);
 //    	var selectedIndex = radioButtons.index(radioButtons.filter(':checked'));
 //    	
 //    	if (selectedIndex != -1) {
@@ -683,7 +702,7 @@ lon.fs.Main = new function () {
 //						chrome.tabs.sendMessage(
 //		    					tab.id,
 //		    					{
-//		    						action : "fill",
+//		    						action : 'fill',
 //		    						'target': tab.id,
 //		    						'data': data 
 //		    					}, 
@@ -701,7 +720,7 @@ lon.fs.Main = new function () {
 //    	}
 //    },
 //    fillformCallback: function (response) {
-//    	$(".form-data-saved").html(response.msg).stop(true, true).show().fadeOut(1500);
+//    	$('.form-data-saved').html(response.msg).stop(true, true).show().fadeOut(1500);
 //    }
 //  };
   

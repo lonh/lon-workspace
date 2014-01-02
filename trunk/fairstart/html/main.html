@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <title>FS</title>
+  <title>Fair Start</title>
   <!-- <link type="text/css" href="/css/common.css" rel="stylesheet" /> -->
   <style type="text/css">
     * {
@@ -15,30 +15,51 @@
     body {
         font-size: 1.3rem;
     }
-    button, input {
-       width: 100%;
+    button, input, textarea {
+        font-size: 1.3rem;
+        min-width: 80%;
+    }
+    
+    div.action button {
+        vertical-align: top;
+    }
+    
+    div.alarm {
+	    border: 1px silver solid;
+		box-shadow: 5px 5px 5px silver;
+		margin: 5px;
+		padding: 5px;
     }
     
   </style>
 </head>
 <body>
-    <h3 class="time"></h3>
-    <div class="alarm">
-        <input name="time" value="" type="time" placeholder="Execution time" />
-        <br />
-        <input name="name" value="" placeholder="Name" />
-        <br />
-        <input name="selector" value="" placeholder="Selector(e.g.: #submit)" />
-        <br />
-        <input name="action" value="" placeholder="Action(e.g.: click)" />
-        <br >
-        <input name="parameter" value="" placeholder="[Parameter]" />
-        <br />
-        <button id="control">START</button>
-        <button id="test">TEST</button>
+    <h3 class="time">&#160;</h3>
+    <button id="new-alarm">New Action</button>
+    <div id="alarms-list"/>
+    
+    <div id="template" style="display:none;">
+        <div class="alarm">
+	        <input name="time" value="" type="datetime-local" placeholder="Execution time" />
+	        <br />
+	        <input name="name" value="" placeholder="Name" />
+	        <br />
+	        <!-- <input name="selector" value="" placeholder="Selector(e.g.: #submit)" /> -->
+	        <div class="actions-list">
+	            <div class="action">
+		            <textarea name="action" value="" placeholder="Action(e.g.: click)"></textarea>
+		            <button class="add-action">+</button>
+		            <button class="remove-action">-</button>
+	            </div>
+	        </div>
+	        <!-- <input name="parameter" value="" placeholder="[Parameter]" /> -->
+	        <button class="start">Start</button>
+	        <button class="stop">Stop</button>
+	        <button class="test">Test</button>
+	        <button class="delete-alarm">Delete</button>
+        </div>
     </div>
-    </div>
-  
+    
     <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
     <script type="text/javascript" src="/js/jquery.mustache.js"></script>
     <script type="text/javascript" src="/js/jquery.mHub.js"></script>
