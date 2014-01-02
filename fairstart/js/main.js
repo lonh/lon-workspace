@@ -4,10 +4,9 @@ lon.fs = lon.fs || {};
 lon.fs.Main = new function () {
     // Private stuff
     var timer = null;
-    var alarmTimeout = null;
-    var control = $('#control');
     var alarmsList = $('#alarms-list');
     var template = $('#template');
+    var currentTime = $('#time');
     var wid = null;
     var eventHub = $.mhub.create();
     
@@ -66,14 +65,12 @@ lon.fs.Main = new function () {
         setupButtons: function () {
         	var o = this;
         	
+        	// New alarm button
         	$('button#new-alarm').on('click', function () {
         		template.find('div.alarm').clone().appendTo(alarmsList);
         	});
         	
-        	// Set up record button events
-        	$('button#test').on('click', o.executeAlarm);
-        	
-        	// Alarm butotn actions
+        	// Alarm button actions
         	alarmsList.on('click', 'button.add-action', function (e) {
         		template.find('div.action').clone().appendTo($(this).parents('div.actions-list'));
         	})
@@ -83,37 +80,44 @@ lon.fs.Main = new function () {
         	.on('click', 'button.delete-alarm', function (e) {
         		$(this).parents('div.alarm').remove();
         	})
-        	.on('click', 'button.add-queue', function (e) {
-        		//$(this).parents('div.alarm').remove();
-        	})
-        	.on('click', 'button.remove-queue', function (e) {
-        		//$(this).parents('div.alarm').remove();
+        	.on('click', 'button.control', function (e) {
+        		var button = $(this);
+        		var alarm = button.parents('div.alarm');
+        		
+        		button.text() == 'Start' ? o.start(o, alarm, button) : o.stop(o, alarm, button);
+        		
         	})
         	.on('click', 'button.test', function (e) {
         		o.executeAlarm($(this).parents('div.alarm'));
         	});
         	
         },
-        start: function (o) {
-        	control.html('STOP');
-        	//timer = setInterval(o.updateTime, 15);
-
+        start: function (o, alarm, btn) {
             var date = new Date();
-            //$('.time').html(date.toLocaleString());
+            var alarmTime = new Date(alarm.find('input[name=time]').val());
 
-            var alarmTime = new Date(date.toLocaleDateString() + ' ' + $('input[name=time]').val());
-            var timeout = alarmTime.getTime() - date.getTime();
-
-            alarmTimeout = setTimeout(o.executeAlarm, timeout);
+            var delay = alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime();
+            if (delay <= 0) {
+            	alert('Can not start in past, please update time!');
+            	return;
+            }
+            
+            var timeout = setTimeout(function() {
+            	o.executeAlarm(alarm);
+            }, delay);
+            
+            alarm.data('data-timeout', timeout);
+            btn.html('Stop');
         },
-        stop: function (o) {
-        	control.html('START');
-        	clearTimeout(alarmTimeout);
+        stop: function (o, alarm, btn) {
+        	var timeout = alarm.data('data-timeout');
+        	clearTimeout(timeout);
+        	alarm.removeData('data-timeout');
+        	btn.html('Start');
         },
         updateTime: function () {
         	var date = new Date();
-        	$('.time').html(date.toLocaleString());
-
+        	currentTime.html(date.toLocaleString());
             //var alarmTime = new Date($('input[name=time]').val());
 
             //$('input[name=parameter]').val((alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime()) / 1000);
