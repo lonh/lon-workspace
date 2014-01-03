@@ -18,6 +18,13 @@
     button, input, textarea {
         font-size: 1.3rem;
     }
+    button {
+        -webkit-appearance: none;
+    }
+    button.stop {
+        display: none;
+    }
+    
     input, textarea {
         min-width: 80%;
     }
@@ -31,34 +38,46 @@
 		box-shadow: 5px 5px 5px silver;
 		margin: 5px;
 		padding: 5px;
+        -webkit-transition: all .5s linear;
+    }
+
+    .small-scaled {
+        -webkit-transform:scale(.25);
+    }
+
+    .countdown {
+        display: none;
     }
     
   </style>
 </head>
 <body>
-    <h3 id="time">&#160;</h3>
+    <h3 id="time">&#160;... ...</h3>
     <button id="new-alarm">New Task</button>
-    <div id="alarms-list"/>
+    <div id="alarms-list"></div>
     
     <div id="template" style="display:none;">
-        <div class="alarm">
-	        <input name="time" value="" type="datetime-local" placeholder="Execution time" />
+        {{#alarms}}
+        <div class="alarm small-scaled">
+	        <input name="execution-time" value="{{time}}" type="datetime-local" placeholder="Execution time" />
+	        <b class="countdown">Countdown(s): <span class="seconds"></span></b>
 	        <br />
-	        <input name="name" value="" placeholder="Name" />
-	        <br />
-	        <!-- <input name="selector" value="" placeholder="Selector(e.g.: #submit)" /> -->
 	        <div class="actions-list">
+	           {{#actions}}
 	            <div class="action">
-		            <textarea name="action" value="" placeholder="Action(e.g.: click)"></textarea>
+		            <textarea name="action" placeholder="Action(e.g.: click)">{{.}}</textarea>
 		            <button class="add-action">+</button>
 		            <button class="remove-action">-</button>
 	            </div>
+	            {{/actions}}
 	        </div>
 	        <!-- <input name="parameter" value="" placeholder="[Parameter]" /> -->
-	        <button class="control">Start</button>
+	        <button class="start">Start</button>
+	        <button class="stop">Stop</button>
 	        <button class="test">Test</button>
 	        <button class="delete-alarm">Delete</button>
         </div>
+        {{/alarms}}
     </div>
     
     <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
