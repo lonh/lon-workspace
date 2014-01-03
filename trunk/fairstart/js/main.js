@@ -9,27 +9,30 @@ lon.fs.Main = new function () {
     currentTime = $('#time'),
     wid = null,
     eventHub = $.mhub.create(),
-    DATA_TIMEOUT_KEY = 'data-timeout';
-    
+    DATA_TIMEOUT_KEY = 'data-timeout',
+    eventMessages = {
+    	'OptionsChanged': 'options.changed', 
+        'AlarmFired':'alarm.fired'
+    };
     
     // Public stuff
     return {
         options: {},
-        eventMessages: {
-        	'OptionsChanged': 'options.changed', 
-            'AlarmFired':'alarm.fired'
-        },
         initialize: function () {
             var o = this;
             
             wid = o.getParameterByName('wid');
 
             // Set up event hub
-            eventHub.add(o.eventMessages.OptionsChanged);
-            eventHub.add(o.eventMessages.AlarmFired);
+            eventHub.add(eventMessages.OptionsChanged);
+            eventHub.add(eventMessages.AlarmFired);
 
-            eventHub.listen(o.eventMessages.OptionsChanged, function (data) {
+            eventHub.listen(eventMessages.OptionsChanged, function (data) {
                 o.saveOptions();
+            });
+            
+            eventHub.listen(eventMessages.AlarmFired, function (data) {
+                o.alarmFired(data);
             });
 
             // ESC to close
@@ -45,7 +48,7 @@ lon.fs.Main = new function () {
             		left: window.screenLeft
             	});
             	
-                eventHub.send(o.eventMessages.OptionsChanged);
+                eventHub.send(eventMessages.OptionsChanged);
             });
 
             o.setupButtons();
@@ -54,7 +57,7 @@ lon.fs.Main = new function () {
             o.loadOptions();
             
             // Start the timer
-            timer = setInterval(function () { o.updateTime(); }, 1000);
+            timer = setInterval(function () { o.updateTime(); }, 100);
         },
         setupButtons: function () {
         	var o = this;
@@ -78,7 +81,7 @@ lon.fs.Main = new function () {
         		o.start($(this).parents('div.alarm'));
         	})
         	.on('click', 'button.stop', function (e) {
-        		o.start($(this).parents('div.alarm'));
+        		o.stop($(this).parents('div.alarm'));
         	})
         	.on('click', 'button.test', function (e) {
         		o.executeAlarm($(this).parents('div.alarm'));
@@ -101,7 +104,6 @@ lon.fs.Main = new function () {
             o.toggleExecution(alarm, timeout);
         },
         stop: function (alarm) {
-        	
         	this.toggleExecution(alarm);
         },
         updateTime: function () {
@@ -115,11 +117,6 @@ lon.fs.Main = new function () {
         			alarm.find('.seconds').html(o.calculateCountdown(alarm)/1000);
         		}
         	});
-        	
-            //var alarmTime = new Date($('input[name=time]').val());
-
-            //$('input[name=parameter]').val((alarmTime.getTime() + date.getTimezoneOffset() * 60 * 1000 - date.getTime()) / 1000);
-
         },
         insertAlarms: function (alarms) {
         	var alarm = template.mustache(alarms);
@@ -150,31 +147,50 @@ lon.fs.Main = new function () {
         		this.disabled = !this.disabled;
         	});
         	
-        	timeout === undefined ? alarm.removeData(DATA_TIMEOUT_KEY) : alarm.data(DATA_TIMEOUT_KEY, timeout);
+        	if (timeout === undefined) {
+        		clearTimeout(alarm.data(DATA_TIMEOUT_KEY));
+        		alarm.removeData(DATA_TIMEOUT_KEY);
+        	} else {
+        		alarm.data(DATA_TIMEOUT_KEY, timeout);
+        	}
         },
         executeAlarm : function (alarm) {
+        	console.log(new Date().getMilliseconds());
             chrome.windows.get(parseInt(wid), {populate: true}, function (window) {
                 for ( var i = 0; i < window.tabs.length; i ++) {
                     var tab = window.tabs[i];
                     if (tab.active) {
                         chrome.tabs.sendMessage(
-                               tab.id,
-                               {
-                                   action : alarm.find('*[name=action]').map(function () {
-                                	   return $(this).val();
-                                   }).get().join(';'),
-                                   'target': tab.id,
-                                   timeoutId: alarm.data(DATA_TIMEOUT_KEY)
-                               }, 
-                               function (response) {
-                                   eventHub.send(main.eventMessages.AlarmFired, response);
-                               }
-                           );
+                           tab.id,
+                           {
+                               action : alarm.find('*[name=action]').map(function () {
+                            	   return $(this).val();
+                               }).get().join(';'),
+                               'target': tab.id,
+                               timeoutId: alarm.data(DATA_TIMEOUT_KEY)
+                           }, 
+                           function (response) {
+                               eventHub.send(eventMessages.AlarmFired, response);
+                           });
                          
                         break;
                     }
                 }
             });
+        },
+        alarmFired: function (response) {
+        	var o = this;
+        	
+        	alarmsList.find('.alarm').each(function (index) {
+        		var alarm = $(this);
+        		
+        		if (alarm.data(DATA_TIMEOUT_KEY) == response.timeoutId) {
+        			o.toggleExecution(alarm);
+        			var d = new Date();
+        			alarm.find('.triggeredtime span').html(
+        					[d.toLocaleString(), '[', d.getMilliseconds(), 'ms]'].join(''));
+        		}
+        	});
         },
         pad: function (number, length) {
             var str = '' + number;
