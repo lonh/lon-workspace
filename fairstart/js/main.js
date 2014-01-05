@@ -179,6 +179,11 @@ lon.fs.Main = new function () {
             });
         },
         alarmFired: function (response) {
+            console.log(new Date().getMilliseconds());
+            if (!response.timeoutId) {
+                return;
+            }
+
         	var o = this;
         	
         	alarmsList.find('.alarm').each(function (index) {
