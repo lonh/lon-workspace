@@ -191,9 +191,13 @@ lon.fs.Main = new function () {
         		
         		if (alarm.data(DATA_TIMEOUT_KEY) == response.timeoutId) {
         			o.toggleExecution(alarm);
-        			var d = new Date();
-        			alarm.find('.triggeredtime span').html(
-        					[d.toLocaleString(), '[', d.getMilliseconds(), 'ms]'].join(''));
+        			var d = new Date(),
+        				ms = d.getMilliseconds(),
+        				dataparts = d.toLocaleString().split(' ');
+        			
+        			dataparts[dataparts.length - 2] = dataparts[dataparts.length - 2] + "." + o.pad(ms, 3);
+        			
+        			alarm.find('.triggeredtime span').html(dataparts.join(' '));
         		}
         	});
         },
