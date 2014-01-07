@@ -69,7 +69,7 @@ lon.fs.Main = new function () {
         	
         	// Alarm button actions
         	alarmsList.on('click', 'button.add-action', function (e) {
-        		$(this).parents('div.actions-list').append(o.createAction());
+        		$(this).siblings('div.actions-list').append(o.createAction());
         	})
         	.on('click', 'button.remove-action', function (e) {
         		$(this).parents('div.action').remove();
