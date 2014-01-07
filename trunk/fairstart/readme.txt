@@ -1,6 +1,6 @@
 A Chrome plugin to trigger certain function on monitored web page, on specified time, second ...
 
-	1. Diaply running clock, current date, time, seconds, millionsecond? timezone, etc., 
+	1. Display running clock, current date, time, seconds, millionseconds? timezone, etc., 
 
 	2. list of alarms, datetime, actions list
 

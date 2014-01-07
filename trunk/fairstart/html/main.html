@@ -26,7 +26,7 @@
     }
     
     input, textarea {
-        min-width: 80%;
+        min-width: 90%;
     }
     
     div.action button {
@@ -61,21 +61,21 @@
         <div class="alarm small-scaled">
 	        <b class="triggeredtime">Last run: <span></span></b><br />
 	        <input name="execution-time" value="{{time}}" type="datetime-local" placeholder="Execution time" />
+	        <button class="add-action" title="Add new action.">+</button>
 	        <b class="countdown">Countdown(s): <span class="seconds"></span></b>
 	        <br />
 	        <div class="actions-list">
 	           {{#actions}}
 	            <div class="action">
 		            <textarea name="action" placeholder="Action(e.g.: click)">{{.}}</textarea>
-		            <button class="add-action">+</button>
-		            <button class="remove-action">-</button>
+		            <button class="remove-action" title="Remove action.">-</button>
 	            </div>
 	            {{/actions}}
 	        </div>
-	        <button class="start">Start</button>
-	        <button class="stop">Stop</button>
-	        <button class="test">Test</button>
-	        <button class="delete-alarm">Delete</button>
+	        <button class="start" title="Start this task.">Start</button>
+	        <button class="stop" title="Stop this task.">Stop</button>
+	        <button class="test" title="Test actions in current active tab.">Test</button>
+	        <button class="delete-alarm" title="Delete this task.">Delete</button>
         </div>
         {{/alarms}}
     </div>
