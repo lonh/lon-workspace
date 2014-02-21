@@ -32,5 +32,6 @@ body.platform-linux .source-code,
 .tabbed-pane, 
 .pane > .body .info {
     font: 12px/1.2 "Lucida Console", Inconsolata, Menlo, Consolas, "dejavu sans mono", monospace !important;
-    background: silver !important;
+    /*background: silver !important;*/
+    background: rgb(208,208,208); !important;
 }
