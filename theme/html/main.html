@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <title>Fair Start</title>
+  <!-- <link type="text/css" href="/css/common.css" rel="stylesheet" /> -->
+  <style type="text/css">
+    * {
+        box-sizing: border-box;
+        font-family: "Helvetica Neue", "Segoe UI", Helvetica, Arial, "Trebuchet MS", "Lucida Grande", sans-serif;
+    }
+
+    html {
+        font-size: 62.5%;
+    }
+    body {
+        font-size: 1.3rem;
+    }
+    button, input, textarea {
+        font-size: 1.3rem;
+    }
+    button {
+        -webkit-appearance: none;
+    }
+    button.stop {
+        display: none;
+    }
+    
+    input, textarea {
+        min-width: 90%;
+    }
+    
+    div.action button {
+        vertical-align: top;
+    }
+    
+    div.alarm {
+	    border: 1px silver solid;
+		box-shadow: 5px 5px 5px silver;
+		margin: 5px;
+		padding: 5px;
+        -webkit-transition: all .5s linear;
+    }
+
+    .small-scaled {
+        -webkit-transform:scale(1, .25);
+    }
+
+    .countdown {
+        display: none;
+    }
+    
+  </style>
+</head>
+<body>
+    <h3 id="time">&#160;... ...</h3>
+    <button id="new-alarm">New Task</button>
+    <div id="alarms-list"></div>
+    
+    <div id="template" style="display:none;">
+        {{#alarms}}
+        <div class="alarm small-scaled">
+	        <b class="triggeredtime">Last run: <span></span></b>
+	        <b class="countdown"> [<span class="seconds"></span>]</b>
+	        <input name="execution-time" value="{{time}}" type="datetime-local" placeholder="Execution time" />
+	        <button class="add-action" title="Add new action.">+</button>
+	        <div class="actions-list">
+	           {{#actions}}
+	            <div class="action">
+		            <textarea name="action" placeholder="Action(e.g.: click)">{{.}}</textarea>
+		            <button class="remove-action" title="Remove action.">-</button>
+	            </div>
+	            {{/actions}}
+	        </div>
+	        <button class="start" title="Start this task.">Start</button>
+	        <button class="stop" title="Stop this task.">Stop</button>
+	        <button class="test" title="Test actions in current active tab.">Test</button>
+	        <button class="delete-alarm" title="Delete this task.">Delete</button>
+        </div>
+        {{/alarms}}
+    </div>
+    
+    <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
+    <script type="text/javascript" src="/js/jquery.mustache.js"></script>
+    <script type="text/javascript" src="/js/jquery.mHub.js"></script>
+    <script type="text/javascript" src="/js/main.js"></script>
+</body>
+</html>
