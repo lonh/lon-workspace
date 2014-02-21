@@ -35,3 +35,7 @@ body.platform-linux .source-code,
     /*background: silver !important;*/
     background: rgb(208,208,208); !important;
 }
+
+.tabbed-pane-header-tab-title {
+	font-family: 'Lucida Grande', sans-serif;
+}
