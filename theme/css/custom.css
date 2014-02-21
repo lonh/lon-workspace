@@ -1,0 +1,36 @@
+
+/**********************************************/
+/*
+/* IR_Black Skin by Ben Truyman - 2011
+/*
+/* Based on Todd Werth's IR_Black:
+/* http://blog.toddwerth.com/entries/2
+/*
+/* Inspired by Darcy Clarke's blog post:
+/* http://darcyclarke.me/design/skin-your-chrome-inspector/
+/*
+/**********************************************/
+
+/**********************************************/
+/* Basic font and color settings
+/**********************************************/
+
+body.platform-mac .monospace, 
+body.platform-mac .source-code,
+body.platform-mac.platform-mac-snowleopard .monospace,
+body.platform-mac.platform-mac-snowleopard .source-code,
+body.platform-windows .monospace, 
+body.platform-windows .source-code ,
+body.platform-linux .monospace, 
+body.platform-linux .source-code,
+.webkit-line-number,
+.webkit-line-content,
+#webkit-xml-viewer-source-xml + .header,
+#webkit-xml-viewer-source-xml + .header + #tree,
+.editing,
+.child-editing,
+.tabbed-pane, 
+.pane > .body .info {
+    font: 12px/1.2 "Lucida Console", Inconsolata, Menlo, Consolas, "dejavu sans mono", monospace !important;
+    background: silver !important;
+}
