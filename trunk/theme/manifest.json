@@ -1,7 +1,7 @@
 {
-  "name": "Theme",
-  "short_name": "Theme",
-  "description": "Custom theme",
+  "name": "Greyish Theme",
+  "short_name": "Greyish",
+  "description": "A bit greyish theme",
   "version": "0.1",
   "devtools_page": "html/devtools.html",
   "manifest_version": 2
