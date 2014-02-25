@@ -1,7 +1,7 @@
 {
   "name": "Greyish Theme",
   "short_name": "Greyish",
-  "description": "A bit greyish theme",
+  "description": "A bit greyish theme for devtools.",
   "version": "0.1",
   "devtools_page": "html/devtools.html",
   "manifest_version": 2
