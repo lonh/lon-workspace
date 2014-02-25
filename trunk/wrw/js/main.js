@@ -39,7 +39,7 @@ lon.mim.Main = new function () {
             
             $(window).on('resize unload', function (){
                 o.options.prefs.width=window.outerWidth; 
-                o.options.prefs.height=window.outerHeight;
+                o.options.prefs.height= o.isMac() ? $(document).height() : window.outerHeight;
                 o.options.prefs.top=this.screenTop;
                 o.options.prefs.left=this.screenLeft;
                 o.eventHub.send(o.eventMessages.OptionsChanged);
@@ -50,6 +50,9 @@ lon.mim.Main = new function () {
             $('button.exit').on('click', function () { window.close(); });
            
             $('[title]').tooltip({html: true});
+        },        
+        isMac: function () {
+        	return navigator.userAgent.toLowerCase().indexOf('mac') !== -1;
         },
         switchTab: function (tabId) {
             // Store into preferences
