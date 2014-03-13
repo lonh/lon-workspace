@@ -102,10 +102,7 @@ lon.mim.Options = new function (main) {
             optiontab = $('#options-tab');
             list = $('.list', optiontab);
             
-            $('.new-rule', optiontab).on('click', function () { o.newRule(); });
-            $('.new-watch', optiontab).on('click', function () { o.newWatch(); });
-            $('.new-header', optiontab).on('click', function () { o.newHeader(); });
-            $('.new-block', optiontab).on('click', function () { o.newBlock(); });
+            $('button.new', optiontab).on('click', function () { o.newOptions(); });
             
             optiontab
             	.on('change', 'input', function () {o.saveOptions();})
@@ -116,23 +113,39 @@ lon.mim.Options = new function (main) {
 
             this.loadOptions();
         },
+        newOptions: function () {
+        	var tab = $('.nav-pills .active a', optiontab).attr('href');
+        	switch (tab) {				
+        	case '#rules':
+        		this.newRule();
+				break;
+        	case '#watches':
+        		this.newWatch();
+        		break;
+        	case '#headers':
+        		this.newHeader();
+        		break;
+        	case '#blocks':
+        		this.newBlock();
+        		break;
+        	case '#misc':
+			default:
+				break;
+			}
+        },
         newRule: function () {
-        	optiontab.find('a[href=#rules]').tab('show');
             $('#rules').append($('#templates .rule-template').mustache({"rules": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         }, 
         newWatch: function () {
-        	optiontab.find('a[href=#watches]').tab('show');
             $('#watches').append($('#templates .watch-template').mustache({"watches": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newHeader: function () {
-        	optiontab.find('a[href=#headers]').tab('show');
             $('#headers').append($('#templates .request-header-template').mustache({"headers": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },
         newBlock: function () {
-        	optiontab.find('a[href=#blocks]').tab('show');
             $('#blocks').append($('#templates .block-template').mustache({"blocks": [{checked: true}]}))
                 .prop({'scrollTop': list.prop('scrollHeight')});
         },

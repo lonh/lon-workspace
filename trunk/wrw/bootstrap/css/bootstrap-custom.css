@@ -27,7 +27,13 @@ body,
 	line-height: auto;
 }
 
-.nav > li > a {
+.btn-sm {
+    border: none;
+    background-color: lightgrey;
+}
+
+.nav > li > a,
+.nav > li > .btn-sm {
 	padding: 2px 5px;
 } 
 
