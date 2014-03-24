@@ -66,12 +66,12 @@ var startApp = function() {
         var l = parseInt(prefs.left || (window.left + window.width + 30 - w));
         
         chrome.windows.create({
-            url : "../html/main.html?wid=" + window.id + "&tid=" + tabId,
-            type : "popup",
+            url: "../html/main.html?wid=" + window.id + "&tid=" + tabId,
+            type: "popup",
             top: t,
             left: l,
-            width : w,
-            height : h
+            width: w,
+            height: h
         });
     });
 };

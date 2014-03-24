@@ -198,7 +198,8 @@ lon.mim.Options = new function (main) {
                 'blocks' : blocks,
                 'shownotifications' : $('#shownotifications', optiontab).prop('checked'),
                 'calleronly' : $('#calleronly', optiontab).prop('checked'),
-                'logallrequests' : $('#logallrequests', optiontab).prop('checked')
+                'logallrequests' : $('#logallrequests', optiontab).prop('checked'),
+                'allowcors' : $('#allowcors', optiontab).prop('checked')
             });
             
             main.eventHub.send(main.eventMessages.OptionsChanged);
@@ -208,17 +209,19 @@ lon.mim.Options = new function (main) {
             $(".options-saved").stop(true, true).show().fadeOut(1500);
         },
         loadOptions: function () {
+        	
             $('#rules', optiontab).append($('#templates .rule-template').mustache({rules: main.options.rules}));
             $('#watches', optiontab).append($('#templates .watch-template').mustache({watches: main.options.watches}));
             $('#blocks', optiontab).append($('#templates .block-template').mustache({blocks: main.options.blocks}));
             $('#headers', optiontab).append($('#templates .request-header-template').mustache({headers: main.options.headers}));
+            
+            $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
+            $('#calleronly', optiontab).prop('checked', main.options.calleronly);
+            $('#logallrequests', optiontab).prop('checked', main.options.logallrequests);
+            $('#allowcors', optiontab).prop('checked', main.options.allowcors);
 
-             $('#shownotifications', optiontab).prop('checked', main.options.shownotifications);
-             $('#calleronly', optiontab).prop('checked', main.options.calleronly);
-             $('#logallrequests', optiontab).prop('checked', main.options.logallrequests);
-
-             // Update option visual stat
-             this.updateOptionVisual();
+            // Update option visual stat
+            this.updateOptionVisual();
         },
         updateOptionVisual: function () {
             optiontab.find('.entry').removeClass('selected').has('.toggle:checked').addClass('selected');
@@ -297,6 +300,24 @@ lon.mim.Monitor = new function (main) {
         registerListener: function () {
             var o = this;
             
+            // Register onHeadersReceived listener
+            chrome.webRequest.onHeadersReceived.addListener(function(details) {
+            	if (!!main.options.allowcors) {            		
+            		details.responseHeaders.push({
+            			name: 'Access-Control-Allow-Origin',
+            			value: '*'
+            		});
+            	}
+            	
+            	return {responseHeaders: details.responseHeaders};
+            },
+            //filters
+            {
+            	urls: []
+            },
+            [ 'blocking', 'responseHeaders' ]);
+            
+            
             // Register onBeforeSendHeaders listener
             chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
 
@@ -313,6 +334,7 @@ lon.mim.Monitor = new function (main) {
                 urls: []
             },
             [ 'blocking', 'requestHeaders' ]);
+            
 
             // Register onBeforeRequest listener
             chrome.webRequest.onBeforeRequest.addListener(function(info) {
@@ -335,7 +357,6 @@ lon.mim.Monitor = new function (main) {
                 	o.displayLogging(logs);
                     return { cancel : true };
                 }
-                
                 
                 $.each(main.options.rules, function (indx, rule) {
                     var origin = redirectedRequest || info.url;
