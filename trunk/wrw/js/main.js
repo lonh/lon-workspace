@@ -302,14 +302,14 @@ lon.mim.Monitor = new function (main) {
             
             // Register onHeadersReceived listener
             chrome.webRequest.onHeadersReceived.addListener(function(details) {
-            	if (!!main.options.allowcors) {            		
+            	if (/xmlhttprequest|other/.test(details.type) && !!main.options.allowcors) {            		
             		details.responseHeaders.push({
             			name: 'Access-Control-Allow-Origin',
             			value: '*'
             		});
+            		
+            		return {responseHeaders: details.responseHeaders};            		
             	}
-            	
-            	return {responseHeaders: details.responseHeaders};
             },
             //filters
             {
