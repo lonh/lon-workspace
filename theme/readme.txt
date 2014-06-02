@@ -1,1 +1,1 @@
-A custom theme for devtools
+A custom theme for devtools.
