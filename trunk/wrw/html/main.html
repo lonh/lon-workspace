@@ -180,7 +180,7 @@
         <div class="paramlist">
           {{#paramlist}}
             <div class="param">
-              <span class="name">{{name}}</span><span class="value">{{value}}</span>
+              <td><span class="name">{{name}}</span></td><td><span class="value">{{value}}</span></td>
             </div>
           {{/paramlist}}
         </div>
@@ -190,13 +190,15 @@
     <div class="notification-log-template">
       <div class="notification-log">
         <a href="{{url}}" target="_blank">{{url}}</a>
-        <div class="paramlist">
-          {{#paramlist}}
-            <div class="param">
-              <span class="name">{{name}}</span><span class="value">{{value}}</span>
-            </div>
-          {{/paramlist}}
-        </div>
+        <table class="paramlist">
+        	<tbody>
+	        <!-- {{#paramlist}} -->
+    	        <tr class="param">
+        	      <td class="name">{{name}}</td><td class="value">{{value}}</td>
+            	</tr>
+          	<!-- {{/paramlist}} -->
+        	</tbody>
+        </table>
       </div>
     </div>
     
