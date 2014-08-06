@@ -268,6 +268,13 @@ lon.mim.notifications = new function (main) {
       });
     },
     displayNotification: function (notification) {
+    	
+    	if (notification && notification.paramlist && notification.paramlist.length) {
+    		notification.paramlist.sort(function (a, b) {
+    			return a.name >= b.name ? 1 : -1;
+    		});
+    	}
+    	
         notificationLog
             .append($('#templates .notification-log-template').mustache(notification))
             .prop({'scrollTop': notificationLog.prop('scrollHeight')});

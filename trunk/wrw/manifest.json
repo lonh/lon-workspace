@@ -1,7 +1,7 @@
 {
   "name": "M i M",
   "description": "Monitor, redirect & block requests. Record, edit & populate form data",
-  "version": "0.7.1",
+  "version": "0.7.2",
   "permissions": 
     [ "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
   "background": {
