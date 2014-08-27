@@ -1,307 +1,201 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" ng-app="mim" ng-csp>
 <head>
-  <title>MiM</title>
-  <link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
-  <link type="text/css" href="/bootstrap/css/bootstrap-custom.css" rel="stylesheet" />
-  <link type="text/css" href="/css/common.css" rel="stylesheet" />
+	<title>MiM</title>
+	<link type="text/css" href="/bootstrap/css/bootstrap.min.css" rel="stylesheet" />
+	<link type="text/css" href="/bootstrap/css/bootstrap-custom.css" rel="stylesheet" />
+	<link type="text/css" href="/css/common.css" rel="stylesheet" />
+	<link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
+	<script type="text/javascript" src="/ng/js/angular.min.js"></script>
+	<script type="text/javascript" src="/ng/js/angular-animate.min.js"></script>
 </head>
-<body>
-    <ul id="main-nav-tab" class="nav nav-tabs">
-      <li class="active"><a href="#options-tab" data-toggle="tab">Options</a></li>
-      <li><a href="#notifications-tab" data-toggle="tab">Captures</a></li>
-      <li><a href="#monitor-tab" data-toggle="tab">Requests</a></li>
-      <li><a href="#autofills-tab" data-toggle="tab">Form</a></li>
-    </ul>
+<body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
+	<ul id="main-nav-tab" class="nav nav-tabs">
+		<li ng-class="{active: activeTab == 'Options'}"><a href="#options-tab" data-toggle="tab" ng-click="selectTab('Options')" >Options</a></li>
+		<li ng-class="{active: activeTab == 'Captures'}"><a href="#notifications-tab" data-toggle="tab" ng-click="selectTab('Captures')">Captures</a></li>
+		<li ng-class="{active: activeTab == 'Requests'}"><a href="#monitor-tab" data-toggle="tab" ng-click="selectTab('Requests')">Requests</a></li>
+		<li ng-class="{active: activeTab == 'Form'}"><a href="#autofills-tab" data-toggle="tab" ng-click="selectTab('Form')">Form</a></li>
+	</ul>
 
-    <div id="main-tab-content" class="tab-content">
-	    <div id="options-tab" class="tab-pane in active">
-	       <ul id="options-nav" class="nav nav-pills">
-		      <li class="active"><a data-toggle="pill" href="#rules">Rules</a></li>
-			  <li><a data-toggle="pill" href="#watches">Captures</a></li>
-			  <li><a data-toggle="pill" href="#headers">Headers</a></li>
-			  <li><a data-toggle="pill" href="#blocks">Blocks</a></li>
-			  <li><a data-toggle="pill" href="#misc">Misc</a></li>
-			  <li>
-			     <button type="button" class="btn btn-sm new" href="#"><i class="glyphicon glyphicon-plus-sign"></i> New </a></button>
-			  </li>
-		   </ul>
+	<div id="main-tab-content" class="tab-content">
+		<div id="options-tab" class="tab-pane" ng-class="{active: activeTab == 'Options'}" ng-controller="optionsController">
+			<ul id="options-nav" class="nav nav-pills">
+				<li ng-class="{active: activeOption == 'rules'}"><a data-toggle="pill" href="#rules" ng-click="selectOption('rules')">Rules</a></li>
+				<li ng-class="{active: activeOption == 'watches'}"><a data-toggle="pill" href="#watches" ng-click="selectOption('watches')">Captures</a></li>
+				<li ng-class="{active: activeOption == 'headers'}"><a data-toggle="pill" href="#headers" ng-click="selectOption('headers')">Headers</a></li>
+				<li ng-class="{active: activeOption == 'blocks'}"><a data-toggle="pill" href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
+				<li ng-class="{active: activeOption == 'misc'}"><a data-toggle="pill" href="#misc" ng-click="selectOption('misc')">Misc</a></li>
+				<li>
+					<button type="button" ng-click="addOption()" class="btn btn-sm new" href="#">
+						<i class="glyphicon glyphicon-plus-sign"></i> New </a>
+					</button>
+				</li>
+			</ul>
 			<div id="options-tab-content" class="tab-content">
-				<div id="rules" class="tab-pane in active"></div>
-				<div id="watches" class="tab-pane"></div>
-				<div id="blocks" class="tab-pane"></div>
-				<div id="headers" class="tab-pane"></div>
-				<div id="misc" class="tab-pane">
-				    <div class="checkbox">
-					  <label>
-					    <input type="checkbox" class="toggle" id="calleronly" />Only monitor the calling tab. 
-					  </label>
+				<div id="rules" class="tab-pane" ng-class="{active: activeOption == 'rules'}">
+					<div class="entry input-group" ng-repeat="rule in options.rules">
+						<span class="input-group-addon">
+						  <input type="checkbox" class="toggle" ng-model="rule.checked" />
+						</span>
+						<div ng-class="{selected: rule.checked}">
+							<input type="text" class="source form-control" placeholder="Search string in request" ng-model="rule.source" required="required" />
+							<input type="text" class="replace form-control" placeholder="Replace with ..." ng-model="rule.replace" required="required" />
+						</div>
+						<span class="input-group-addon">
+							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+						</span>
 					</div>
-				    <div class="checkbox">
-					  <label>
-					    <input type="checkbox" class="toggle" id="shownotifications" />Send <b>desktop</b> notifications.
-					  </label>
+				</div>
+				<div id="watches" class="tab-pane" ng-class="{active: activeOption == 'watches'}">
+					<div class="entry input-group" ng-repeat="watch in options.watches">
+						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="watch.checked" />
+						</span>
+						<div>
+							<input type="text" class="watch form-control" placeholder="Capture requests that contains ..." ng-model="watch.source" />
+						</div>
+						<span class="input-group-addon">
+							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+						</span>
 					</div>
-				    <div class="checkbox">
-					  <label>
-					    <input type="checkbox" class="toggle" id="logallrequests" />Monitor and display all traffic.
-					  </label>
+				</div>
+				<div id="blocks" class="tab-pane" ng-class="{active: activeOption == 'blocks'}">
+					<div class="entry input-group" ng-repeat="block in options.blocks">
+						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="block.checked" />
+						</span>
+						<div>
+							<input type="text" class="block form-control" placeholder="Block requests that contains ..." ng-model="block.block" />
+						</div>
+						<span class="input-group-addon">
+							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+						</span>
 					</div>
-				    <div class="checkbox">
-					  <label title="<b>Inject reponse header<br/>'Access-Control-Allow-Origin: *'</b>">
-					    <input type="checkbox" class="toggle" id="allowcors" />Allow AJAX CORS.
-					  </label>
+				</div>
+				<div id="headers" class="tab-pane" ng-class="{active: activeOption == 'headers'}">
+					<div class="entry input-group" ng-repeat="header in options.headers">
+						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="header.checked" />
+						</span>
+						<div>
+							<input type="text" class="name form-control" placeholder="Header Name" ng-model="header.name" /> <input type="text" class="value form-control" placeholder="Header Value"
+								ng-model="header.value" />
+						</div>
+						<span class="input-group-addon">
+							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+						</span>
+					</div>
+				</div>
+				<div id="misc" class="tab-pane" ng-class="{active: activeOption == 'misc'}">
+					<div class="checkbox">
+						<input type="checkbox" class="toggle" id="calleronly" ng-model="options.calleronly" /> <label for="calleronly">Only monitor the calling tab.</label>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" class="toggle" id="shownotifications" ng-model="options.shownotifications" /> <label for="shownotifications">Send <b>desktop</b> notifications.
+						</label>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" class="toggle" id="logallrequests" ng-model="options.logallrequests" /> <label for="logallrequests">Monitor and display all traffic.</label>
+					</div>
+					<div class="checkbox">
+						<input type="checkbox" class="toggle" id="allowcors" ng-model="options.allowcors" /> <label title="<b>Inject reponse header<br/>'Access-Control-Allow-Origin: *'</b>" for="allowcors">Allow
+							AJAX CORS.</label>
 					</div>
 				</div>
 			</div>
-	    </div>
-	    
-	    <div id="notifications-tab" class="tab-pane">
-	      <div class="list"></div>
-	      <div class="actions btn-group btn-group-sm">
-	        <button type="button" class="btn btn-default clear">Clear</button>
-	        <button type="button" class="btn btn-default exit">Exit</button>
-	      </div>
-	    </div>
-	    
-	    <div id="monitor-tab" class="tab-pane">
-	      <div class="list"></div>
-	      <div class="actions btn-group btn-group-sm">
-	        <button type="button" class="btn btn-default clear">Clear</button>
-	        <button type="button" class="btn btn-default exit">Exit</button>
-	      </div>
-	    </div>
-	    
-	    <div id="autofills-tab" class="tab-pane">
-	      <div class="list"></div>
-	      <div class="actions btn-group btn-group-sm">
-	        <button type="button" class="btn btn-default record">Record</button>
-	        <button type="button" class="btn btn-default form-data">Edit</button>
-	        <button type="button" class="btn btn-default fill">Populate</button>
-	        <button type="button" class="btn btn-default exit">Exit</button>
-	      </div>
-	    </div>
-	  </div>
-  </div>
-    
-  <!-- Mesasges -->
-  <div class="alert alert-success options-saved">Options saved.</div>   
-  <div class="alert alert-success form-data-saved">Form data saved.</div>   
-  <div class="alert alert-success form-data-filled"></div>   
-    
-  <div id="templates" style="display:none;">
-    <!-- Filter rule template -->
-    <div class="rule-template">
-      {{#rules}}
-        <div class="entry input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
-          </span>
-          <div>
-            <input type="text" class="source form-control" placeholder="Search string in request" value="{{source}}"/>
-            <input type="text" class="replace form-control" placeholder="Replace with ..." value="{{replace}}"/>
-          </div>
-          <span class="input-group-addon">
-            <button type="button" class="close" aria-hidden="true">&times;</button>
-          </span>
-          <!-- <div class="del"></div> -->
-        </div>
-      {{/rules}}
-    </div>
-    <ul class="watch-template">
-      {{#watches}}
-        <div class="entry input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
-          </span>
-          <div>
-            <input type="text" class="watch form-control" placeholder="Capture requests that contains ..." value="{{source}}"/>
-          </div>
-          <span class="input-group-addon">
-            <button type="button" class="close" aria-hidden="true">&times;</button>
-          </span>
-         <!--  <div class="del"></div> -->
-        </div>
-      {{/watches}}
-    </ul>
-    <ul class="block-template">
-      {{#blocks}}
-        <div class="entry input-group">
-          <span class="input-group-addon">
-            <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}} />
-          </span>
-          <div>
-            <input type="text" class="block form-control" placeholder="Block requests that contains ..." value="{{block}}"/>
-          </div>
-          <span class="input-group-addon">
-            <button type="button" class="close" aria-hidden="true">&times;</button>
-          </span>
-         <!--  <div class="del"></div> -->
-        </div>
-      {{/blocks}}
-    </ul>
-    <ul class="request-header-template">
-      {{#headers}}
-	      <div class="entry input-group">
-	        <span class="input-group-addon">
-	           <input type="checkbox" class="toggle" {{#checked}}checked=checked{{/checked}}/>
-	        </span>
-	        <div>
-	          <input type="text" class="name form-control" placeholder="Header Name" value="{{name}}" />
-	          <input type="text" class="value form-control" placeholder="Header Value" value="{{value}}" />
-	        </div>
-	        <span class="input-group-addon">
-	            <button type="button" class="close" aria-hidden="true">&times;</button>
-	        </span>
-	        <!-- <div class="del"></div> -->
-	      </div>
-      {{/headers}}
-    </ul>
+		</div>
+		
+		<div id="notifications-tab" class="tab-pane" ng-class="{active: activeTab == 'Captures'}" ng-controller="notificationController">
+			<div class="list">
+				<div class="notification-log" ng-repeat="notice in notices">
+					<a href="{{::notice.url}}" target="_blank">{{::notice.url}}</a>
+					<table class="paramlist">
+						<tr class="param" ng-repeat="param in notice.paramlist">
+							<td>{{::param.name}}</td>
+							<td>{{::param.value}}</td>
+						</tr>
+					</table>
+				</div>
+			</div>
+			<div class="actions btn-group btn-group-sm">
+				<button type="button" class="btn btn-default clear" ng-click="clearNotices()">Clear</button>
+				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
+			</div>
+		</div>
+		
+		<div id="monitor-tab" class="tab-pane" ng-class="{active: activeTab == 'Requests'}" ng-controller="monitorController">
+			<div class="list">
+				<div ng-repeat="log in logs">
+				    <ng-switch on="type(log)">
+						<div class="request-log matcher" ng-switch-when="block">
+							<div class="source">
+	                            <span class="head"></span><span class="body">[BLOCK]</span><span class="tail">{{::log.origin}}</span>
+	                        </div>
+						</div>
+						<div class="request-log matcher" ng-switch-when="rule">
+							<div class="source">
+								<span class="head">{{::log.origin | head:log.rule.source}}</span><span class="body">{{::log.rule.source}}</span><span class="tail">{{::log.origin | tail:log.rule.source}}</span>
+							</div>
+							<div class="result">
+								<span class="head">{{::log.result | head:log.rule.replace}}</span><span class="body">{{::log.rule.replace}}</span><span class="tail">{{::log.result | tail:log.rule.replace}}</span>
+							</div>
+						</div>
+						<div class="request-trace" ng-switch-default>
+							<a href="{{::log.url}}" target="_blank">{{::log.url}}</a>
+							<table class="paramlist">
+								<tr class="param" ng-repeat="param in log.paramlist">
+									<td>{{::param.name}}</td>
+									<td>{{::param.value}}</td>
+								</tr>
+							</table>
+						</div>
+					</ng-switch>
+				</div>
+			</div>
+			<div class="actions btn-group btn-group-sm">
+				<button type="button" ng-click="clearLog()" class="btn btn-default clear">Clear</button>
+				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
+			</div>
+		</div>
 
-    <!-- Intercepted request log template -->
-    <div class="request-log-template">
-      <div class="request-log">
-        {{#matchers}}
-        <div class="matcher">
-          <div class="source">
-            <span class="head">{{ohead}}</span><span class="body">{{obody}}</span><span class="tail">{{otail}}</span>
-          </div>
-          <div class="result">
-            <span class="head">{{rhead}}</span><span class="body">{{rbody}}</span><span class="tail">{{rtail}}</span>
-          </div>
-        </div>
-        {{/matchers}}
-      </div>
-    </div>
+		<div id="autofills-tab" class="tab-pane" ng-class="{active: activeTab == 'Form'}" ng-controller="formController">
+			<div class="list">
+				<div class="entry" ng-repeat="fill in autoFills">
+					<button type="button" class="close" aria-hidden="true" ng-really-message="This will delete the entry and CANNOT undo!" ng-really-click="deleteAutofill($index)">&times;</button>
+					<div class="form-data" ng-click="toggle($index)">
+						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
+						<a href="#" class="pagename">{{::fill.pagename}}</a>
+						<div class="input-group notes">
+							<span class="input-group-addon">Notes:</span>
+							<div>
+								<input type="text" class="form-control" name="comment" ng-model="fill.comment" /> 
+								<input type="hidden" name="pagename" value="{{::fill.pagename}}" /> 
+								<input type="hidden" name="hostname" value="{{::fill.hostname}}" />
+							</div>
+						</div>
+						<ol class="fields-list" ng-show="show($index)">
+							<li ng-repeat="form in fill.forms">
+								<form class="form-horizontal" role="form">
+									<div class="form-group" ng-repeat="field in form">
+										<label for="{{::field.name}}" class="col-xs-3 control-label">{{::field.name}}</label>
+										<div class="col-xs-9">
+											<input type="text" class="form-control" name="{{::field.name}}" ng-model="field.value" />
+										</div>
+									</div>
+								</form>
+							</li>
+						</ol>
+					</div>
+				</div>
+			</div>
+			<div class="alert alert-success form-data-saved" ng-show="successPopulated">Data populated.</div>   
+			<div class="actions btn-group btn-group-sm">
+				<button type="button" class="btn btn-default record" ng-click="record()">Record</button>
+				<button type="button" class="btn btn-default fill" ng-click="populate()" ng-disabled="!fillSelected()">Populate</button>
+				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
+			</div>
+		</div>
+		
+	</div>
 
-    <div class="request-trace-template">
-      <div class="request-trace">
-        <a href="{{url}}" target="_blank">{{url}}</a>
-        <div class="paramlist">
-          {{#paramlist}}
-            <div class="param">
-              <td><span class="name">{{name}}</span></td><td><span class="value">{{value}}</span></td>
-            </div>
-          {{/paramlist}}
-        </div>
-      </div>
-    </div>
-
-    <div class="notification-log-template">
-      <div class="notification-log">
-        <a href="{{url}}" target="_blank">{{url}}</a>
-        <table class="paramlist">
-        	<tbody>
-	        <!-- {{#paramlist}} -->
-    	        <tr class="param">
-        	      <td class="name">{{name}}</td><td class="value">{{value}}</td>
-            	</tr>
-          	<!-- {{/paramlist}} -->
-        	</tbody>
-        </table>
-      </div>
-    </div>
-    
-    <div class="autofill-template">
-      {{#autofills}}
-        <div class="entry">
-          <button type="button" class="close" aria-hidden="true" >&times;</button>
-          <div class="form-data">
-            <input type="radio" class="toggle" name="autofills"/>
-            <a href="#" class="pagename">{{pagename}}</a>
-            <div class="input-group notes">
-	            <span class="input-group-addon">Notes:</span>
-	            <div>
-    	            <input type="text" class="form-control" name="comment" value="{{comment}}" />
-	                <input type="hidden" name="pagename" value="{{pagename}}"/>
-	                <input type="hidden" name="hostname" value="{{hostname}}"/>
-	            </div>
-	        </div>
-            <ol class="fields-list">
-                {{#forms}}
-                <li>
-                  <form class="form-horizontal" role="form">
-                  {{#.}}
-                    <div class="form-group">
-                        <label for="{{name}}" class="col-xs-3 control-label">{{name}}</label>
-                        <div class="col-xs-9">
-	                        <input type="text" class="form-control" id="{{name}}" name="{{name}}" value="{{value}}" >
-                        </div>
-                    </div>
-                  {{/.}}
-                  </form>
-                </li>
-                {{/forms}}
-            </ol>
-          </div>
-        </div>
-      {{/autofills}}
-    </div>
-    
-  </div> <!-- /.templates -->    
-  <div class="modal fade" id="dialog-choose-form" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h5>Populate form data</h5>
-        </div>
-        <div class="modal-body">
-          <span>Please choose a form entry!</span>
-        </div>
-        <div class="modal-footer">
-            <div class="btn-group btn-group-sm">
-              <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-            </div>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  
-  <!-- Modal -->
-   <div class="modal fade" id="dialog-form-data" tabindex="-1" role="dialog" aria-hidden="true">
-  <div class="modal-dialog">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title">Edit form data</h5>
-      </div>
-      <div class="modal-body">
-        <textarea class="form-data-content"></textarea>
-      </div>
-      <div class="modal-footer">
-        <div class="btn-group btn-group-sm">
-           <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-           <button type="button" class="btn btn-primary save">Save changes</button>
-        </div>
-      </div>
-        </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-    
-  <div class="modal fade" id="dialog-delete-form-entry" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
-          <h5 class="modal-title">Delete form data entry!</h5>
-        </div>
-        <div class="modal-body">
-          <span>This will delete the form data from local storage and cannot be undo!</span>
-        </div>
-        <div class="modal-footer">
-	        <div class="btn-group btn-group-sm">
-	          <button type="button" class="btn btn-default cancel" data-dismiss="modal">Cancel</button>
-	          <button type="button" class="btn btn-primary ok">OK</button>
-	        </div>
-        </div>
-      </div><!-- /.modal-content -->
-    </div><!-- /.modal-dialog -->
-  </div><!-- /.modal -->
-  
-  <script type="text/javascript" src="/js/jquery-2.0.3.min.js"></script>
-  <script type="text/javascript" src="/js/jquery.mustache.js"></script>
-  <script type="text/javascript" src="/js/jquery.mHub.js"></script>
-  <script type="text/javascript" src="/js/main.js"></script>
-  <script type="text/javascript" src="/bootstrap/js/bootstrap.min.js"></script>
+  <script type="text/javascript" src="/js/app.js"></script>
+  <script type="text/javascript" src="/js/controllers.js"></script>
 </body>
 </html>
