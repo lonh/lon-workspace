@@ -112,8 +112,7 @@ input.watch {
 
 .paramlist span {
     display: table-cell;
-    border-right: solid 1px #a8c3e0;
-    border-bottom: solid 1px #a8c3e0;
+    border: solid 1px #a8c3e0;
     border-radius: 0px;
     padding: 1px;
 }
@@ -136,7 +135,7 @@ input.watch {
 /********************************************************/
 
 ol.fields-list {
-	display: none;
+	/* display: none; */
 	padding-left: 20px;
 }
 	
@@ -181,4 +180,22 @@ NOT REALLY BOOTSTRAP
 #monitor-tab,
 #autofills-tab {
     padding-bottom: 35px;
+}
+
+
+/**
+AngularJs animation
+**/
+.ng-hide-add, .alert.ng-hide-remove {
+  transition:0s linear all;
+}
+
+.ng-hide-add.ng-hide-add-active,
+.ng-hide-remove.ng-hide-remove-active {
+   -webkit-transition:all linear 0.5s;
+   transition:all linear 0.5s;
+}
+
+.ng-hide {
+   opacity:0;
 }
