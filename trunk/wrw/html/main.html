@@ -11,20 +11,20 @@
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 	<ul id="main-nav-tab" class="nav nav-tabs">
-		<li ng-class="{active: activeTab == 'Options'}"><a href="#options-tab" ng-click="selectTab('Options')" >Options</a></li>
-		<li ng-class="{active: activeTab == 'Captures'}"><a href="#notifications-tab" ng-click="selectTab('Captures')">Captures</a></li>
-		<li ng-class="{active: activeTab == 'Requests'}"><a href="#monitor-tab" ng-click="selectTab('Requests')">Requests</a></li>
-		<li ng-class="{active: activeTab == 'Form'}"><a href="#autofills-tab" ng-click="selectTab('Form')">Form</a></li>
+		<li ng-class="{active: options.activeTab == 'Options'}"><a href="#options-tab" ng-click="selectTab('Options')" >Options</a></li>
+		<li ng-class="{active: options.activeTab == 'Captures'}"><a href="#notifications-tab" ng-click="selectTab('Captures')">Captures</a></li>
+		<li ng-class="{active: options.activeTab == 'Requests'}"><a href="#monitor-tab" ng-click="selectTab('Requests')">Requests</a></li>
+		<li ng-class="{active: options.activeTab == 'Form'}"><a href="#autofills-tab" ng-click="selectTab('Form')">Form</a></li>
 	</ul>
 
 	<div id="main-tab-content" class="tab-content">
-		<div id="options-tab" class="tab-pane" ng-class="{active: activeTab == 'Options'}" ng-controller="optionsController">
+		<div id="options-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Options'}" ng-controller="optionsController">
 			<ul id="options-nav" class="nav nav-pills">
-				<li ng-class="{active: activeOption == 'rules'}"><a href="#rules" ng-click="selectOption('rules')">Rules</a></li>
-				<li ng-class="{active: activeOption == 'watches'}"><a href="#watches" ng-click="selectOption('watches')">Captures</a></li>
-				<li ng-class="{active: activeOption == 'headers'}"><a href="#headers" ng-click="selectOption('headers')">Headers</a></li>
-				<li ng-class="{active: activeOption == 'blocks'}"><a href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
-				<li ng-class="{active: activeOption == 'misc'}"><a href="#misc" ng-click="selectOption('misc')">Misc</a></li>
+				<li ng-class="{active: options.activeOption == 'rules'}"><a href="#rules" ng-click="selectOption('rules')">Rules</a></li>
+				<li ng-class="{active: options.activeOption == 'watches'}"><a href="#watches" ng-click="selectOption('watches')">Captures</a></li>
+				<li ng-class="{active: options.activeOption == 'headers'}"><a href="#headers" ng-click="selectOption('headers')">Headers</a></li>
+				<li ng-class="{active: options.activeOption == 'blocks'}"><a href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
+				<li ng-class="{active: options.activeOption == 'misc'}"><a href="#misc" ng-click="selectOption('misc')">Misc</a></li>
 				<li>
 					<button type="button" ng-click="addOption()" class="btn btn-sm new" href="#">
 						<i class="glyphicon glyphicon-plus-sign"></i> New </a>
@@ -32,7 +32,7 @@
 				</li>
 			</ul>
 			<div id="options-tab-content" class="tab-content">
-				<div id="rules" class="tab-pane" ng-class="{active: activeOption == 'rules'}">
+				<div id="rules" class="tab-pane" ng-class="{active: options.activeOption == 'rules'}">
 					<div class="entry input-group" ng-repeat="rule in options.rules">
 						<span class="input-group-addon">
 						  <input type="checkbox" class="toggle" ng-model="rule.checked" />
@@ -46,11 +46,11 @@
 						</span>
 					</div>
 				</div>
-				<div id="watches" class="tab-pane" ng-class="{active: activeOption == 'watches'}">
+				<div id="watches" class="tab-pane" ng-class="{active: options.activeOption == 'watches'}">
 					<div class="entry input-group" ng-repeat="watch in options.watches">
 						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="watch.checked" />
 						</span>
-						<div>
+						<div ng-class="{selected: watch.checked}">
 							<input type="text" class="watch form-control" placeholder="Capture requests that contains ..." ng-model="watch.source" />
 						</div>
 						<span class="input-group-addon">
@@ -58,11 +58,11 @@
 						</span>
 					</div>
 				</div>
-				<div id="blocks" class="tab-pane" ng-class="{active: activeOption == 'blocks'}">
+				<div id="blocks" class="tab-pane" ng-class="{active: options.activeOption == 'blocks'}">
 					<div class="entry input-group" ng-repeat="block in options.blocks">
 						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="block.checked" />
 						</span>
-						<div>
+						<div ng-class="{selected: block.checked}">
 							<input type="text" class="block form-control" placeholder="Block requests that contains ..." ng-model="block.block" />
 						</div>
 						<span class="input-group-addon">
@@ -70,39 +70,41 @@
 						</span>
 					</div>
 				</div>
-				<div id="headers" class="tab-pane" ng-class="{active: activeOption == 'headers'}">
+				<div id="headers" class="tab-pane" ng-class="{active: options.activeOption == 'headers'}">
 					<div class="entry input-group" ng-repeat="header in options.headers">
 						<span class="input-group-addon"> <input type="checkbox" class="toggle" ng-model="header.checked" />
 						</span>
-						<div>
-							<input type="text" class="name form-control" placeholder="Header Name" ng-model="header.name" /> <input type="text" class="value form-control" placeholder="Header Value"
-								ng-model="header.value" />
+						<div ng-class="{selected: header.checked}">
+							<input type="text" class="name form-control" placeholder="Header Name" ng-model="header.name" />
+							<input type="text" class="value form-control" placeholder="Header Value" ng-model="header.value" />
 						</div>
 						<span class="input-group-addon">
 							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
 				</div>
-				<div id="misc" class="tab-pane" ng-class="{active: activeOption == 'misc'}">
+				<div id="misc" class="tab-pane" ng-class="{active: options.activeOption == 'misc'}">
 					<div class="checkbox">
-						<input type="checkbox" class="toggle" id="calleronly" ng-model="options.calleronly" /> <label for="calleronly">Only monitor the calling tab.</label>
+						<input type="checkbox" class="toggle" id="calleronly" ng-model="options.calleronly" />
+						<label for="calleronly">Only monitor the calling tab.</label>
 					</div>
 					<div class="checkbox">
-						<input type="checkbox" class="toggle" id="shownotifications" ng-model="options.shownotifications" /> <label for="shownotifications">Send <b>desktop</b> notifications.
-						</label>
+						<input type="checkbox" class="toggle" id="shownotifications" ng-model="options.shownotifications" />
+						<label for="shownotifications">Send <b>desktop</b> notifications.</label>
 					</div>
 					<div class="checkbox">
-						<input type="checkbox" class="toggle" id="logallrequests" ng-model="options.logallrequests" /> <label for="logallrequests">Monitor and display all traffic.</label>
+						<input type="checkbox" class="toggle" id="logallrequests" ng-model="options.logallrequests" />
+						<label for="logallrequests">Monitor and display all traffic.</label>
 					</div>
 					<div class="checkbox">
-						<input type="checkbox" class="toggle" id="allowcors" ng-model="options.allowcors" /> <label title="<b>Inject reponse header<br/>'Access-Control-Allow-Origin: *'</b>" for="allowcors">Allow
-							AJAX CORS.</label>
+						<input type="checkbox" class="toggle" id="allowcors" ng-model="options.allowcors" />
+						<label title="<b>Inject reponse header<br/>'Access-Control-Allow-Origin: *'</b>" for="allowcors">Allow AJAX CORS.</label>
 					</div>
 				</div>
 			</div>
 		</div>
 		
-		<div id="notifications-tab" class="tab-pane" ng-class="{active: activeTab == 'Captures'}" ng-controller="notificationController">
+		<div id="notifications-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Captures'}" ng-controller="notificationController">
 			<div class="list">
 				<div class="notification-log" ng-repeat="notice in notices">
 					<a href="{{::notice.url}}" target="_blank">{{::notice.url}}</a>
@@ -120,7 +122,7 @@
 			</div>
 		</div>
 		
-		<div id="monitor-tab" class="tab-pane" ng-class="{active: activeTab == 'Requests'}" ng-controller="monitorController">
+		<div id="monitor-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Requests'}" ng-controller="monitorController">
 			<div class="list">
 				<div ng-repeat="log in logs">
 				    <ng-switch on="type(log)">
@@ -155,7 +157,7 @@
 			</div>
 		</div>
 
-		<div id="autofills-tab" class="tab-pane" ng-class="{active: activeTab == 'Form'}" ng-controller="formController">
+		<div id="autofills-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Form'}" ng-controller="formController">
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills">
 					<button type="button" class="close" aria-hidden="true" ng-really-message="This will delete the entry and CANNOT undo!" ng-really-click="deleteAutofill($index)">&times;</button>
