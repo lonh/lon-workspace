@@ -54,10 +54,14 @@ mim.factory('mimOptions', function() {
     opt.blocks = opt.blocks || [];
 	opt.autoFills = opt.autoFills || [];
     
+	opt.activeTab = opt.activeTab || 'Options';
+	opt.activeOption = opt.activeOption || 'rules';
+	
 	return opt;
 });
 
 
+// Extra filter function
 mim.filter('head', function () {
 	return function (url, token) {
 		return url.split(token)[0];
@@ -70,6 +74,7 @@ mim.filter('head', function () {
 });
 
 
+// Basic confirmation dialog 
 mim.directive('ngReallyClick', [function() {
     return {
         restrict: 'A',
@@ -117,11 +122,9 @@ mimControllers.controller('mainController',
     	$window.close();
     };
     
-    // Default active tab
-    $scope.activeTab = 'Options'; // Options, Captures, Requests, Form
-    
+    $scope.options = mimOptions;
     $scope.selectTab = function (tab) {
-    	this.activeTab = tab;
+    	this.options.activeTab = tab;
     };
 }]);
 
@@ -129,19 +132,16 @@ mimControllers.controller('optionsController', ['$scope', 'mimOptions', function
 
    $scope.options = mimOptions;
    
-   // Default active options selection
-   $scope.activeOption = 'rules'; // rules, watches, headers, blocks, misc
-       
    $scope.selectOption = function (option) {
-	   $scope.activeOption = option;
+	   $scope.options.activeOption = option;
    };
        
    $scope.addOption = function () {
-	   this.options[this.activeOption] && this.options[this.activeOption].push({checked: true});
+	   this.options[this.options.activeOption] && this.options[this.options.activeOption].push({checked: true});
    };
        
    $scope.deleteOption = function (index) {
-    this.options[this.activeOption].splice(index, 1);
+    this.options[this.options.activeOption].splice(index, 1);
    };
        
 }]);
