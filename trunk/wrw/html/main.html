@@ -11,20 +11,20 @@
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 	<ul id="main-nav-tab" class="nav nav-tabs">
-		<li ng-class="{active: activeTab == 'Options'}"><a href="#options-tab" data-toggle="tab" ng-click="selectTab('Options')" >Options</a></li>
-		<li ng-class="{active: activeTab == 'Captures'}"><a href="#notifications-tab" data-toggle="tab" ng-click="selectTab('Captures')">Captures</a></li>
-		<li ng-class="{active: activeTab == 'Requests'}"><a href="#monitor-tab" data-toggle="tab" ng-click="selectTab('Requests')">Requests</a></li>
-		<li ng-class="{active: activeTab == 'Form'}"><a href="#autofills-tab" data-toggle="tab" ng-click="selectTab('Form')">Form</a></li>
+		<li ng-class="{active: activeTab == 'Options'}"><a href="#options-tab" ng-click="selectTab('Options')" >Options</a></li>
+		<li ng-class="{active: activeTab == 'Captures'}"><a href="#notifications-tab" ng-click="selectTab('Captures')">Captures</a></li>
+		<li ng-class="{active: activeTab == 'Requests'}"><a href="#monitor-tab" ng-click="selectTab('Requests')">Requests</a></li>
+		<li ng-class="{active: activeTab == 'Form'}"><a href="#autofills-tab" ng-click="selectTab('Form')">Form</a></li>
 	</ul>
 
 	<div id="main-tab-content" class="tab-content">
 		<div id="options-tab" class="tab-pane" ng-class="{active: activeTab == 'Options'}" ng-controller="optionsController">
 			<ul id="options-nav" class="nav nav-pills">
-				<li ng-class="{active: activeOption == 'rules'}"><a data-toggle="pill" href="#rules" ng-click="selectOption('rules')">Rules</a></li>
-				<li ng-class="{active: activeOption == 'watches'}"><a data-toggle="pill" href="#watches" ng-click="selectOption('watches')">Captures</a></li>
-				<li ng-class="{active: activeOption == 'headers'}"><a data-toggle="pill" href="#headers" ng-click="selectOption('headers')">Headers</a></li>
-				<li ng-class="{active: activeOption == 'blocks'}"><a data-toggle="pill" href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
-				<li ng-class="{active: activeOption == 'misc'}"><a data-toggle="pill" href="#misc" ng-click="selectOption('misc')">Misc</a></li>
+				<li ng-class="{active: activeOption == 'rules'}"><a href="#rules" ng-click="selectOption('rules')">Rules</a></li>
+				<li ng-class="{active: activeOption == 'watches'}"><a href="#watches" ng-click="selectOption('watches')">Captures</a></li>
+				<li ng-class="{active: activeOption == 'headers'}"><a href="#headers" ng-click="selectOption('headers')">Headers</a></li>
+				<li ng-class="{active: activeOption == 'blocks'}"><a href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
+				<li ng-class="{active: activeOption == 'misc'}"><a href="#misc" ng-click="selectOption('misc')">Misc</a></li>
 				<li>
 					<button type="button" ng-click="addOption()" class="btn btn-sm new" href="#">
 						<i class="glyphicon glyphicon-plus-sign"></i> New </a>
