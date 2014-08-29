@@ -180,7 +180,7 @@ lon.fs.Main = new function () {
         },
         alarmFired: function (response) {
             console.log(new Date().getMilliseconds());
-            if (!response.timeoutId) {
+            if (response || !response.timeoutId) {
                 return;
             }
 
@@ -189,7 +189,7 @@ lon.fs.Main = new function () {
         	alarmsList.find('.alarm').each(function (index) {
         		var alarm = $(this);
         		
-        		if (alarm.data(DATA_TIMEOUT_KEY) == response.timeoutId) {
+        		if (response && alarm.data(DATA_TIMEOUT_KEY) == response.timeoutId) {
         			o.toggleExecution(alarm);
         			var d = new Date(),
         				ms = d.getMilliseconds(),
