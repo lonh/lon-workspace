@@ -43,7 +43,7 @@ mim.factory('mimCommon', ['$window', function ($window) {
 mim.factory('mimOptions', function() {
 	
 	// Load/Initialize options from local storage
-	var opt = JSON.parse(localStorage['mim_config'] || '{}');
+	var opt = angular.fromJson(localStorage['mim_config'] || '{}');
     opt.prefs = opt.prefs || {};
     opt.prefs.width = opt.prefs.width || 0;
     opt.prefs.height = opt.prefs.height || 0;
@@ -103,14 +103,15 @@ mimControllers.controller('mainController',
     });
     
     angular.element($window).on('resize unload', function () {
-    	mimOptions.prefs.width=$window.outerWidth; 
-    	mimOptions.prefs.height = $window.innerHeight;
-    	mimOptions.prefs.top=this.screenTop;
-    	mimOptions.prefs.left=this.screenLeft;
+    	
+    	angular.extend(mimOptions.prefs, {
+    				width: $window.outerWidth, 
+    				height: $window.innerHeight,
+    				top: $window.screenTop,
+    				left: $window.screenLeft
+    			});
         
-        localStorage['mim_config'] = JSON.stringify(mimOptions);
-
-        //TODO should discharge all notification event too
+        localStorage['mim_config'] = angular.toJson(mimOptions);
     });	
 
     // Document/window event
