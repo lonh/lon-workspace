@@ -197,6 +197,8 @@ mimControllers.controller('monitorController',
 	            if (info.url.indexOf(block.block) !== -1) {
 	            	$scope.logs.push({'origin': info.url, 'block': block});
 	            	blockedRequest = true;
+	            } else {
+	            	return true;
 	            }
         	});
         
@@ -217,6 +219,8 @@ mimControllers.controller('monitorController',
 	                log.result = redirectedRequest = origin.split(rule.source).join(rule.replace);
 	                $scope.logs.push(log);
 	            }
+	            
+	            return rule;
         	});
         
         if (redirectedRequest) {
@@ -247,6 +251,8 @@ mimControllers.controller('notificationController',
 	$scope.clearNotices = function () {
 		this.dsNotifications.every(function (n, index) {
 			chrome.notifications.clear(n, function (wasCleared) {});
+			
+			return n;
 		});
 		this.notices = [];
 		this.dsNotifications = [];
@@ -274,6 +280,8 @@ mimControllers.controller('notificationController',
 	     		{ type:'basic', title: watch.source, iconUrl: '/img/binoculars-icon-16.png', message: notice.url}, 
 	     		function (id) {$scope.dsNotifications.push(id);}) : null;
 	      }
+	      
+	      return watch;
       });
 	});
 }]);
