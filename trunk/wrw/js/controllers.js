@@ -181,8 +181,7 @@ mimControllers.controller('monitorController',
 	
 	// Register onBeforeRequest listener
     chrome.webRequest.onBeforeRequest.addListener(function(info) {
-    	
-    	var redirectedRequest = null, blockedRequest = false;
+    	var blockedRequest = false;
 
     	// Skip if 'calleronly' enabled and tab id not matching 
         if (mimOptions.calleronly && info.tabId && info.tabId != target) {
@@ -206,6 +205,7 @@ mimControllers.controller('monitorController',
             return { cancel : true };
         }
        
+        var redirectedRequest = null;
         mimOptions.rules
         	.filter(function (r) {
         		return r.checked;
