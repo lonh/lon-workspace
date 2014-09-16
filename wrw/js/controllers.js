@@ -162,6 +162,7 @@ mimControllers.controller('monitorController',
 		return log.block ? 'block' : (log.rule ? 'rule' : null);
 	};
 	
+	// Register onHeaders received listener
 	chrome.webRequest.onHeadersReceived.addListener(function(details) {
     	if (/xmlhttprequest|other/.test(details.type) && !!mimOptions.allowcors) { 
     		details.responseHeaders.push({
@@ -177,6 +178,28 @@ mimControllers.controller('monitorController',
     	urls: []
     },
     [ 'blocking', 'responseHeaders' ]);
+	
+	
+	// Register onBeforeSendHeaders listener
+    chrome.webRequest.onBeforeSendHeaders.addListener(function(details) {
+
+    	mimOptions.headers
+    	.filter(function (h) {
+    		return h.checked;
+    	})
+    	.every(function (header) {
+    		// TODO should remove it before inject???
+    		details.requestHeaders.push({name: header.name, value: header.value});
+    		return header;
+    	});
+        
+        return {requestHeaders: details.requestHeaders};
+    },
+    //filters
+    {
+        urls: []
+    },
+    [ 'blocking', 'requestHeaders' ]);
 	
 	
 	// Register onBeforeRequest listener
