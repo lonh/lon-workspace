@@ -26,8 +26,8 @@
 				<li ng-class="{active: options.activeOption == 'blocks'}"><a href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
 				<li ng-class="{active: options.activeOption == 'misc'}"><a href="#misc" ng-click="selectOption('misc')">Misc</a></li>
 				<li>
-					<button type="button" ng-click="addOption()" class="btn btn-sm new" href="#">
-						<i class="glyphicon glyphicon-plus-sign"></i> New </a>
+					<button type="button" ng-click="addOption()" class="btn btn-sm new">
+						<a><i class="glyphicon glyphicon-plus-sign"></i> New </a>
 					</button>
 				</li>
 			</ul>
@@ -160,7 +160,7 @@
 		<div id="autofills-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Form'}" ng-controller="formController">
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills">
-					<button type="button" class="close" aria-hidden="true" ng-really-message="This will delete the entry and CANNOT undo!" ng-really-click="deleteAutofill($index)">&times;</button>
+					<button type="button" class="close" aria-hidden="true" ng-really-click="deleteAutofill($index)">&times;</button>
 					<div class="form-data" ng-click="toggle($index)">
 						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
 						<a href="#" class="pagename">{{::fill.pagename}}</a>
@@ -172,7 +172,7 @@
 								<input type="hidden" name="hostname" value="{{::fill.hostname}}" />
 							</div>
 						</div>
-						<ol class="fields-list" ng-show="show($index)">
+						<ol class="fields-list">
 							<li ng-repeat="form in fill.forms">
 								<form class="form-horizontal" role="form">
 									<div class="form-group" ng-repeat="field in form">
