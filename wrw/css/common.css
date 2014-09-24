@@ -187,7 +187,7 @@ NOT REALLY BOOTSTRAP
 AngularJs animation
 **/
 .ng-hide-add, .alert.ng-hide-remove {
-  transition:0s linear all;
+  transition:linear all 0s;
 }
 
 .ng-hide-add.ng-hide-add-active,
