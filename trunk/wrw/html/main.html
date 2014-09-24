@@ -172,7 +172,7 @@
 								<input type="hidden" name="hostname" value="{{::fill.hostname}}" />
 							</div>
 						</div>
-						<ol class="fields-list">
+						<ol class="fields-list" ng-show="showIndex == $index">
 							<li ng-repeat="form in fill.forms track by $index">
 								<form class="form-horizontal" role="form">
 									<div class="form-group" ng-repeat="field in form">
