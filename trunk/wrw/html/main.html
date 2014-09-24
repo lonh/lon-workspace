@@ -159,8 +159,8 @@
 
 		<div id="autofills-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Form'}" ng-controller="formController">
 			<div class="list">
-				<div class="entry" ng-repeat="fill in autoFills">
-					<button type="button" class="close" aria-hidden="true" ng-really-click="deleteAutofill($index)">&times;</button>
+				<div class="entry" ng-repeat="fill in autoFills track by $index">
+					<button type="button" class="close" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
 					<div class="form-data" ng-click="toggle($index)">
 						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
 						<a href="#" class="pagename">{{::fill.pagename}}</a>
@@ -173,7 +173,7 @@
 							</div>
 						</div>
 						<ol class="fields-list">
-							<li ng-repeat="form in fill.forms">
+							<li ng-repeat="form in fill.forms track by $index">
 								<form class="form-horizontal" role="form">
 									<div class="form-group" ng-repeat="field in form">
 										<label for="{{::field.name}}" class="col-xs-3 control-label">{{::field.name}}</label>
