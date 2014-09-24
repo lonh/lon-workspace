@@ -5,52 +5,40 @@ chrome.browserAction.onClicked.addListener(function() {
     chrome.windows.getAll({populate: true}, function (windows) {
         var appwindow = null;
 
-        allwindows:
-        for (var i = windows.length - 1; i >= 0; i--) {
-            if (windows[i].tabs) {
-                var tabs = windows[i].tabs;
-                for (var j = tabs.length - 1; j >= 0; j--) {
-                    if (tabs[j].title === title) {
-                        appwindow = windows[i];
-                        break allwindows;
-                    }
-                };
-            }
-        };
+        windows.every(function (window, index) {
+            window.tabs.every(function (tab, index) {
+                if (tab.title === title) {
+                    appwindow = window;
+                    return false; // Breakout now
+                }
 
-        if (appwindow) {
-            chrome.windows.update(appwindow.id, {focused: true});
-        } else {
-            startApp();
-        }
+                return tab;
+            });
+
+            return !appwindow;
+        });
+
+        appwindow ? chrome.windows.update(appwindow.id, {focused: true}) : startApp();
     });
 });
 
 var startApp = function() {
     chrome.windows.getCurrent({populate: true}, function (window) {
-        var tabId = null;
-        for (var i = 0; i < window.tabs.length; i++) {
-            if (window.tabs[i].active) {
-                tabId = window.tabs[i].id;
-                break;
-            }
-        };
+        var tabId = window.tabs.filter(function (elem, index) { return elem.active;})[0].id;
 
         var mim_options = localStorage['mim_config'];
         var opt = mim_options ? JSON.parse(mim_options) : {};
         var prefs = opt.prefs || {};
-        var w = parseInt(prefs.width || 640);
-        var h = parseInt(prefs.height || 400);
-        var t = parseInt(prefs.top || window.top);
-        var l = parseInt(prefs.left || (window.left + window.width + 30 - w));
-        
-        chrome.windows.create({
+
+        var params = {
             url: "../html/main.html?wid=" + window.id + "&tid=" + tabId,
             type: "popup",
-            top: t,
-            left: l,
-            width: w,
-            height: h
-        });
+            top: parseInt(prefs.top || window.top),
+            left: parseInt(prefs.left || (window.left + window.width + 30 - w)),
+            width: parseInt(prefs.width || 640),
+            height: parseInt(prefs.height || 400)
+        };
+
+        chrome.windows.create(params);
     });
 };
