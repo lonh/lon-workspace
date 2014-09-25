@@ -8,6 +8,8 @@ import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
+    private BluetoothService bluetoothService = new BluetoothService();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -15,14 +17,6 @@ public class MainActivity extends Activity {
     }
 
     public void startBluetooth(View view) {
-
-        BluetoothAdapter bluetoothAdapter = BluetoothAdapter.getDefaultAdapter();
-
-        if (bluetoothAdapter == null) {
-            ((TextView)findViewById(R.id.textView)).append("Bluetooth are not found!!!");
-        } else {
-            ((TextView)findViewById(R.id.textView)).append("Bluetooth are found!!!");
-        }
-
+        bluetoothService.startBluetooth(view);
     }
 }
