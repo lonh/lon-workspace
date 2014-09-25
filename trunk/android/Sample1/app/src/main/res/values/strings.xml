@@ -3,5 +3,7 @@
 
     <string name="app_name">Sample1</string>
     <string name="hello_world">Hello world!</string>
+    <string name="command">Command</string>
+    <string name="send">Send</string>
 
 </resources>
