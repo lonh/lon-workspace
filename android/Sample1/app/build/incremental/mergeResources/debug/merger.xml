@@ -1,0 +1,58 @@
+<?xml version="1.0" encoding="utf-8"?>
+<merger>
+
+    <dataSet config="main" >
+        <source path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res" >
+            <file
+                name="ic_launcher"
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/drawable-hdpi/ic_launcher.png"
+                qualifiers="hdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/drawable-mdpi/ic_launcher.png"
+                qualifiers="mdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/drawable-xhdpi/ic_launcher.png"
+                qualifiers="xhdpi"
+                type="drawable" />
+            <file
+                name="ic_launcher"
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/drawable-xxhdpi/ic_launcher.png"
+                qualifiers="xxhdpi"
+                type="drawable" />
+            <file
+                name="activity_main"
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/layout/activity_main.xml"
+                qualifiers=""
+                type="layout" />
+            <file
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/values/strings.xml"
+                qualifiers="" >
+                <string name="app_name" >Sample1
+                </string>
+                <string name="hello_world" >Hello world!
+                </string>
+            </file>
+            <file
+                path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/main/res/values/styles.xml"
+                qualifiers="" >
+
+                <style
+                    name="AppTheme"
+                    parent="android:Theme.Holo.Light.DarkActionBar" >
+
+                    <!-- Customize your theme here. -->
+                </style>
+            </file>
+        </source>
+        <source path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/build/res/rs/debug" />
+        <source path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/build/res/generated/debug" />
+    </dataSet>
+    <dataSet config="debug" >
+        <source path="/Users/lhu/eclipse/opt/googlecode/lon-workspace/trunk/android/Sample1/app/src/debug/res" />
+    </dataSet>
+
+</merger>
