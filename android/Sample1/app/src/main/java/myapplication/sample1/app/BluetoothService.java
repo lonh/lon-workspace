@@ -3,7 +3,6 @@ package myapplication.sample1.app;
 import android.bluetooth.BluetoothAdapter;
 import android.view.View;
 import android.widget.TextView;
-import org.w3c.dom.Text;
 
 /**
  * Created by lhu on 9/25/14.

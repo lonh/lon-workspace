@@ -1,10 +1,8 @@
 package myapplication.sample1.app;
 
 import android.app.Activity;
-import android.bluetooth.BluetoothAdapter;
 import android.os.Bundle;
 import android.view.View;
-import android.widget.TextView;
 
 public class MainActivity extends Activity {
 
