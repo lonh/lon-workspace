@@ -5,12 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.view.View;
+import util.MyObservable;
 
-import java.util.Observable;
 import java.util.Set;
 
 
-public class BluetoothService extends Observable {
+public class BluetoothService extends MyObservable {
 
     private Activity activity;
 
@@ -47,10 +47,5 @@ public class BluetoothService extends Observable {
 
         }
 
-    }
-
-    @Override
-    public boolean hasChanged() {
-        return true;
     }
 }
