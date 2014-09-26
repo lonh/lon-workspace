@@ -5,13 +5,12 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.view.View;
-import android.widget.EditText;
-import android.widget.TextView;
 
+import java.util.Observable;
 import java.util.Set;
 
 
-public class BluetoothService {
+public class BluetoothService extends Observable {
 
     private Activity activity;
 
@@ -22,16 +21,15 @@ public class BluetoothService {
     }
 
     public void startBluetooth (View view) {
-
-        TextView textView = (TextView) activity.findViewById(R.id.textView);
-        EditText editText = (EditText) activity.findViewById(R.id.editText);
+        StringBuffer buff = new StringBuffer();
 
         if (bluetoothAdapter == null) {
-            textView.append(editText.getText().toString() + '\n');
-            textView.append("No Bluetooth found!!!" + '\n');
+            buff.append("No Bluetooth found!!!" + '\n');
         } else {
-            textView.append("Bluetooth found!");
+            buff.append("Bluetooth found!");
         }
+
+        notifyObservers(buff);
     }
 
     private void checkBluetooth(BluetoothAdapter bluetoothAdapter) {
@@ -41,7 +39,6 @@ public class BluetoothService {
         }
     }
 
-
     public void findBluetoothDevice() {
         Set<BluetoothDevice> devices =  bluetoothAdapter.getBondedDevices();
 
@@ -50,5 +47,10 @@ public class BluetoothService {
 
         }
 
+    }
+
+    @Override
+    public boolean hasChanged() {
+        return true;
     }
 }
