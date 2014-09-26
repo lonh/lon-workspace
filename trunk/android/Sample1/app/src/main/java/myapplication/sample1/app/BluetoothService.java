@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import java.util.Set;
@@ -22,10 +23,12 @@ public class BluetoothService {
 
     public void startBluetooth (View view) {
 
-        TextView textView = (TextView) view.findViewById(R.id.textView);
+        TextView textView = (TextView) activity.findViewById(R.id.textView);
+        EditText editText = (EditText) activity.findViewById(R.id.editText);
 
         if (bluetoothAdapter == null) {
-            textView.append("No Bluetooth found!!!");
+            textView.append(editText.getText().toString() + '\n');
+            textView.append("No Bluetooth found!!!" + '\n');
         } else {
             textView.append("Bluetooth found!");
         }
