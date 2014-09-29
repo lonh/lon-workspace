@@ -34,7 +34,7 @@ var startApp = function() {
             url: "../html/main.html?wid=" + window.id + "&tid=" + tabId,
             type: "popup",
             top: parseInt(prefs.top || window.top),
-            left: parseInt(prefs.left || (window.left + window.width + 30 - w)),
+            left: parseInt(prefs.left || (window.left + window.width + 30 - (prefs.width || 640))),
             width: parseInt(prefs.width || 640),
             height: parseInt(prefs.height || 400)
         };
