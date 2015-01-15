@@ -1,0 +1,24 @@
+{
+  "name": "SF",
+  "description": "Not much to say ...",
+  "version": "0.1",
+  "permissions":
+  [ "activeTab", "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
+  "background": {
+    "scripts": [ "js/background.js" ]
+  },
+  "icons": {
+    "16": "img/matrix-icon-16.png",
+    "48": "img/matrix-icon-48.png"
+  },
+  "web_accessible_resources": [
+    "img/matrix-icon-48.png",
+    "html/main.html"
+  ],
+  "browser_action": {
+
+    "default_icon": "img/matrix-icon-48.png",
+    "default_title": "SF"
+  },
+  "manifest_version": 2
+}
