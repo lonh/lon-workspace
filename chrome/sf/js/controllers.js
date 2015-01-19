@@ -67,6 +67,42 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     $scope.dep = new Date($.now() + 1 * 24 * 60 * 60 * 1000);
     $scope.ret = new Date($.now() + 5 * 24 * 60 * 60 * 1000);
 
+    $scope.search = function() {
+        var depVal = $scope.dep.toISOString().replace(/T.*$/, '');
+        var retVal = $scope.ret.toISOString().replace(/T.*$/, '');
+
+        chrome.tabs.sendMessage(
+           tid,
+           {
+              from : $scope.from,
+              to : $scope.to,
+              dep : depVal,
+              ret : retVal,
+              action: 'search'
+           },
+           function (response) {
+              $scope.processFlight(response);
+              $scope.$apply();
+           }
+        );
+    };
+
+    $scope.count = function(keys) {
+        chrome.tabs.sendMessage(
+           tid,
+           {
+              legKeys:keys,
+              action: 'count'
+           },
+           function (response) {
+              $scope.processCount(response);
+              $scope.$apply();
+           }
+        );
+    };
+
+
+
     $scope.processFlight = function (response) {
         //$scope.response = $sce.trustAsHtml(response);
 
@@ -126,40 +162,4 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     $scope.processCount = function (response) {
         $scope.count = response;
     };
-
-
-    $scope.search = function() {
-        var depVal = $scope.dep.toISOString().replace(/T.*$/, '');
-        var retVal = $scope.ret.toISOString().replace(/T.*$/, '');
-
-        chrome.tabs.sendMessage(
-           tid,
-           {
-              from : $scope.from,
-              to : $scope.to,
-              dep : depVal,
-              ret : retVal,
-              action: 'search'
-           },
-           function (response) {
-              $scope.processFlight(response);
-              $scope.$apply();
-           }
-        );
-    };
-
-    $scope.count = function(keys) {
-        chrome.tabs.sendMessage(
-           tid,
-           {
-              legKeys:keys,
-              action: 'count'
-           },
-           function (response) {
-              $scope.processCount(response);
-              $scope.$apply();
-           }
-        );
-    };
-
 }]);
