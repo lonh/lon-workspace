@@ -105,7 +105,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               message: $scope.f_samples,
               'from' : from,
               'to' : to,
-              dep : '',
+              'dep' : dep,
               ret : '',
               action: 'search'
            },
@@ -136,7 +136,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         //$scope.response = $sce.trustAsHtml(response);
 
         // Extract info from html
-        var flightElem = $(response).filter('#flights');
+        var flightElem = $(response.message).filter('#flights');
 
         var flights = flightElem.find('#Leaving_base').find('.flight ul').map(function (i, v) {
 
@@ -159,6 +159,9 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             }).get();
 
             return {
+                 'from' : response.from,
+                 'to' : response.to,
+                 'dep' : response.dep,
                  'legs' : legs
             };
         }).get();
