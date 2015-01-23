@@ -76,15 +76,17 @@ window.sf = window.sf || {};
         },
 
         findFlights: function (request, callback) {
-            $.post( this.findFlightsUrl, $.extend({}, this.findFlightsData, request))
+            /*$.post( this.findFlightsUrl, $.extend({}, this.findFlightsData, request))
             .done(function (response) {
                 callback(response);
             });
+            */
+            callback(request.message);
         },
 
         findLegs: function (request, callback) {
 
-            $.delay(1000).ajax ({
+            /*$.ajax ({
                 url: this.findLegUrl,
                 type: "POST",
                 data: JSON.stringify($.extend({}, this.findLegData, request)),
@@ -93,7 +95,8 @@ window.sf = window.sf || {};
                 success: function(response){
                     callback(response);
                 }
-            });
+            });*/
+            callback(request.message);
         }
     });
 

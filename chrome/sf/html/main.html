@@ -57,8 +57,7 @@
 			<div class="col-md-2"><input type="date" name="ret" ng-model="ret"/></div>
 			<div class="col-md-1">
 				<select ng-model="flex">
-					<option value="">Flex</option>
-					<option value="0">0</option>
+					<option value="0">Flex</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
 					<option value="3">3</option>
@@ -73,18 +72,15 @@
 			<div>
 				<ul>
 					<li ng-repeat="flight in flights track by $index">
-						<span>{{::flight.num}} | {{::flight.schedule}} | {{::flight.duration}}</span>
+                        <div ng-repeat="leg in flight.legs track by $$index">
+						    <span>{{::leg.num}} | {{::leg.schedule}} | {{::leg.duration}}</span>
+                        </div>
 					</li>
 				</ul>
 			</div>
 		</div>
 
-		<div class="page-header">
-			<h1>Bootstrap grid examples</h1>
-			<p class="lead">Basic grid layouts to get you familiar with building within the Bootstrap grid system.</p>
-		</div>
 
-		<h3>Three equal columns</h3>
 		<p>Get three equal-width columns <strong>starting at desktops and scaling to large desktops</strong>. On mobile devices, tablets and below, the columns will automatically stack.</p>
 		<div class="row">
 			<div class="col-md-4">.col-md-4</div>

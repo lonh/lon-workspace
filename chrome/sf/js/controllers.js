@@ -62,22 +62,51 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     var wid = parseInt($sfCommon.getParameterByName('wid'));
     var tid = parseInt($sfCommon.getParameterByName('tid'));
 
+    $scope.f_samples = $('#f_samples').html();
+    $scope.l_samples = $('#l_samples').html();
+
+    $scope.flights = [];
+
     $scope.from = 'YYC';
     $scope.to = 'YYZ';
     $scope.dep = new Date($.now() + 1 * 24 * 60 * 60 * 1000);
     $scope.ret = new Date($.now() + 5 * 24 * 60 * 60 * 1000);
+    $scope.flex = 0;
 
-    $scope.search = function() {
-        var depVal = $scope.dep.toISOString().replace(/T.*$/, '');
-        var retVal = $scope.ret.toISOString().replace(/T.*$/, '');
+    $scope.search = function () {
+
+        var froms = $scope.from.split(',');
+        var tos = $scope.to.split(',');
+        var flex = $scope.flex;
+
+        var count = 1;
+
+        froms.forEach(function (from) {
+            tos.forEach(function (to) {
+               for (var i = 0; i <= $scope.flex; i ++) {
+                var dep = new Date($scope.dep.getTime() + i * 24 * 60 * 60 * 1000);
+
+                $window.setTimeout(function () {
+                    $scope.searchFlight(dep, from , to);
+                }, 3000 * count);
+
+                count ++;
+               }
+            });
+        });
+    }
+
+    $scope.searchFlight = function(dep, from, to) {
+        var dep = dep.toISOString().replace(/T.*$/, '');
 
         chrome.tabs.sendMessage(
            tid,
            {
-              from : $scope.from,
-              to : $scope.to,
-              dep : depVal,
-              ret : retVal,
+              message: $scope.f_samples,
+              'from' : from,
+              'to' : to,
+              dep : '',
+              ret : '',
               action: 'search'
            },
            function (response) {
@@ -91,6 +120,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         chrome.tabs.sendMessage(
            tid,
            {
+              message: $scope.l_samples,
               legKeys:keys,
               action: 'count'
            },
@@ -155,7 +185,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             });
         });
 
-        $scope.flights = flights;
+        $scope.flights =  $scope.flights.concat(flights);
     };
 
     $scope.processCount = function (response) {
