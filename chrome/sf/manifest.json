@@ -8,16 +8,16 @@
     "scripts": [ "js/background.js" ]
   },
   "icons": {
-    "16": "img/matrix-icon-16.png",
-    "48": "img/matrix-icon-48.png"
+    "16": "img/sf-icon-16.png",
+    "48": "img/sf-icon-48.png"
   },
   "web_accessible_resources": [
-    "img/matrix-icon-48.png",
+    "img/sf-icon-48.png",
     "html/main.html"
   ],
   "browser_action": {
 
-    "default_icon": "img/matrix-icon-48.png",
+    "default_icon": "img/sf-icon-48.png",
     "default_title": "SF"
   },
   "manifest_version": 2

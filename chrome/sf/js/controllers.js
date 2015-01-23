@@ -102,7 +102,6 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
 
-
     $scope.processFlight = function (response) {
         //$scope.response = $sce.trustAsHtml(response);
 
