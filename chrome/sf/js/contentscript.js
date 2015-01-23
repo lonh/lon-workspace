@@ -81,7 +81,7 @@ window.sf = window.sf || {};
                 callback(response);
             });
             */
-            callback(request.message);
+            callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
         findLegs: function (request, callback) {

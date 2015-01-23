@@ -72,6 +72,9 @@
 			<div>
 				<ul>
 					<li ng-repeat="flight in flights track by $index">
+                        <div>
+                            <span>{{::flight.from}} - {{::flight.to}} - {{::flight.dep}}</span>
+                        </div>
                         <div ng-repeat="leg in flight.legs track by $$index">
 						    <span>{{::leg.num}} | {{::leg.schedule}} | {{::leg.duration}}</span>
                         </div>
