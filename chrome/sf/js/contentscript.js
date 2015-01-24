@@ -70,7 +70,7 @@ window.sf = window.sf || {};
         },
 
         findFlights: function (request, callback) {
-            var flightRequest = $.extend({}, this.findFlightsData);
+            /*var flightRequest = $.extend({}, this.findFlightsData);
             flightRequest['Step.From.Code'] = request.from;
             flightRequest['Step.To.Code'] = request.to;
             flightRequest['Step.Leaving'] = request.dep;
@@ -79,9 +79,9 @@ window.sf = window.sf || {};
             $.post( this.findFlightsUrl, flightRequest)
             .done(function (response) {
                 callback({message: response, 'from': request.from, 'to': request.to, 'dep': request.dep});
-            });
+            });*/
             
-            //callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
+            callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
         findLegs: function (request, callback) {
