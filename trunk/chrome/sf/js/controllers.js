@@ -1,6 +1,6 @@
 'use strict';
 
-window.sf_throttle = 300;
+window.sf_throttle = 5000;
 
 /* Shared Data/Services */
 sf.factory('sfCommon', ['$window', function ($window) {
