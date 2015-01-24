@@ -89,37 +89,37 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         var flex = $scope.flex;
 
         // Process outbound
-        var count = $scope.loopOD(froms, tos, dep, 1);
-
-        // Process inbound
-        $scope.loopOD(tos, froms, ret, count);
+        $scope.loopOD(froms, tos, $scope.dep, $scope.ret, 1);
     };
 
 
-    $scope.loopOD = function (froms, tos, dep, count) {
-      froms.forEach(function (from) {
-            tos.forEach(function (to) {
-               for (var i = 0; i <= $scope.flex; i ++) {
-                var dep = new Date($scope.dep); dep.setDate(dep.getDate() + i);
+    $scope.loopOD = function ($froms, $tos, $dep, $ret, $count) {
+      $froms.forEach(function (from) {
+            $tos.forEach(function (to) {
+               for (var i = -$scope.flex; i <= $scope.flex; i ++) {
+                var dep = new Date($dep); dep.setDate(dep.getDate() + i);
                 dep = dep.toISOString().replace(/T.*$/, '');
 
-                (function ($d, $f, $t) {
+                var ret = new Date($ret); ret.setDate(ret.getDate() + i);
+                ret = ret.toISOString().replace(/T.*$/, '');
+
+                (function ($f, $t, $d, $r) {
                   $window.setTimeout(function () {
-                    $scope.searchFlight($d, $f, $t, $scope.outbounds);
-                  }, $window.sf_throttle * count);
+                    $scope.searchFlight($f, $t, $d, $r);
+                  }, $window.sf_throttle * $count);
 
-                })(dep, from , to);
+                })(from , to, dep, ret);
 
-                count ++;
+                $count ++;
                }
             });
         });
 
-      return count;
+      return $count;
     };
 
 
-    $scope.searchFlight = function(dep, from, to, list) {
+    $scope.searchFlight = function(from, to, dep, ret) {
 
         chrome.tabs.sendMessage(
            tid,
@@ -128,11 +128,11 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               'from' : from,
               'to' : to,
               'dep' : dep,
-              ret : '',
+              'ret' : ret,
               action: 'search'
            },
            function (response) {
-              $scope.processFlight(response, list);
+              $scope.processFlight(response);
               $scope.$apply();
            }
         );
@@ -154,7 +154,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
 
-    $scope.processFlight = function (response, list) {
+    $scope.processFlight = function (response) {
         //$scope.response = $sce.trustAsHtml(response);
 
         // Extract info from html
@@ -209,10 +209,11 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
         //$scope.flights =  $scope.flights.concat(flights);
 
-        list.push({
+        $scope.outbounds.push({
           'from' : response.from,
           'to' : response.to,
           'dep' : response.dep,
+          'ret': response.ret,
           'flights' : flights
         });
     };
