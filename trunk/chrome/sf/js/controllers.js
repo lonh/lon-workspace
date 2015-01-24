@@ -170,11 +170,19 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                 }).get().join(' | ');
 
                 var details = legElem.find('table tr.leg-detail td');
-                var num = $.trim(details.eq(3).text());
                 var duration = $.trim(details.eq(1).text());
+                var num = legElem.find('.col-flight-num div:first').text();
+                var dep = legElem.find('.col-flight-time:first').text();
+                var arr = legElem.find('.col-flight-time:last').text();
+                var origin = legElem.find('.col-flight-city:first').text();
+                var destination = legElem.find('.col-flight-city:last').text();
 
                 return {
                     'num' : num,
+                    'dep' : dep,
+                    'arr' : arr,
+                    'origin' : origin,
+                    'destination' : destination,
                     'duration': duration,
                     'schedule': schedule
                 }
@@ -199,6 +207,8 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         var flattedLegs = $.map(legs, function (leg) {
             return leg;
         });
+
+        $scope.flattedLegs = flattedLegs;
 
         // Merge objects
         $.each(flights, function (index, flight) {
