@@ -78,9 +78,9 @@ window.sf = window.sf || {};
         findFlights: function (request, callback) {
             /*$.post( this.findFlightsUrl, $.extend({}, this.findFlightsData, request))
             .done(function (response) {
-                callback(response);
-            });
-            */
+                callback({message: response, 'from': request.from, 'to': request.to, 'dep': request.dep});
+            });*/
+            
             callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
