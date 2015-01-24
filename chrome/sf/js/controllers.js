@@ -1,5 +1,7 @@
 'use strict';
 
+window.sf_throttle = 300;
+
 /* Shared Data/Services */
 sf.factory('sfCommon', ['$window', function ($window) {
 	return {
@@ -67,10 +69,17 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
     $scope.flights = [];
 
+    $scope.outbounds = [];
+    $scope.inbounds = [];
+
     $scope.from = 'YYC';
     $scope.to = 'YYZ';
-    $scope.dep = new Date($.now() + 1 * 24 * 60 * 60 * 1000);
-    $scope.ret = new Date($.now() + 5 * 24 * 60 * 60 * 1000);
+
+    var dt1 = new Date(); dt1.setDate(dt1.getDate() + 1); 
+    var dt2 = new Date(); dt2.setDate(dt2.getDate() + 7); 
+
+    $scope.dep = dt1;
+    $scope.ret = dt2
     $scope.flex = 0;
 
     $scope.search = function () {
@@ -79,25 +88,38 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         var tos = $scope.to.split(',');
         var flex = $scope.flex;
 
-        var count = 1;
+        // Process outbound
+        var count = $scope.loopOD(froms, tos, dep, 1);
 
-        froms.forEach(function (from) {
+        // Process inbound
+        $scope.loopOD(tos, froms, ret, count);
+    };
+
+
+    $scope.loopOD = function (froms, tos, dep, count) {
+      froms.forEach(function (from) {
             tos.forEach(function (to) {
                for (var i = 0; i <= $scope.flex; i ++) {
-                var dep = new Date($scope.dep.getTime() + i * 24 * 60 * 60 * 1000);
+                var dep = new Date($scope.dep); dep.setDate(dep.getDate() + i);
+                dep = dep.toISOString().replace(/T.*$/, '');
 
-                $window.setTimeout(function () {
-                    $scope.searchFlight(dep, from , to);
-                }, 3000 * count);
+                (function ($d, $f, $t) {
+                  $window.setTimeout(function () {
+                    $scope.searchFlight($d, $f, $t, $scope.outbounds);
+                  }, $window.sf_throttle * count);
+
+                })(dep, from , to);
 
                 count ++;
                }
             });
         });
-    }
 
-    $scope.searchFlight = function(dep, from, to) {
-        var dep = dep.toISOString().replace(/T.*$/, '');
+      return count;
+    };
+
+
+    $scope.searchFlight = function(dep, from, to, list) {
 
         chrome.tabs.sendMessage(
            tid,
@@ -110,7 +132,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               action: 'search'
            },
            function (response) {
-              $scope.processFlight(response);
+              $scope.processFlight(response, list);
               $scope.$apply();
            }
         );
@@ -132,7 +154,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
 
-    $scope.processFlight = function (response) {
+    $scope.processFlight = function (response, list) {
         //$scope.response = $sce.trustAsHtml(response);
 
         // Extract info from html
@@ -159,9 +181,6 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             }).get();
 
             return {
-                 'from' : response.from,
-                 'to' : response.to,
-                 'dep' : response.dep,
                  'legs' : legs
             };
         }).get();
@@ -188,7 +207,14 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             });
         });
 
-        $scope.flights =  $scope.flights.concat(flights);
+        //$scope.flights =  $scope.flights.concat(flights);
+
+        list.push({
+          'from' : response.from,
+          'to' : response.to,
+          'dep' : response.dep,
+          'flights' : flights
+        });
     };
 
     $scope.processCount = function (response) {
