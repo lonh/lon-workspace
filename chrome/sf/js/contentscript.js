@@ -55,12 +55,6 @@ window.sf = window.sf || {};
                 function(request, sender, sendResponse) {
                 	switch (request.action) {
             		case 'search':
-            		    delete request.action;
-            		    request['Step.From.Code'] = request.from;
-            		    request['Step.To.Code'] = request.to;
-            		    request['Step.Leaving'] = request.dep;
-            		    request['Step.Returning'] = request.ret;
-
             			o.findFlights(request, sendResponse);
             			break;
                     case 'count':
@@ -76,12 +70,18 @@ window.sf = window.sf || {};
         },
 
         findFlights: function (request, callback) {
-            /*$.post( this.findFlightsUrl, $.extend({}, this.findFlightsData, request))
+            var flightRequest = $.extend({}, this.findFlightsData);
+            flightRequest['Step.From.Code'] = request.from;
+            flightRequest['Step.To.Code'] = request.to;
+            flightRequest['Step.Leaving'] = request.dep;
+            flightRequest['Step.Returning'] = request.ret;
+
+            $.post( this.findFlightsUrl, flightRequest)
             .done(function (response) {
                 callback({message: response, 'from': request.from, 'to': request.to, 'dep': request.dep});
-            });*/
+            });
             
-            callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
+            //callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
         findLegs: function (request, callback) {
