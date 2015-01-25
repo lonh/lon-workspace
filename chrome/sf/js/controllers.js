@@ -1,10 +1,14 @@
 'use strict';
 
-window.sf_throttle = 5000;
+window.sf_throttle = 50;
 
 /* Shared Data/Services */
 sf.factory('sfCommon', ['$window', function ($window) {
 	return {
+
+    formatDate : function (date) {
+      return [date.getFullYear(), date.getMonth() + 1, date.getDate()].join('-');
+    },
 
 		getParameterByName: function(name) {
             name = name.replace(/[\[]/, "\\\[").replace(/[\]]/, "\\\]");
@@ -22,22 +26,22 @@ sf.factory('sfCommon', ['$window', function ($window) {
 			return url.indexOf('?') != -1;
         },
 
-        decodeUrl: function (url) {
-            var result = {'url': url};
-            var decodedUrl = url.split('?');
-            result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
+    decodeUrl: function (url) {
+        var result = {'url': url};
+        var decodedUrl = url.split('?');
+        result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
 
-            for (var i = result.paramlist.length - 1; i >= 0; i--) {
-                var param = result.paramlist[i].split("=");
-                result.paramlist[i] = {name : param[0], value : param[1]};
-            };
+        for (var i = result.paramlist.length - 1; i >= 0; i--) {
+            var param = result.paramlist[i].split("=");
+            result.paramlist[i] = {name : param[0], value : param[1]};
+        };
 
-            result.paramlist.sort(function (a, b) {
+        result.paramlist.sort(function (a, b) {
     			return a.name >= b.name ? 1 : -1;
     		});
 
-            return result;
-        }
+        return result;
+    }
 	};
 }]);
 
@@ -75,13 +79,14 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     $scope.from = 'YYC';
     $scope.to = 'YYZ';
 
-    var dt1 = new Date(); dt1.setDate(dt1.getDate() + 1); 
-    var dt2 = new Date(); dt2.setDate(dt2.getDate() + 7); 
+    var dt1 = new Date(); dt1.setDate(dt1.getDate() + 3); 
+    var dt2 = new Date(); dt2.setDate(dt2.getDate() + 10); 
 
     $scope.dep = dt1;
     $scope.ret = dt2
     $scope.flex = 0;
 
+    // Public function for controllers
     $scope.search = function () {
 
         var froms = $scope.from.split(',');
@@ -89,23 +94,25 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         var flex = $scope.flex;
 
         // Process outbound
-        $scope.loopOD(froms, tos, $scope.dep, $scope.ret, 1);
+        loopOD(froms, tos, $scope.dep, $scope.ret, 1);
     };
 
 
-    $scope.loopOD = function ($froms, $tos, $dep, $ret, $count) {
+
+    // Private functions 
+    var loopOD = function ($froms, $tos, $dep, $ret, $count) {
       $froms.forEach(function (from) {
             $tos.forEach(function (to) {
                for (var i = -$scope.flex; i <= $scope.flex; i ++) {
                 var dep = new Date($dep); dep.setDate(dep.getDate() + i);
-                dep = dep.toISOString().replace(/T.*$/, '');
+                dep = $sfCommon.formatDate(dep);
 
                 var ret = new Date($ret); ret.setDate(ret.getDate() + i);
-                ret = ret.toISOString().replace(/T.*$/, '');
+                ret = $sfCommon.formatDate(ret);
 
                 (function ($f, $t, $d, $r) {
                   $window.setTimeout(function () {
-                    $scope.searchFlight($f, $t, $d, $r);
+                    searchFlight($f, $t, $d, $r);
                   }, $window.sf_throttle * $count);
 
                 })(from , to, dep, ret);
@@ -119,8 +126,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
 
-    $scope.searchFlight = function(from, to, dep, ret) {
-
+    var searchFlight = function(from, to, dep, ret) {
         chrome.tabs.sendMessage(
            tid,
            {
@@ -132,30 +138,15 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               action: 'search'
            },
            function (response) {
-              $scope.processFlight(response);
-              $scope.$apply();
-           }
-        );
-    };
-
-    $scope.count = function(keys) {
-        chrome.tabs.sendMessage(
-           tid,
-           {
-              message: $scope.l_samples,
-              legKeys:keys,
-              action: 'count'
-           },
-           function (response) {
-              $scope.processCount(response);
+              processFlight(response);
               $scope.$apply();
            }
         );
     };
 
 
-    $scope.processFlight = function (response) {
-        //$scope.response = $sce.trustAsHtml(response);
+
+    var processFlight = function (response) {
 
         // Extract info from html
         var flightElem = $(response.message).filter('#flights');
@@ -209,6 +200,12 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         });
 
         $scope.flattedLegs = flattedLegs;
+        var len = flattedLegs.length;
+        var step = 4;
+        for (var i = 0; i < len; i+=step) {
+            var tmp = flattedLegs.slice(i,i+step);
+            searchSeatCount(tmp);
+        }
 
         // Merge objects
         $.each(flights, function (index, flight) {
@@ -216,8 +213,6 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                 leg.key = legs[index][ind];
             });
         });
-
-        //$scope.flights =  $scope.flights.concat(flights);
 
         $scope.outbounds.push({
           'from' : response.from,
@@ -228,7 +223,22 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         });
     };
 
-    $scope.processCount = function (response) {
-        $scope.count = response;
+    var searchSeatCount = function(keys) {
+        chrome.tabs.sendMessage(
+           tid,
+           {
+              message: $scope.l_samples,
+              legKeys: keys,
+              action: 'count'
+           },
+           function (response) {
+              processCount(response);
+              $scope.$apply();
+           }
+        );
+    };
+
+    var processCount = function (response) {
+        console.log(response);
     };
 }]);

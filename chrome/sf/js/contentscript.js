@@ -70,33 +70,39 @@ window.sf = window.sf || {};
         },
 
         findFlights: function (request, callback) {
-            /*var flightRequest = $.extend({}, this.findFlightsData);
+            var flightRequest = $.extend({}, this.findFlightsData);
             flightRequest['Step.From.Code'] = request.from;
             flightRequest['Step.To.Code'] = request.to;
             flightRequest['Step.Leaving'] = request.dep;
             flightRequest['Step.Returning'] = request.ret;
 
+            $.ajaxSetup({async: false});
             $.post( this.findFlightsUrl, flightRequest)
             .done(function (response) {
                 callback({message: response, 'from': request.from, 'to': request.to, 'dep': request.dep});
-            });*/
+            });
+            $.ajaxSetup({async: true});
             
-            callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
+            //callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
         findLegs: function (request, callback) {
+            var findLegRequest = $.extend({}, this.findLegData);
+            findLegRequest['legKeys'] = request.legKeys;
 
-            /*$.ajax ({
+            $.ajaxSetup({async: false});
+            $.ajax ({
                 url: this.findLegUrl,
                 type: "POST",
-                data: JSON.stringify($.extend({}, this.findLegData, request)),
+                data: JSON.stringify(findLegRequest),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function(response){
                     callback(response);
                 }
-            });*/
-            callback(request.message);
+            });
+            $.ajaxSetup({async: true});
+            //callback(request.message);
         }
     });
 
