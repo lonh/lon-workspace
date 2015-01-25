@@ -32,8 +32,8 @@ var startApp = function() {
             chrome.tabs.executeScript(tabId, { file: "js/contentscript.js" });
         });
 
-        var mim_options = localStorage['sf_config'];
-        var opt = mim_options ? JSON.parse(mim_options) : {};
+        var sf_options = localStorage['sf_config'];
+        var opt = sf_options ? JSON.parse(sf_options) : {};
         var prefs = opt.prefs || {};
 
         var params = {

@@ -20,6 +20,7 @@
 		h4 {
 			margin-top: 25px;
 		}
+		/*
 		.row {
 			margin-bottom: 20px;
 		}
@@ -41,7 +42,7 @@
 			margin-bottom: 40px;
 		}
 
-
+		*/
 		input {
 			/*width: 100%;*/
 		}
@@ -53,12 +54,14 @@
 	<div class="container" ng-controller="searchController">
 
 		<div class="row" >
-			<div class="col-md-2"><input type="text" name="from" ng-model="from" /></div>
-			<div class="col-md-2"><input type="text" name="to" ng-model="to" /></div>
-			<div class="col-md-2"><input type="date" name="dep" ng-model="dep" /></div>
-			<div class="col-md-2"><input type="date" name="ret" ng-model="ret"/></div>
+			<div class="col-md-2">
+				<input type="text" name="from" ng-model="options.from" />
+				<input type="text" name="to" ng-model="options.to" />
+				<input type="date" name="dep" ng-model="options.dep" />
+				<input type="date" name="ret" ng-model="options.ret"/>
+			</div>
 			<div class="col-md-1">
-				<select ng-model="flex">
+				<select ng-model="options.flex">
 					<option value="0">Flex</option>
 					<option value="1">1</option>
 					<option value="2">2</option>
@@ -66,8 +69,8 @@
 					<option value="4">4</option>
 					<option value="5">5</option>
 				</select>
+				<button ng-click="search()" >Search</button>
 			</div>
-			<div class="col-md-1"><button ng-click="search()" >Search</button></div>
 		</div>
 
 		<div class="row">
