@@ -45,12 +45,30 @@ sf.factory('sfCommon', ['$window', function ($window) {
 	};
 }]);
 
+// Retrieve options
+sf.factory('sfOptions', function() {
+  
+  // Load/Initialize options from local storage
+  var opt = angular.fromJson(localStorage['sf_config'] || '{}');
+    opt.prefs = opt.prefs || {};
+    opt.prefs.width = opt.prefs.width || 0;
+    opt.prefs.height = opt.prefs.height || 0;
+    
+    opt.from = opt.from || 'YYC';
+    opt.to = opt.to || '';
+    opt.flex = opt.flex || 0;
+
+    opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
+    opt.ret = opt.ret ? new Date(opt.ret) : new Date($.now() + 7 * 86400000);
+  
+  return opt;
+});
 
 
 /* Controllers */
 var sfControllers = angular.module('sfControllers', []);
 
-sfControllers.controller('mainController', ['$scope', '$window', '$document', function ($scope, $window, $document) {
+sfControllers.controller('mainController', ['$scope', '$window', '$document', 'sfOptions', function ($scope, $window, $document, sfOptions) {
 
     // ESC to close
     angular.element($document).on('keyup', function(event) {
@@ -61,12 +79,25 @@ sfControllers.controller('mainController', ['$scope', '$window', '$document', fu
     $scope.documentKeyUp = function (event) {
         event.keyCode === 27 ? $window.close() : null;
     };
+
+    angular.element($window).on('resize unload', function () {
+      
+      angular.extend(sfOptions.prefs, {
+        width: $window.outerWidth, 
+        height: $window.innerHeight,
+        top: $window.screenTop,
+        left: $window.screenLeft
+      });
+        
+      localStorage['sf_config'] = angular.toJson(sfOptions);
+    }); 
 }]);
 
-sfControllers.controller('searchController', ['$scope', '$window', '$document', '$sce', 'sfCommon', function ($scope, $window, $document, $sce, $sfCommon) {
+sfControllers.controller('searchController', ['$scope', '$window', '$document', '$sce', 'sfCommon', 'sfOptions', 
+    function ($scope, $window, $document, $sce, sfCommon, sfOptions) {
 
-    var wid = parseInt($sfCommon.getParameterByName('wid'));
-    var tid = parseInt($sfCommon.getParameterByName('tid'));
+    var wid = parseInt(sfCommon.getParameterByName('wid'));
+    var tid = parseInt(sfCommon.getParameterByName('tid'));
 
     $scope.f_samples = $('#f_samples').html();
     $scope.l_samples = $('#l_samples').html();
@@ -76,34 +107,23 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     $scope.outbounds = [];
     $scope.inbounds = [];
 
-    $scope.from = 'YYC';
-    $scope.to = 'YYZ';
-
-    var dt1 = new Date(); dt1.setDate(dt1.getDate() + 3); 
-    var dt2 = new Date(); dt2.setDate(dt2.getDate() + 10); 
-
-    $scope.dep = dt1;
-    $scope.ret = dt2
-    $scope.flex = 0;
+    $scope.options = sfOptions;
 
     // Public function for controllers
     $scope.search = function () {
-
-        var froms = $scope.from.split(',');
-        var tos = $scope.to.split(',');
-        var flex = $scope.flex;
-
-        // Process outbound
-        loopOD(froms, tos, $scope.dep, $scope.ret, 1);
+        loopOD(
+          this.options.from.split(','), 
+          this.options.to.split(','), 
+          this.options.dep, 
+          this.options.ret,
+          this.options.flex,
+          1);
     };
 
-
-
-    // Private functions 
-    var loopOD = function ($froms, $tos, $dep, $ret, $count) {
+    var loopOD = function ($froms, $tos, $dep, $ret, $flex, $count) {
       $froms.forEach(function (from) {
             $tos.forEach(function (to) {
-               for (var i = -$scope.flex; i <= $scope.flex; i ++) {
+               for (var i = -$flex; i <= $flex; i ++) {
                 var dep = new Date($dep); dep.setDate(dep.getDate() + i);
                 dep = $sfCommon.formatDate(dep);
 
@@ -115,7 +135,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                     searchFlight($f, $t, $d, $r);
                   }, $window.sf_throttle * $count);
 
-                })(from , to, dep, ret);
+                })(from, to, dep, ret);
 
                 $count ++;
                }
