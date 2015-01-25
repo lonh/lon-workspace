@@ -59,7 +59,7 @@ sf.factory('sfOptions', function() {
     opt.flex = opt.flex || 0;
 
     opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
-    opt.ret = opt.ret ? new Date(opt.ret) : new Date($.now() + 7 * 86400000);
+    opt.ret = opt.ret ? new Date(opt.ret) : null;
   
   return opt;
 });
@@ -125,10 +125,14 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             $tos.forEach(function (to) {
                for (var i = -$flex; i <= $flex; i ++) {
                 var dep = new Date($dep); dep.setDate(dep.getDate() + i);
-                dep = $sfCommon.formatDate(dep);
+                dep = sfCommon.formatDate(dep);
 
-                var ret = new Date($ret); ret.setDate(ret.getDate() + i);
-                ret = $sfCommon.formatDate(ret);
+                var ret = 'yyyy-mm-dd';
+                if ($ret) {
+                  ret = new Date($ret); ret.setDate(ret.getDate() + i); 
+                  ret = sfCommon.formatDate(ret);
+                }
+
 
                 (function ($f, $t, $d, $r) {
                   $window.setTimeout(function () {
