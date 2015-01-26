@@ -109,15 +109,47 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
     $scope.options = sfOptions;
 
+    $scope.searchingQueue = [];
+    $scope.searchingFlag = false;
+
     // Public function for controllers
     $scope.search = function () {
-        loopOD(
-          this.options.from.split(','), 
-          this.options.to.split(','), 
-          this.options.dep, 
+         var froms = this.options.from.split(',');
+         var tos = this.options.to.split(',');
+         var dep = this.options.dep;
+         var ret = this.options.ret;
+         var flex = this.options.flex;
+
+        froms.forEach(function (from) {
+            tos.forEach(function (to) {
+               for (var i = -flex; i <= flex; i ++) {
+                var d = new Date(dep); d.setDate(d.getDate() + i); d = sfCommon.formatDate(d);
+
+                var r = 'yyyy-mm-dd';
+                if (ret) {
+                  r = new Date(ret); r.setDate(r.getDate() + i); r = sfCommon.formatDate(ret);
+                }
+
+                $scope.searchingQueue.push({
+                    'from': from,
+                    'to' : to,
+                    'dep' : d,
+                    'ret' : r
+                });
+
+               }
+            });
+        });
+
+        searchFlight($scope.searchingQueue.shift());
+
+        /*loopOD(
+          this.options.from.split(','),
+          this.options.to.split(','),
+          this.options.dep,
           this.options.ret,
           this.options.flex,
-          1);
+          1);*/
     };
 
     var loopOD = function ($froms, $tos, $dep, $ret, $flex, $count) {
@@ -150,20 +182,25 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
 
-    var searchFlight = function(from, to, dep, ret) {
+    var searchFlight = function(data) {
+
         chrome.tabs.sendMessage(
            tid,
            {
               message: $scope.f_samples,
-              'from' : from,
-              'to' : to,
-              'dep' : dep,
-              'ret' : ret,
+              'from' : data.from,
+              'to' : data.to,
+              'dep' : data.dep,
+              'ret' : data.ret,
               action: 'search'
            },
            function (response) {
               processFlight(response);
               $scope.$apply();
+
+              if ($scope.searchingQueue.length != 0) {
+                searchFlight($scope.searchingQueue.shift());
+              }
            }
         );
     };
