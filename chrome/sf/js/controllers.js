@@ -218,25 +218,30 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             return [ keys ];
         }).get();
 
-        // Get seat count
-        var flattedLegs = $.map(legs, function (leg) {
-            return leg;
-        });
-
-        $scope.flattedLegs = flattedLegs;
-        var len = flattedLegs.length;
-        var step = 4;
-        for (var i = 0; i < len; i+=step) {
-            var tmp = flattedLegs.slice(i,i+step);
-            searchSeatCount(tmp);
-        }
 
         // Merge objects
+        var flattenedLegs = [];
         $.each(flights, function (index, flight) {
             $.each(flight.legs, function (ind, leg) {
                 leg.key = legs[index][ind];
+                flattenedLegs.push(leg);
             });
         });
+
+        // Get seat count
+        // var flattenedLegs = $.map(legs, function (leg) {
+        //     return leg;
+        // });
+
+        $scope.flattenedLegs = flattenedLegs;
+        var len = flattenedLegs.length;
+        var step = 4;
+        for (var i = 0; i < len; i += step) {
+            var tmp = flattenedLegs.slice(i, i + step);
+            searchSeatCount($.map(tmp, function (v) {
+              return v.key;
+            }), tmp);
+        }
 
         $scope.outbounds.push({
           'from' : response.from,
@@ -247,7 +252,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         });
     };
 
-    var searchSeatCount = function(keys) {
+    var searchSeatCount = function(keys, legs) {
         chrome.tabs.sendMessage(
            tid,
            {
@@ -256,13 +261,24 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               action: 'count'
            },
            function (response) {
-              processCount(response);
+              processCount(response, legs);
               $scope.$apply();
            }
         );
     };
 
-    var processCount = function (response) {
-        console.log(response);
+    var processCount = function (response, legs) {
+        var legDetails = JSON.parse(response);
+
+        for (var i = legDetails.length - 1; i >= 0; i--) {
+          var ld = legDetails[i];
+
+          for (var j = legs.length - 1; j >= 0; j--) {
+            var leg = legs[j];
+            if (leg.key == ld.legKey) {
+              leg.seatCounts = ld.seatCounts;
+            }
+          };
+        };
     };
 }]);
