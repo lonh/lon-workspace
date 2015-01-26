@@ -106,20 +106,6 @@ window.sf = window.sf || {};
         }
     });
 
-
-    // Test post
-    /*var leg = {
-        "reference":"b2d0c9ee-9622-4da1-962d-e92e56377dda",
-        "legKeys[]":["5859d8be-27f8-422d-90c9-432716caf823","d4b0e869-c285-4c5b-a40a-f8d8fbc3343a","6d6cf4c3-92f1-46fb-a5e1-f76b30460f97"]
-    };
-    */
-    /*
-    $.post( 'Async/GetSeatCounts', leg)
-    .done(function (response) {
-        $('body').append(response);
-    });
-    */
-
     new _.SF();
 
     console.log("End of initialize SF, everything seems fine!");

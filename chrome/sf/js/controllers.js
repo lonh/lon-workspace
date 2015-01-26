@@ -93,8 +93,8 @@ sfControllers.controller('mainController', ['$scope', '$window', '$document', 's
     }); 
 }]);
 
-sfControllers.controller('searchController', ['$scope', '$window', '$document', '$sce', 'sfCommon', 'sfOptions', 
-    function ($scope, $window, $document, $sce, sfCommon, sfOptions) {
+sfControllers.controller('searchController', ['$scope', '$window', '$document', 'sfCommon', 'sfOptions',
+    function ($scope, $window, $document, sfCommon, sfOptions) {
 
     var wid = parseInt(sfCommon.getParameterByName('wid'));
     var tid = parseInt(sfCommon.getParameterByName('tid'));
