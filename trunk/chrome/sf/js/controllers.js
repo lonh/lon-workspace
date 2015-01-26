@@ -281,11 +281,11 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         }
 
         $scope.outbounds.push({
-          'from' : response.from,
-          'to' : response.to,
-          'dep' : response.dep,
-          'ret': response.ret,
-          'flights' : flights
+            'from' : response.from,
+            'to' : response.to,
+            'dep' : response.dep,
+            'ret': response.ret,
+            'flights' : flights
         });
     };
 
