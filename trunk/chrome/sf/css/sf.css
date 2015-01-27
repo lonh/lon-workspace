@@ -10,15 +10,18 @@ h4 {
     text-transform: uppercase;
 }
 
-.even {
-    margin: 5px 0;
-    background: rgb(203, 232, 255);
-}
-
 .container {
     position: relative;
 }
 
+.flight {
+    padding: 3px 3px 3px 8px;
+    border-bottom: 1px dotted #7F90A2;
+}
+
+.even {
+    background: rgb(203, 232, 255);
+}
 .flight-leg .lg,
 .flight-leg .md,
 .flight-leg .sm {
@@ -29,34 +32,18 @@ h4 {
     margin: 2px 0;
 }
 
-.flight-leg .lg {
-    min-width: 175px;
-}
-
-.flight-leg .md {
-   min-width: 75px;
-}
-
-.flight-leg .sm {
-    min-width: 30px;
-}
+.flight-leg .lg { width: 20%; }
+.flight-leg .md { width: 15%; }
+.flight-leg .sm { width: 5%; }
 
 .unsold {
     text-align: center;
     color: #EEE;
 }
 
-.red .unsold {
-    background: red;
-}
-
-.green .unsold {
-    background: green;
-}
-
-.yellow .unsold {
-    background: orange;
-}
+.red .unsold { background: red; }
+.green .unsold { background: green; }
+.yellow .unsold { background: orange; }
 
 #loading {
     position: absolute;

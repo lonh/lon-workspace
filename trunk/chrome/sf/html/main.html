@@ -37,47 +37,48 @@
 		</div>
 
 		<div class="row">
-				<ul>
-					<li ng-repeat="outbound in outbounds track by $index">
-                        <h4>
-                            <span>{{::outbound.dep}} : {{::outbound.from}} - {{::outbound.to}}</span>
-                        </h4>
-                        <div class="flight" ng-repeat="flight in outbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
-                            <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
-                                <span class="sm"><b>{{::leg.num}}</b></span>
-                                <span class="md">{{::leg.dep}}</span>
-                                <span class="lg">{{::leg.origin}}</span>
-                                <span class="md">{{::leg.arr}}</span>
-                                <span class="lg">{{::leg.destination}}</span>
-                                <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
-                                <span class="sm">{{::leg.seatCounts.lid}}</span>
-                                <span class="sm">{{::leg.seatCounts.capacity}}</span>
-                            </div>
-                        </div>
-					</li>
-				</ul>
+            <h3 ng-show="outbounds.length">Outbounds</h3>
+            <div ng-repeat="outbound in outbounds track by $index">
+                <h4>
+                    <span>{{::outbound.dep}} : {{::outbound.from}} - {{::outbound.to}}</span>
+                </h4>
+                <div class="flight" ng-repeat="flight in outbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                    <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
+                        <span class="sm"><b>{{::leg.num}}</b></span>
+                        <span class="md">{{::leg.dep}}</span>
+                        <span class="lg">{{::leg.origin}}</span>
+                        <span class="md">{{::leg.arr}}</span>
+                        <span class="lg">{{::leg.destination}}</span>
+                        <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
+                        <span class="sm">{{::leg.seatCounts.lid}}</span>
+                        <span class="sm">{{::leg.seatCounts.capacity}}</span>
+                    </div>
+                </div>
+            </div>
 		</div>
 
         <div class="row">
-            <div>
-                <ul>
-                    <li ng-repeat="inbound in inbounds track by $index">
-                        <h4>
-                            <span>{{::inbound.to}} - {{::inbound.from}} - {{::inbound.ret}}</span>
-                        </h4>
-                        <table>
-                            <thead ng-repeat-start="flight in inbound.flights"></thead>
-                            <tr ng-repeat="leg in flight.legs track by $index" ng-class="{even: $even, odd: $odd}">
-                                <td><b>{{::leg.num}}</b></td><td>{{::leg.dep}}</td><td>{{::leg.origin}}</td><td>{{::leg.destination}}</td><td>{{::leg.seatCounts.unsold}}</td><td>{{::leg.seatCounts.lid}}</td><td>{{::leg.seatCounts.capacity}}</td>
-                            </tr>
-                            <tfoot ng-repeat-end ></tfoot>
-                        </table>
-                    </li>
-                </ul>
+            <h3 ng-show="inbounds.length">Inbounds</h3>
+            <div ng-repeat="inbound in inbounds track by $index">
+                <h4>
+                    <span>{{::inbound.ret}} : {{::inbound.from}} - {{::inbound.to}}</span>
+                </h4>
+                <div class="flight" ng-repeat="flight in inbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                    <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
+                        <span class="sm"><b>{{::leg.num}}</b></span>
+                        <span class="md">{{::leg.dep}}</span>
+                        <span class="lg">{{::leg.origin}}</span>
+                        <span class="md">{{::leg.arr}}</span>
+                        <span class="lg">{{::leg.destination}}</span>
+                        <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
+                        <span class="sm">{{::leg.seatCounts.lid}}</span>
+                        <span class="sm">{{::leg.seatCounts.capacity}}</span>
+                    </div>
+                </div>
             </div>
         </div>
 
-        <div id="loading" ng-show="searchingQueue.length != 0"></div>
+        <div id="loading" ng-show="searchingQueue.length"></div>
 
     </div> <!-- /container -->
 
