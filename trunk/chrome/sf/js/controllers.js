@@ -109,10 +109,15 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
     $scope.options = sfOptions;
 
+    // Queue holds flight searching OD and dates
     $scope.searchingQueue = [];
-    $scope.searchingFlag = false;
 
     // Public function for controllers
+    $scope.clear = function () {
+        $scope.outbounds = [];
+        $scope.inbounds = [];
+    };
+
     $scope.search = function () {
          var froms = this.options.from.split(',');
          var tos = this.options.to.split(',');
@@ -142,52 +147,14 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         });
 
         searchFlight($scope.searchingQueue.shift());
-
-        /*loopOD(
-          this.options.from.split(','),
-          this.options.to.split(','),
-          this.options.dep,
-          this.options.ret,
-          this.options.flex,
-          1);*/
     };
-
-    var loopOD = function ($froms, $tos, $dep, $ret, $flex, $count) {
-      $froms.forEach(function (from) {
-            $tos.forEach(function (to) {
-               for (var i = -$flex; i <= $flex; i ++) {
-                var dep = new Date($dep); dep.setDate(dep.getDate() + i);
-                dep = sfCommon.formatDate(dep);
-
-                var ret = 'yyyy-mm-dd';
-                if ($ret) {
-                  ret = new Date($ret); ret.setDate(ret.getDate() + i); 
-                  ret = sfCommon.formatDate(ret);
-                }
-
-
-                (function ($f, $t, $d, $r) {
-                  $window.setTimeout(function () {
-                    searchFlight($f, $t, $d, $r);
-                  }, $window.sf_throttle * $count);
-
-                })(from, to, dep, ret);
-
-                $count ++;
-               }
-            });
-        });
-
-      return $count;
-    };
-
 
     var searchFlight = function(data) {
 
         chrome.tabs.sendMessage(
            tid,
            {
-              message: $scope.f_samples,
+              //message: $scope.f_samples,
               'from' : data.from,
               'to' : data.to,
               'dep' : data.dep,
@@ -195,9 +162,16 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               action: 'search'
            },
            function (response) {
-              processFlight(response);
+              $scope.outbounds.push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
+
+              // Only process when returning date is not null
+              if ($scope.options.ret) {
+                $scope.inbounds.push(processFlight(response, '#Returning_base', '#Returning-standby'));
+              }
+
               $scope.$apply();
 
+              // Continue next search
               if ($scope.searchingQueue.length != 0) {
                 searchFlight($scope.searchingQueue.shift());
               }
@@ -207,12 +181,12 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
 
 
-    var processFlight = function (response) {
+    var processFlight = function (response, base, standby) {
 
         // Extract info from html
         var flightElem = $(response.message).filter('#flights');
 
-        var flights = flightElem.find('#Leaving_base').find('.flight ul').map(function (i, v) {
+        var flights = flightElem.find(base).find('.flight ul').map(function (i, v) {
 
             var flight = $(v);
             var legs = flight.find('li.flight-leg').map(function (i, v) {
@@ -245,7 +219,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             };
         }).get();
 
-        var legs = flightElem.find('#Leaving-standby').find('.selectable-flight ul').map(function (i, v) {
+        var legs = flightElem.find(standby).find('.selectable-flight ul').map(function (i, v) {
             var flight = $(v);
 
             var keys = flight.find('li.flight-leg').map(function(i, v){
@@ -265,11 +239,6 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             });
         });
 
-        // Get seat count
-        // var flattenedLegs = $.map(legs, function (leg) {
-        //     return leg;
-        // });
-
         $scope.flattenedLegs = flattenedLegs;
         var len = flattenedLegs.length;
         var step = 4;
@@ -280,20 +249,20 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             }), tmp);
         }
 
-        $scope.outbounds.push({
+        return {
             'from' : response.from,
             'to' : response.to,
             'dep' : response.dep,
             'ret': response.ret,
             'flights' : flights
-        });
+        };
     };
 
     var searchSeatCount = function(keys, legs) {
         chrome.tabs.sendMessage(
            tid,
            {
-              message: $scope.l_samples,
+              //message: $scope.l_samples,
               legKeys: keys,
               action: 'count'
            },

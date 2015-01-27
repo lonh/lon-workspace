@@ -6,9 +6,8 @@
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
 	<link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
-	<link type="text/css" href="/css/bootstrap.min.css-" rel="stylesheet" />
 
-	<script type="text/javascript" src="/ng/js/angular.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular.min.js"></script>
 
 	<style>
 		body {
@@ -36,19 +35,33 @@
 			border: 1px solid rgba(86,61,124,.2);
 		}
 
-        .even {
-            background: rgb(203, 232, 255);
+        hr {
+        margin-top: 40px;
+        margin-bottom: 40px;
+        }
+        */
+
+
+        input {
+        /*width: 100%;*/
         }
 
-		hr {
-			margin-top: 40px;
-			margin-bottom: 40px;
-		}
+        .even {
+        background: rgb(203, 232, 255);
+        }
 
-		*/
-		input {
-			/*width: 100%;*/
-		}
+        .container {
+            position: relative;
+        }
+
+        #loading {
+            position: absolute;
+            top: 0px;
+            height: 100%;
+            width: 100%;
+            background: silver url(/img/ajax-loader.gif) 50% 50% no-repeat;
+            opacity: 0.5;
+        }
 
 	</style>
 
@@ -62,8 +75,7 @@
 				<input type="text" name="to" ng-model="options.to"  required="required"  />
 				<input type="date" name="dep" ng-model="options.dep" required="required" placeholder="Date to leave ..." />
 				<input type="date" name="ret" ng-model="options.ret" placeholder="Date to return ..." />
-			</div>
-			<div class="col-md-1">
+
 				<select ng-model="options.flex">
 					<option value="0">No Flex</option>
 					<option value="1">1</option>
@@ -72,29 +84,58 @@
 					<option value="4">4</option>
 					<option value="5">5</option>
 				</select>
+            </div>
+            <div>
 				<button ng-click="search()" >Search</button>
+				<button ng-click="clear()" >Clear</button>
 			</div>
 		</div>
 
 		<div class="row">
-			<div>
 				<ul>
 					<li ng-repeat="outbound in outbounds track by $index">
                         <h4>
                             <span>{{::outbound.from}} - {{::outbound.to}} - {{::outbound.dep}}</span>
                         </h4>
-                        <table>
-	                        <thead ng-repeat-start="flight in outbound.flights"></thead>
-	                        <tr ng-repeat="leg in flight.legs track by $index" ng-class="{even: $even, odd: $odd}">
-							    <td><b>{{::leg.num}}</b></td><td>{{::leg.dep}}</td><td>{{::leg.origin}}</td><td>{{::leg.destination}}</td><td>{{::leg.seatCounts.unsold}}</td><td>{{::leg.seatCounts.listed}}</td><td>{{::leg.seatCounts.lid}}</td><td>{{::leg.seatCounts.capacity}}</td>
-	                        </tr>
-	                        <tfoot ng-repeat-end ></tfoot>
-                        </table>
+                        <div ng-repeat="flight in outbound.flights" ng-class="{even: $even, odd: $odd}" >
+                            <div ng-repeat="leg in flight.legs track by $index" >
+                                <span><b>{{::leg.num}}</b></span>
+                                <span>{{::leg.dep}}</span>
+                                <span>{{::leg.origin}}</span>
+                                <span>{{::leg.destination}}</span>
+                                <span>{{::leg.seatCounts.unsold}}</span>
+                                <span>{{::leg.seatCounts.lid}}</span>
+                                <span>{{::leg.seatCounts.capacity}}</span>
+                            </div>
+                        </div>
 					</li>
 				</ul>
-			</div>
-		</div>		
-	</div> <!-- /container -->
+		</div>
+
+        <div class="row">
+            <div>
+                <ul>
+                    <li ng-repeat="inbound in inbounds track by $index">
+                        <h4>
+                            <span>{{::inbound.to}} - {{::inbound.from}} - {{::inbound.ret}}</span>
+                        </h4>
+                        <table>
+                            <thead ng-repeat-start="flight in inbound.flights"></thead>
+                            <tr ng-repeat="leg in flight.legs track by $index" ng-class="{even: $even, odd: $odd}">
+                                <td><b>{{::leg.num}}</b></td><td>{{::leg.dep}}</td><td>{{::leg.origin}}</td><td>{{::leg.destination}}</td><td>{{::leg.seatCounts.unsold}}</td><td>{{::leg.seatCounts.lid}}</td><td>{{::leg.seatCounts.capacity}}</td>
+                            </tr>
+                            <tfoot ng-repeat-end ></tfoot>
+                        </table>
+                    </li>
+                </ul>
+            </div>
+        </div>
+
+        <div id="loading" ng-show="searchingQueue.length != 0"></div>
+
+    </div> <!-- /container -->
+
+
 
 	<script type="text/javascript" src="/js/app.js"></script>
   	<script type="text/javascript" src="/js/controllers.js"></script>
