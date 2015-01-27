@@ -5,65 +5,10 @@
 	<meta charset="utf-8">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 
-	<link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
+    <link type="text/css" href="/css/sf.css" rel="stylesheet" />
+    <link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
 
     <script type="text/javascript" src="/ng/js/angular.min.js"></script>
-
-	<style>
-		body {
-			margin: 5px;
-			font-family: 'Trebuchet MS';
-    		font-size: 12px;color:#002d62;
-		}
-		h4 {
-			margin-top: 25px;
-		}
-		/*
-		.row {
-			margin-bottom: 20px;
-		}
-		.row .row {
-			margin-top: 10px;
-			margin-bottom: 0;
-		}
-		[class*="col-"] {
-			<!--padding-top: 15px;-->
-			<!--padding-bottom: 15px;-->
-			background-color: #eee;
-			background-color: rgba(86,61,124,.15);
-			border: 1px solid #ddd;
-			border: 1px solid rgba(86,61,124,.2);
-		}
-
-        hr {
-        margin-top: 40px;
-        margin-bottom: 40px;
-        }
-        */
-
-
-        input {
-        /*width: 100%;*/
-        }
-
-        .even {
-        background: rgb(203, 232, 255);
-        }
-
-        .container {
-            position: relative;
-        }
-
-        #loading {
-            position: absolute;
-            top: 0px;
-            height: 100%;
-            width: 100%;
-            background: silver url(/img/ajax-loader.gif) 50% 50% no-repeat;
-            opacity: 0.5;
-        }
-
-	</style>
 
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
@@ -95,17 +40,17 @@
 				<ul>
 					<li ng-repeat="outbound in outbounds track by $index">
                         <h4>
-                            <span>{{::outbound.from}} - {{::outbound.to}} - {{::outbound.dep}}</span>
+                            <span>{{::outbound.dep}} : {{::outbound.from}} - {{::outbound.to}}</span>
                         </h4>
-                        <div ng-repeat="flight in outbound.flights" ng-class="{even: $even, odd: $odd}" >
-                            <div ng-repeat="leg in flight.legs track by $index" >
-                                <span><b>{{::leg.num}}</b></span>
-                                <span>{{::leg.dep}}</span>
-                                <span>{{::leg.origin}}</span>
-                                <span>{{::leg.destination}}</span>
-                                <span>{{::leg.seatCounts.unsold}}</span>
-                                <span>{{::leg.seatCounts.lid}}</span>
-                                <span>{{::leg.seatCounts.capacity}}</span>
+                        <div class="flight" ng-repeat="flight in outbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                            <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
+                                <span class="sm"><b>{{::leg.num}}</b></span>
+                                <span class="md">{{::leg.dep}}</span>
+                                <span class="lg">{{::leg.origin}}</span>
+                                <span class="lg">{{::leg.destination}}</span>
+                                <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
+                                <span class="sm">{{::leg.seatCounts.lid}}</span>
+                                <span class="sm">{{::leg.seatCounts.capacity}}</span>
                             </div>
                         </div>
 					</li>
