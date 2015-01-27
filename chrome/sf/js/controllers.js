@@ -113,6 +113,25 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     $scope.searchingQueue = [];
 
     // Public function for controllers
+    $scope.highlight = function (flight) {
+        var unsold = 40;
+        for ( var i = flight.legs.length - 1; i >= 0; i--) {
+            unsold = Math.min(unsold, (flight.legs[i].seatCounts || {}).unsold);
+        }
+
+        switch(true) {
+            case unsold <= 5:
+                return 'red';
+                break;
+            case unsold <= 10:
+                return 'yellow';
+                break;
+            default:
+                return 'green';
+        }
+
+    };
+
     $scope.clear = function () {
         $scope.outbounds = [];
         $scope.inbounds = [];
@@ -127,7 +146,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
         froms.forEach(function (from) {
             tos.forEach(function (to) {
-               for (var i = -flex; i <= flex; i ++) {
+               for (var i = 0; i <= flex; i ++) {
                 var d = new Date(dep); d.setDate(d.getDate() + i); d = sfCommon.formatDate(d);
 
                 var r = 'yyyy-mm-dd';
@@ -145,6 +164,9 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                }
             });
         });
+
+        // A flag entry to indicate end of queue
+        $scope.searchingQueue.push(null);
 
         searchFlight($scope.searchingQueue.shift());
     };
@@ -172,8 +194,9 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               $scope.$apply();
 
               // Continue next search
-              if ($scope.searchingQueue.length != 0) {
-                searchFlight($scope.searchingQueue.shift());
+              var data = $scope.searchingQueue.shift();
+              if (data) {
+                searchFlight(data);
               }
            }
         );

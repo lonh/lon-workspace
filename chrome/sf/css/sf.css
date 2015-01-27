@@ -1,0 +1,64 @@
+body {
+    margin: 5px;
+    font-family: 'Trebuchet MS';
+    font-size: 12.5px;
+    color:#002d62;
+}
+
+h4 {
+    margin-top: 25px;
+    text-transform: uppercase;
+}
+
+.even {
+    margin: 5px 0;
+    background: rgb(203, 232, 255);
+}
+
+.container {
+    position: relative;
+}
+
+.flight-leg .lg,
+.flight-leg .md,
+.flight-leg .sm {
+    display: inline-block;
+}
+
+.flight-leg .lg {
+    min-width: 150px;
+}
+
+.flight-leg .md {
+   min-width: 75px;
+}
+
+.flight-leg .sm {
+    min-width: 30px;
+}
+
+.unsold {
+    text-align: center;
+    color: #EEE;
+}
+
+.red .unsold {
+    background: red;
+}
+
+.green .unsold {
+    background: green;
+}
+
+.yellow .unsold {
+    background: orange;
+}
+
+#loading {
+    position: absolute;
+    top: 0px;
+    height: 100%;
+    width: 100%;
+    background: silver url(/img/ajax-loader.gif) 50% 50% no-repeat;
+    opacity: 0.5;
+}
