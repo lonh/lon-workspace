@@ -70,6 +70,11 @@ window.sf = window.sf || {};
         },
 
         findFlights: function (request, callback) {
+            if (request.message) {
+                callback(request);
+                return;
+            }
+
             var flightRequest = $.extend({}, this.findFlightsData);
             flightRequest['Step.From.Code'] = request.from;
             flightRequest['Step.To.Code'] = request.to;
@@ -79,14 +84,17 @@ window.sf = window.sf || {};
             $.ajaxSetup({async: false});
             $.post( this.findFlightsUrl, flightRequest)
             .done(function (response) {
-                callback({message: response, 'from': request.from, 'to': request.to, 'dep': request.dep});
+                callback($.extend({message: response}, request));
             });
             $.ajaxSetup({async: true});
-            
-            //callback({message: request.message, 'from': request.from, 'to': request.to, 'dep': request.dep});
         },
 
         findLegs: function (request, callback) {
+            if (request.message) {
+                callback(request);
+                return;
+            }
+
             var findLegRequest = $.extend({}, this.findLegData);
             findLegRequest['legKeys'] = request.legKeys;
 
@@ -102,7 +110,6 @@ window.sf = window.sf || {};
                 }
             });
             $.ajaxSetup({async: true});
-            //callback(request.message);
         }
     });
 
