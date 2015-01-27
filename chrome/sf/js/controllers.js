@@ -138,32 +138,31 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
     };
 
     $scope.search = function () {
-         var froms = this.options.from.split(',');
-         var tos = this.options.to.split(',');
+         var froms = this.options.from.split(/,| /);
+         var tos = this.options.to.split(/,| /);
          var dep = this.options.dep;
          var ret = this.options.ret;
          var flex = this.options.flex;
 
-        froms.forEach(function (from) {
-            tos.forEach(function (to) {
-               for (var i = 0; i <= flex; i ++) {
-                var d = new Date(dep); d.setDate(d.getDate() + i); d = sfCommon.formatDate(d);
+        for (var i = 0; i <= flex; i ++) {
+            var d = new Date(dep); d.setDate(d.getDate() + i); d = sfCommon.formatDate(d);
 
-                var r = 'yyyy-mm-dd';
-                if (ret) {
-                  r = new Date(ret); r.setDate(r.getDate() + i); r = sfCommon.formatDate(ret);
-                }
+            var r = 'yyyy-mm-dd';
+            if (ret) {
+              r = new Date(ret); r.setDate(r.getDate() + i); r = sfCommon.formatDate(ret);
+            }
 
-                $scope.searchingQueue.push({
-                    'from': from,
-                    'to' : to,
-                    'dep' : d,
-                    'ret' : r
+            froms.forEach(function (from) {
+                tos.forEach(function (to) {
+                    $scope.searchingQueue.push({
+                        'from': from,
+                        'to' : to,
+                        'dep' : d,
+                        'ret' : r
+                    });
                 });
-
-               }
             });
-        });
+        }
 
         // A flag entry to indicate end of queue
         $scope.searchingQueue.push(null);
