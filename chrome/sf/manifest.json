@@ -1,6 +1,6 @@
 {
   "name": "SF",
-  "description": "Not much to say ...",
+  "description": "Nothing interesting...",
   "version": "0.1",
   "permissions":
   [ "activeTab", "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
