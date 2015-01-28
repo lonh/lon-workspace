@@ -145,11 +145,11 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
          var flex = this.options.flex;
 
         for (var i = 0; i <= flex; i ++) {
-            var d = new Date(dep); d.setDate(d.getDate() + i); d = sfCommon.formatDate(d);
+            var d = new Date(dep); d.setDate(d.getDate() + i);
 
             var r = 'yyyy-mm-dd';
             if (ret) {
-              r = new Date(ret); r.setDate(r.getDate() + i); r = sfCommon.formatDate(ret);
+              r = new Date(ret); r.setDate(r.getDate() + i);
             }
 
             froms.forEach(function (from) {
@@ -157,8 +157,10 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                     $scope.searchingQueue.push({
                         'from': from,
                         'to' : to,
-                        'dep' : d,
-                        'ret' : r
+                        'dep' :  sfCommon.formatDate(d),
+                        'depTime' : d.getTime(),
+                        'ret' : sfCommon.formatDate(r),
+                        'retTime' : r.getTime()
                     });
                 });
             });
@@ -174,14 +176,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
         chrome.tabs.sendMessage(
            tid,
-           {
-              //message: $scope.f_samples,
-              'from' : data.from,
-              'to' : data.to,
-              'dep' : data.dep,
-              'ret' : data.ret,
-              action: 'search'
-           },
+           angular.extend(data, {action: 'search'}),
            function (response) {
               $scope.outbounds.push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
@@ -271,13 +266,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             }), tmp);
         }
 
-        return {
-            'from' : response.from,
-            'to' : response.to,
-            'dep' : response.dep,
-            'ret': response.ret,
-            'flights' : flights
-        };
+        return angular.extend( response, {'flights' : flights} );
     };
 
     var searchSeatCount = function(keys, legs) {
