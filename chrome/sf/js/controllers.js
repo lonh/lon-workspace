@@ -70,13 +70,8 @@ var sfControllers = angular.module('sfControllers', []);
 
 sfControllers.controller('mainController', ['$scope', '$window', '$document', 'sfOptions', function ($scope, $window, $document, sfOptions) {
 
-    // ESC to close
-    angular.element($document).on('keyup', function(event) {
-        event.keyCode === 27 ? $window.close() : null;
-    });
-
     // Document/window event
-    $scope.documentKeyUp = function (event) {
+    $scope.documentKeyup = function (event) {
         event.keyCode === 27 ? $window.close() : null;
     };
 
