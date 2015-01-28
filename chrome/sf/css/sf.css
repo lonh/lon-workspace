@@ -6,8 +6,11 @@ body {
 }
 
 h4 {
-    margin-top: 25px;
-    text-transform: uppercase;
+    margin: 5px;
+}
+
+p {
+    margin: 5px 5px 5px 10px;
 }
 
 .container {
@@ -15,8 +18,9 @@ h4 {
 }
 
 .flight {
+    border: 1px solid #cbe8ff;
     padding: 3px 3px 3px 8px;
-    border-bottom: 1px dotted #7F90A2;
+    margin-left: 20px;
 }
 
 .even {
@@ -33,7 +37,7 @@ h4 {
 }
 
 .flight-leg .lg { width: 20%; }
-.flight-leg .md { width: 15%; }
+.flight-leg .md { width: 10%; }
 .flight-leg .sm { width: 5%; }
 
 .unsold {

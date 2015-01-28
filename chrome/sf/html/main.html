@@ -2,14 +2,12 @@
 <html lang="en" ng-app="sf" ng-csp>
 <head>
 	<title>SF</title>
-	<meta charset="utf-8">
-	<meta name="viewport" content="width=device-width, initial-scale=1">
-
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge,FF=Edge;OtherUA=Edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1">
     <link type="text/css" href="/css/sf.css" rel="stylesheet" />
     <link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
-
     <script type="text/javascript" src="/ng/js/angular.min.js"></script>
-
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 	<div class="container" ng-controller="searchController">
@@ -36,34 +34,20 @@
 			</div>
 		</div>
 
-		<div class="row">
-            <h3 ng-show="outbounds.length">Outbounds</h3>
-            <div ng-repeat="outbound in outbounds track by $index">
-                <h4>
-                    <span>{{::outbound.dep}} : {{::outbound.from}} - {{::outbound.to}}</span>
+        <div ng-repeat="bounds in [outbounds, inbounds]" ng-init=" boundFlag = $index" >
+            <h3 ng-if="bounds.length != 0">
+                <ng-switch on="boundFlag">
+                    <span ng-switch-when="0">Outbounds</span>
+                    <span ng-switch-when="1">Inbounds</span>
+                </ng-switch>
+            </h3>
+            <div ng-repeat="bound in bounds">
+                <h4 ng-switch on="boundFlag">
+                    <span ng-switch-when="0" >{{::bound.depTime | date : 'fullDate' }} : {{::bound.from | uppercase }} - {{::bound.to | uppercase}}</span>
+                    <span ng-switch-when="1" >{{::bound.retTime | date : 'fullDate' }} : {{::bound.to | uppercase }} - {{::bound.from | uppercase }}</span>
                 </h4>
-                <div class="flight" ng-repeat="flight in outbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
-                    <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
-                        <span class="sm"><b>{{::leg.num}}</b></span>
-                        <span class="md">{{::leg.dep}}</span>
-                        <span class="lg">{{::leg.origin}}</span>
-                        <span class="md">{{::leg.arr}}</span>
-                        <span class="lg">{{::leg.destination}}</span>
-                        <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
-                        <span class="sm">{{::leg.seatCounts.lid}}</span>
-                        <span class="sm">{{::leg.seatCounts.capacity}}</span>
-                    </div>
-                </div>
-            </div>
-		</div>
-
-        <div class="row">
-            <h3 ng-show="inbounds.length">Inbounds</h3>
-            <div ng-repeat="inbound in inbounds track by $index">
-                <h4>
-                    <span>{{::inbound.ret}} : {{::inbound.to}} - {{::inbound.from}}</span>
-                </h4>
-                <div class="flight" ng-repeat="flight in inbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                <p ng-if="bound.flights.length == 0">No flight available</p>
+                <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
                     <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
                         <span class="sm"><b>{{::leg.num}}</b></span>
                         <span class="md">{{::leg.dep}}</span>
@@ -1413,6 +1397,6 @@ $ 199.00                                            <span data-bind="bypassBindi
 		</div>
 	</div>
 
-  
+
 </body>
 </html>
