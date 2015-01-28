@@ -61,7 +61,7 @@
             <h3 ng-show="inbounds.length">Inbounds</h3>
             <div ng-repeat="inbound in inbounds track by $index">
                 <h4>
-                    <span>{{::inbound.ret}} : {{::inbound.from}} - {{::inbound.to}}</span>
+                    <span>{{::inbound.ret}} : {{::inbound.to}} - {{::inbound.from}}</span>
                 </h4>
                 <div class="flight" ng-repeat="flight in inbound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
                     <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >

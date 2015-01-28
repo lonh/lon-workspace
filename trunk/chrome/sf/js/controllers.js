@@ -190,13 +190,13 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                 $scope.inbounds.push(processFlight(response, '#Returning_base', '#Returning-standby'));
               }
 
-              $scope.$apply();
-
               // Continue next search
               var data = $scope.searchingQueue.shift();
               if (data) {
                 searchFlight(data);
               }
+              
+              $scope.$apply();
            }
         );
     };
