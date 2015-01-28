@@ -41,7 +41,7 @@
                     <span ng-switch-when="1">Inbounds</span>
                 </ng-switch>
             </h3>
-            <div ng-repeat="bound in bounds">
+            <div ng-repeat="bound in bounds | orderBy:['depTime', 'retTime']">
                 <h4 ng-switch on="boundFlag">
                     <span ng-switch-when="0" >{{::bound.depTime | date : 'fullDate' }} : {{::bound.from | uppercase }} - {{::bound.to | uppercase}}</span>
                     <span ng-switch-when="1" >{{::bound.retTime | date : 'fullDate' }} : {{::bound.to | uppercase }} - {{::bound.from | uppercase }}</span>
