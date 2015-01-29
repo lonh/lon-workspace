@@ -163,13 +163,18 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             });
         }
 
-        // A flag entry to indicate end of queue
         $scope.searchingQueue.push(null);
 
         searchFlight($scope.searchingQueue.shift());
     };
 
     var searchFlight = function(data) {
+
+        $scope.currentLoading = data;
+
+        if (!data) {
+           return;
+        }
 
         chrome.tabs.sendMessage(
            tid,
@@ -183,11 +188,8 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
               }
 
               // Continue next search
-              var data = $scope.searchingQueue.shift();
-              if (data) {
-                searchFlight(data);
-              }
-              
+              searchFlight($scope.searchingQueue.shift());
+
               $scope.$apply();
            }
         );

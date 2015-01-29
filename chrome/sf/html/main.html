@@ -63,7 +63,9 @@
             </div>
         </div>
 
-        <div id="loading" ng-show="searchingQueue.length"></div>
+        <div id="loading" ng-show="currentLoading">
+        </div>
+        <p id="loading-status" ng-show="currentLoading">Searching flights for: <b>{{currentLoading.from | uppercase}} - {{currentLoading.to | uppercase}} - {{currentLoading.dep}} - {{currentLoading.ret}}</b></p>
     </div>
 
 	<script type="text/javascript" src="/js/app.js"></script>

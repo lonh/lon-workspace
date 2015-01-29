@@ -54,6 +54,15 @@ p {
     top: 0px;
     height: 100%;
     width: 100%;
-    background: silver url(/img/ajax-loader.gif) 50% 50% no-repeat;
-    opacity: 0.5;
+    background: #E8E8E8 url(/img/ajax-loader.gif) 50% 50% no-repeat;
+    opacity: 0.75;
+}
+
+#loading-status {
+    position: absolute;
+    top: 50%;
+    width: 100%;
+    padding: 20px;
+    text-align: center;
+    color: #002d62;
 }
