@@ -142,9 +142,11 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
         for (var i = 0; i <= flex; i ++) {
             var d = new Date(dep); d.setDate(d.getDate() + i);
 
-            var r = 'yyyy-mm-dd';
+            var r = 'yyyy-mm-dd', retTime = '';
             if (ret) {
               r = new Date(ret); r.setDate(r.getDate() + i);
+              retTime = r.getTime();
+              r = sfCommon.formatDate(r);
             }
 
             froms.forEach(function (from) {
@@ -154,8 +156,8 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
                         'to' : to,
                         'dep' :  sfCommon.formatDate(d),
                         'depTime' : d.getTime(),
-                        'ret' : sfCommon.formatDate(r),
-                        'retTime' : r.getTime()
+                        'ret' : r,
+                        'retTime' : retTime
                     });
                 });
             });
@@ -171,7 +173,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
 
         chrome.tabs.sendMessage(
            tid,
-           angular.extend(data, {action: 'search'}),
+           angular.extend( {}, data, {action: 'search'}),
            function (response) {
               $scope.outbounds.push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
@@ -261,7 +263,7 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
             }), tmp);
         }
 
-        return angular.extend( response, {'flights' : flights} );
+        return angular.extend( {}, response, {'flights' : flights} );
     };
 
     var searchSeatCount = function(keys, legs) {
