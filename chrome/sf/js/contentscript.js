@@ -22,6 +22,7 @@ window.sf = window.sf || {};
         reference: null,
         findFlightsUrl: null,
         findLegUrl: '/Async/GetSeatCounts',
+        findAirportsUrl: '/Airports/For',
 
         findFlightsData: {
             'Step.From.Code': 'YYC',
@@ -60,6 +61,9 @@ window.sf = window.sf || {};
                     case 'count':
                         delete request.action;
             			o.findLegs(request, sendResponse);
+            			break;
+                    case 'airports':
+            			o.findAirports(request, sendResponse);
             			break;
             		default:
             			break;
@@ -103,6 +107,20 @@ window.sf = window.sf || {};
                 url: this.findLegUrl,
                 type: "POST",
                 data: JSON.stringify(findLegRequest),
+                dataType: "json",
+                contentType: "application/json; charset=utf-8",
+                success: function(response){
+                    callback(response);
+                }
+            });
+            $.ajaxSetup({async: true});
+        },
+
+        findAirports: function (request, callback) {
+            $.ajaxSetup({async: false});
+            $.ajax ({
+                url: this.findAirportsUrl,
+                type: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
                 success: function(response){

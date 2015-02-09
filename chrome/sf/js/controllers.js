@@ -1,7 +1,5 @@
 'use strict';
 
-window.sf_throttle = 50;
-
 /* Shared Data/Services */
 sf.factory('sfCommon', ['$window', function ($window) {
 	return {
@@ -66,9 +64,9 @@ sf.factory('sfOptions', function() {
 
 
 /* Controllers */
-var sfControllers = angular.module('sfControllers', []);
+//var sfControllers = angular.module('sfControllers', []);
 
-sfControllers.controller('mainController', ['$scope', '$window', '$document', 'sfOptions', function ($scope, $window, $document, sfOptions) {
+sf.controller('mainController', ['$scope', '$window', '$document', '$timeout', 'sfOptions', function ($scope, $window, $document, $timeout, sfOptions) {
 
     // Document/window event
     $scope.documentKeyup = function (event) {
@@ -85,11 +83,11 @@ sfControllers.controller('mainController', ['$scope', '$window', '$document', 's
       });
         
       localStorage['sf_config'] = angular.toJson(sfOptions);
-    }); 
+    });
 }]);
 
-sfControllers.controller('searchController', ['$scope', '$window', '$document', 'sfCommon', 'sfOptions',
-    function ($scope, $window, $document, sfCommon, sfOptions) {
+sf.controller('searchController', ['$scope', '$window', '$document', '$timeout', 'sfCommon', 'sfOptions',
+    function ($scope, $window, $document, $timeout, sfCommon, sfOptions) {
 
     var wid = parseInt(sfCommon.getParameterByName('wid'));
     var tid = parseInt(sfCommon.getParameterByName('tid'));
@@ -297,4 +295,22 @@ sfControllers.controller('searchController', ['$scope', '$window', '$document', 
           };
         };
     };
+
+    var processAirports = function (response) {
+        $scope.airports = JSON.parse(response);
+    };
+
+    $timeout(function() {
+        chrome.tabs.sendMessage(
+           tid,
+           {
+            action: 'airports'
+           },
+           function (response) {
+              processAirports(response);
+              $scope.$apply();
+           }
+        );
+    }, 100);
+
 }]);
