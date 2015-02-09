@@ -1,3 +1,3 @@
 'use strict';
 
-var sf = angular.module('sf', ['sfControllers']);
+var sf = angular.module('sf', ['ngMaterial']);
