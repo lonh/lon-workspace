@@ -6,41 +6,9 @@
     <meta http-equiv="X-UA-Compatible" content="OtherUA=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.css">
-
+    <link rel="stylesheet" href="/ng/css/angular-material.min.css">
     <link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
     <link type="text/css" href="/css/sf.css" rel="stylesheet" />
-
-    <style>
-        md-input-container {
-            padding-bottom: 2px;
-        }
-
-        .return-date ::-webkit-datetime-edit-text, /* this makes the slashes in dd/mm/yyyy grey */
-.return-date ::-webkit-datetime-edit-day-field[aria-valuetext=blank],
-.return-date ::-webkit-datetime-edit-month-field[aria-valuetext=blank],
-.return-date ::-webkit-datetime-edit-year-field[aria-valuetext=blank] {
-  display: none;
-}
-
-::-webkit-inner-spin-button {
-    display: none;
-}
-
-
-::-webkit-clear-button {
-    opacity: 1;
-}
-
-::-webkit-calendar-picker-indicator { 
-	opacity: 1;
-	padding-bottom: 0px;
-	padding-left: 0.5em;
-}
-    
-
-    </style>
-
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 	<div class="container" ng-controller="searchController">
@@ -49,11 +17,11 @@
             <div layout="row">
                 <md-input-container flex>
                     <label>From</label>
-                    <input ng-model="options.from" placeholder="E.g.: YYC,YVR" required="required" >
+                    <input class="airport-code" ng-model="options.from" placeholder="E.g.: YYC,YVR" required="required" >
                 </md-input-container>
                 <md-input-container flex>
                     <label>To</label>
-                    <input ng-model="options.to" placeholder="E.g.: YYZ,YOW,YUL " required="required">
+                    <input class="airport-code" ng-model="options.to" placeholder="E.g.: YYZ,YOW,YUL " required="required">
                 </md-input-container>
                 <md-input-container flex>
                     <label>Departure date</label>
@@ -66,55 +34,54 @@
             </div>
             <div layout="row">
                 <div flex="20" layout layout-align="start center">
-                    <span>Flex Dates [{{options.flex}} day(s)] </span>
+                    <span>Flex dates [{{options.flex}} day(s)] </span>
                 </div>
                 <md-slider flex="50" md-discrete ng-model="options.flex" step="1" min="0" max="5" aria-label="Flex"></md-slider>
                 <div flex="20" layout layout-align="space-around center">
                     <md-button class="md-raised md-primary" ng-click="search()" >Search</md-button>
-                    <md-button class="md-raised" ng-click="clear()">Clear</md-button>
+                    <md-button class="md-raised" ng-click="clear()" ng-disabled="!(outbounds.length + inbounds.length)">Clear</md-button>
                 </div>
 			</div>
 		</div>
 
-        <div ng-repeat="bounds in [outbounds, inbounds]" ng-init="boundFlag = $index" >
-            <h3 ng-if="bounds.length != 0">
-                <ng-switch on="boundFlag">
-                    <span ng-switch-when="0">Outbounds</span>
-                    <span ng-switch-when="1">Inbounds</span>
-                </ng-switch>
-            </h3>
-            <div ng-repeat="bound in bounds | orderBy:['depTime', 'retTime']">
-                <h4 ng-switch on="boundFlag">
-                    <span ng-switch-when="0" >{{::bound.depTime | date : 'fullDate' }} : {{::bound.from | uppercase }} - {{::bound.to | uppercase}}</span>
-                    <span ng-switch-when="1" >{{::bound.retTime | date : 'fullDate' }} : {{::bound.to | uppercase }} - {{::bound.from | uppercase }}</span>
-                </h4>
-                <p ng-if="bound.flights.length == 0">No flight available</p>
-                <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
-                    <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
-                        <span class="sm"><b>{{::leg.num}}</b></span>
-                        <span class="md">{{::leg.dep}}</span>
-                        <span class="md">{{::leg.arr}}</span>
-                        <span class="lg">{{::leg.origin}}</span>
-                        <span class="lg">{{::leg.destination}}</span>
-                        <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
-                        <span class="sm">{{::leg.seatCounts.lid}}</span>
-                        <span class="sm">{{::leg.seatCounts.capacity}}</span>
+
+        <md-tabs>
+            <md-tab ng-repeat="bounds in [outbounds, inbounds]" ng-init="boundFlag = $index" label="{{ $index == 0 ? 'Outbounds' : 'Inbounds'}}">
+                <div ng-repeat="bound in bounds | orderBy:['depTime', 'retTime']">
+                    <h4 ng-switch on="boundFlag">
+                        <span ng-switch-when="0" >{{::bound.depTime | date : 'fullDate' }} : {{::bound.from | uppercase }} - {{::bound.to | uppercase}}</span>
+                        <span ng-switch-when="1" >{{::bound.retTime | date : 'fullDate' }} : {{::bound.to | uppercase }} - {{::bound.from | uppercase }}</span>
+                    </h4>
+                    <p ng-if="bound.flights.length == 0">No flight available</p>
+                    <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                        <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
+                            <span class="sm"><b>{{::leg.num}}</b></span>
+                            <span class="md">{{::leg.dep}}</span>
+                            <span class="md">{{::leg.arr}}</span>
+                            <span class="lg">{{::leg.origin}}</span>
+                            <span class="lg">{{::leg.destination}}</span>
+                            <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
+                            <span class="sm">{{::leg.seatCounts.lid}}</span>
+                            <span class="sm">{{::leg.seatCounts.capacity}}</span>
+                        </div>
                     </div>
                 </div>
-            </div>
-        </div>
+            </md-tab>
+        </md-tabs>
 
-        <div id="loading" ng-show="currentLoading">
+        <div id="loading" ng-show="currentLoading" layout="column" layout-align="center center">
+            <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.dep}} - {{currentLoading.ret}}</b></p>
+            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
         </div>
-        <p id="loading-status" ng-show="currentLoading">Searching flights for: <b>{{currentLoading.from | uppercase}} - {{currentLoading.to | uppercase}} - {{currentLoading.dep}} - {{currentLoading.ret}}</b></p>
     </div>
 
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-animate.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.3.6/angular-aria.min.js"></script>
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-
-    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.7.1/angular-material.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/ng/js/hammer.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular-animate.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular-aria.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular-messages.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular-material.min.js"></script>
 
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/js/controllers.js"></script>

@@ -17,6 +17,10 @@ p {
     position: relative;
 }
 
+.airport-code {
+    text-transform: uppercase;
+}
+
 .flight {
     border: 1px solid #cbe8ff;
     padding: 3px 3px 3px 8px;
@@ -49,20 +53,55 @@ p {
 .green .unsold { background: green; }
 .yellow .unsold { background: orange; }
 
+
 #loading {
+    background-color: lightgray;
     position: absolute;
     top: 0px;
-    height: 100%;
+    padding-top: 20px;
+    min-height: 100px;
     width: 100%;
-    background: #E8E8E8 url(/img/ajax-loader.gif) 50% 50% no-repeat;
-    opacity: 0.75;
+
 }
 
-#loading-status {
-    position: absolute;
-    top: 50%;
-    width: 100%;
-    padding: 20px;
-    text-align: center;
-    color: #002d62;
+
+
+/* Chrome native date picker customization */
+.return-date ::-webkit-datetime-edit-text,
+.return-date ::-webkit-datetime-edit-day-field[aria-valuetext=blank],
+.return-date ::-webkit-datetime-edit-month-field[aria-valuetext=blank],
+.return-date ::-webkit-datetime-edit-year-field[aria-valuetext=blank] {
+    display: none;
+}
+
+::-webkit-inner-spin-button {
+    display: none;
+}
+
+
+::-webkit-clear-button {
+    opacity: 1;
+}
+
+::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    padding-bottom: 0px;
+    padding-left: 0.5em;
+}
+
+/* AngularJS Material design customization*/
+md-input-container {
+    padding-bottom: 2px;
+}
+
+md-tabs-ink-bar {
+    background-color: #0000FF !important;
+}
+
+.md-header {
+    height: 35px;
+}
+
+.md-header-items-container, .md-button {
+    text-transform: none;
 }

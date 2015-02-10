@@ -126,8 +126,8 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.clear = function () {
-        $scope.outbounds = [];
-        $scope.inbounds = [];
+        $scope.outbounds.length = 0;
+        $scope.inbounds.length = 0;
     };
 
     $scope.search = function () {
