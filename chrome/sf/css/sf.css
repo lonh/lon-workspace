@@ -56,12 +56,11 @@ p {
 
 #loading {
     background-color: lightgray;
-    position: absolute;
-    top: 0px;
+    position: fixed;
+    top: 5px;
     padding-top: 20px;
     min-height: 100px;
     width: 100%;
-
 }
 
 
