@@ -23,13 +23,13 @@
                     <label>To</label>
                     <input class="airport-code" ng-model="options.to" placeholder="E.g.: YYZ,YOW,YUL " required="required">
                 </md-input-container>
-                <md-input-container flex>
+                <md-input-container flex ng-class="{'empty-date' : !options.dep}">
                     <label>Departure date</label>
                     <input type="date" ng-model="options.dep" required="required" >
                 </md-input-container>
-                <md-input-container flex class="return-date" >
+                <md-input-container flex ng-class="{'empty-date' : !options.ret}" >
                     <label>Return date</label>
-                    <input type="date" ng-model="options.ret" >
+                    <input type="date" ng-model="options.ret">
                 </md-input-container>
             </div>
             <div layout="row">
