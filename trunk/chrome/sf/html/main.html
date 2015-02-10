@@ -15,6 +15,30 @@
         md-input-container {
             padding-bottom: 2px;
         }
+
+        .return-date ::-webkit-datetime-edit-text, /* this makes the slashes in dd/mm/yyyy grey */
+.return-date ::-webkit-datetime-edit-day-field[aria-valuetext=blank],
+.return-date ::-webkit-datetime-edit-month-field[aria-valuetext=blank],
+.return-date ::-webkit-datetime-edit-year-field[aria-valuetext=blank] {
+  display: none;
+}
+
+::-webkit-inner-spin-button {
+    display: none;
+}
+
+
+::-webkit-clear-button {
+    opacity: 1;
+}
+
+::-webkit-calendar-picker-indicator { 
+	opacity: 1;
+	padding-bottom: 0px;
+	padding-left: 0.5em;
+}
+    
+
     </style>
 
 </head>
@@ -32,11 +56,11 @@
                     <input ng-model="options.to" placeholder="E.g.: YYZ,YOW,YUL " required="required">
                 </md-input-container>
                 <md-input-container flex>
-                    <label>Departure</label>
+                    <label>Departure date</label>
                     <input type="date" ng-model="options.dep" required="required" >
                 </md-input-container>
-                <md-input-container flex>
-                    <label>Return</label>
+                <md-input-container flex class="return-date" >
+                    <label>Return date</label>
                     <input type="date" ng-model="options.ret" >
                 </md-input-container>
             </div>
