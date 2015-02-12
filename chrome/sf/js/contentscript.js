@@ -87,7 +87,7 @@ window.sf = window.sf || {};
 
             $.ajaxSetup({async: false});
             $.post( this.findFlightsUrl, flightRequest)
-            .done(function (response) {
+            .always(function (response) {
                 callback($.extend({message: response}, request));
             });
             $.ajaxSetup({async: true});
@@ -109,7 +109,7 @@ window.sf = window.sf || {};
                 data: JSON.stringify(findLegRequest),
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function(response){
+                complete: function(response){
                     callback(response);
                 }
             });
@@ -123,7 +123,7 @@ window.sf = window.sf || {};
                 type: "GET",
                 dataType: "json",
                 contentType: "application/json; charset=utf-8",
-                success: function(response){
+                complete: function(response){
                     callback(response);
                 }
             });

@@ -95,10 +95,10 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     $scope.f_samples = $('#f_samples').html();
     $scope.l_samples = $('#l_samples').html();
 
-    $scope.flights = [];
+    //$scope.flights = [];
 
-    $scope.outbounds = [];
-    $scope.inbounds = [];
+    $scope.outbounds = {};
+    $scope.inbounds = {};
 
     $scope.options = sfOptions;
 
@@ -131,8 +131,12 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.search = function () {
-         var froms = this.options.from.split(/,| /);
-         var tos = this.options.to.split(/,| /);
+         var froms = mapAirportCodes(this.options.from);
+         var tos = mapAirportCodes(this.options.to);
+
+         this.options.from = froms.join(' ');
+         this.options.to = tos.join(' ');
+
          var dep = this.options.dep;
          var ret = this.options.ret;
          var flex = this.options.flex;
@@ -166,6 +170,20 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         searchFlight($scope.searchingQueue.shift());
     };
 
+    var mapAirportCodes = function (query) {
+        var searches = query.toUpperCase().split(/,| /), codes = [];
+
+        searches.forEach(function (str) {
+            $scope.airports.forEach(function (airport) {
+                if (airport.name.toUpperCase().indexOf(str) != -1) {
+                    codes.push(airport.code);
+                }
+            });
+        });
+
+        return codes;
+    };
+
     var searchFlight = function(data) {
 
         $scope.currentLoading = data;
@@ -175,25 +193,25 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
 
         chrome.tabs.sendMessage(
-           tid,
-           angular.extend( {}, data, {action: 'search'}),
-           function (response) {
-              $scope.outbounds.push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
+            tid,
+            angular.extend( {}, data, {action: 'search'}),
+            function (response) {
 
-              // Only process when returning date is not null
-              if ($scope.options.ret) {
-                $scope.inbounds.push(processFlight(response, '#Returning_base', '#Returning-standby'));
-              }
+                ($scope.outbounds[response.depTime] = $scope.outbounds[response.depTime] || [])
+                    .push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
-              // Continue next search
-              searchFlight($scope.searchingQueue.shift());
+                // Only process when returning date is not null
+                if ($scope.options.ret) {
+                    ($scope.inbounds[response.retTime] = $scope.inbounds[response.retTime] || [])
+                        .push(processFlight(response, '#Returning_base', '#Returning-standby'));
+                }
 
-              $scope.$apply();
+                // Continue next search
+                searchFlight($scope.searchingQueue.shift());
+                $scope.$apply();
            }
         );
     };
-
-
 
     var processFlight = function (response, base, standby) {
 
@@ -297,7 +315,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     var processAirports = function (response) {
-        $scope.airports = JSON.parse(response);
+        $scope.airports = JSON.parse(response.responseJSON);
     };
 
     $timeout(function() {
