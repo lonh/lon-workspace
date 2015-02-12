@@ -44,6 +44,10 @@ p {
 .flight-leg .md { width: 10%; }
 .flight-leg .sm { width: 5%; }
 
+.travel-date {
+    text-align: center;
+}
+
 .unsold {
     text-align: center;
     color: #EEE;
