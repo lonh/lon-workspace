@@ -293,7 +293,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
               action: 'count'
            },
            function (response) {
-              processCount(response, legs);
+              processCount(response.responseJSON, legs);
               $scope.$apply();
            }
         );
@@ -315,7 +315,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     var processAirports = function (response) {
-        $scope.airports = JSON.parse(response.responseJSON);
+        $scope.airports = JSON.parse(response);
     };
 
     $timeout(function() {
@@ -325,7 +325,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             action: 'airports'
            },
            function (response) {
-              processAirports(response);
+              processAirports(response.responseJSON);
               $scope.$apply();
            }
         );
