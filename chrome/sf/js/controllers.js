@@ -95,8 +95,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     $scope.f_samples = $('#f_samples').html();
     $scope.l_samples = $('#l_samples').html();
 
-    //$scope.flights = [];
-
     $scope.outbounds = {};
     $scope.inbounds = {};
 
@@ -125,9 +123,13 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     };
 
+    $scope.isEmptySearch = function () {
+        return $.isEmptyObject($scope.inbounds) && $.isEmptyObject($scope.outbounds);
+    };
+
     $scope.clear = function () {
-        $scope.outbounds.length = 0;
-        $scope.inbounds.length = 0;
+        $scope.outbounds = {};
+        $scope.inbounds = {};
     };
 
     $scope.search = function () {
@@ -171,17 +173,14 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     var mapAirportCodes = function (query) {
-        var searches = query.toUpperCase().split(/,| /), codes = [];
-
-        searches.forEach(function (str) {
-            $scope.airports.forEach(function (airport) {
-                if (airport.name.toUpperCase().indexOf(str) != -1) {
-                    codes.push(airport.code);
-                }
-            });
+        var codes = [], query = query.toUpperCase();
+        $scope.airports.forEach(function (airport) {
+            if (airport.name.toUpperCase().indexOf(query) != -1) {
+                codes.push(airport.code);
+            }
         });
 
-        return codes;
+        return codes.length == 0 ? query.split(/,| /) : codes;
     };
 
     var searchFlight = function(data) {

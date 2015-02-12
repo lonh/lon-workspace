@@ -43,7 +43,7 @@
                 <md-slider flex="50" md-discrete ng-model="options.flex" step="1" min="0" max="5" aria-label="Flex"></md-slider>
                 <div flex="20" layout layout-align="space-around center">
                     <md-button class="md-raised md-primary" ng-click="search()" >Search</md-button>
-                    <md-button class="md-raised" ng-click="clear()" ng-disabled="!(outbounds.length + inbounds.length)">Clear</md-button>
+                    <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmptySearch()" >Clear</md-button>
                 </div>
             </div>
         </div>
@@ -56,7 +56,7 @@
                     <h3 class="travel-date">{{:: dt | date : 'fullDate' }}</h3>
                     <!-- Loop through each OD pair -->
                     <div ng-repeat="bound in bounds">
-                        <h4>{{:: (boundFlag == 0 ? (bound.from + '-' + bound.to) : (bound.to + '-' + bound.from)) | uppercase }}</h4>
+                        <h4>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from)) | uppercase }}</h4>
                         <p>{{:: bound.flights.length == 0 ? 'No flight available' : ''}}</p>
                         <!-- Loop through each flight section -->
                         <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
