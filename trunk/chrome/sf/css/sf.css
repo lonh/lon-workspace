@@ -5,8 +5,8 @@ body {
     color:#002d62;
 }
 
-h4 {
-    margin: 5px;
+h3, h4 {
+    margin: 5px !important;
 }
 
 p {
