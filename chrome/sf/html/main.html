@@ -78,7 +78,7 @@
         </md-tabs>
 
         <div id="loading" ng-show="currentLoading" layout="column" layout-align="center center">
-            <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.dep}} - {{currentLoading.ret}}</b></p>
+            <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
         </div>
     </div>
