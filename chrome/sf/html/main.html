@@ -21,11 +21,11 @@
             <div layout="row">
                 <md-input-container flex>
                     <label>From</label>
-                    <input class="airport-code" ng-model="options.from" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYC,YVR" required="required" >
+                    <input class="airport-code" ng-model="options.from" ng-blur="mapFromAirports(options.from)" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYC,YVR" required="required" >
                 </md-input-container>
                 <md-input-container flex>
                     <label>To</label>
-                    <input class="airport-code" ng-model="options.to" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYZ,YOW,YUL " required="required">
+                    <input class="airport-code" ng-model="options.to" ng-blur="mapToAirports(options.to)" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYZ,YOW,YUL " required="required">
                 </md-input-container>
                 <md-input-container flex ng-class="{'empty-date' : !options.dep}">
                     <label>Departure date</label>
@@ -50,7 +50,7 @@
 
         <md-tabs>
             <!-- Loop outbounds and inbounds -->
-            <md-tab ng-repeat="trip in [outbounds, inbounds]" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
+            <md-tab ng-repeat="trip in [outbounds, inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
                 <!-- Loop through each departure or return dates -->
                 <div ng-repeat="(dt, bounds) in trip">
                     <h3 class="travel-date">{{:: dt | date : 'fullDate' }}</h3>
@@ -79,6 +79,7 @@
 
         <div id="loading" ng-show="currentLoading" layout="column" layout-align="center center">
             <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
+            <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
         </div>
     </div>

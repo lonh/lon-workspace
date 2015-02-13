@@ -124,20 +124,30 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.isEmptySearch = function () {
-        return $.isEmptyObject($scope.inbounds) && $.isEmptyObject($scope.outbounds);
+        return $.isEmptyObject(this.inbounds) && $.isEmptyObject(this.outbounds);
     };
 
     $scope.clear = function () {
-        $scope.outbounds = {};
-        $scope.inbounds = {};
+        this.outbounds = {};
+        this.inbounds = {};
+    };
+
+    $scope.mapFromAirports = function (from) {
+      this.options.from = mapAirportCodes(from).join(' ');
+    };
+
+    $scope.mapToAirports = function (to) {
+      this.options.to = mapAirportCodes(to).join(' ');
+    };
+
+    $scope.cancelSearch = function () {
+      this.currentLoading = null;
+      this.searchingQueue.length = 0;      
     };
 
     $scope.search = function () {
-         var froms = mapAirportCodes(this.options.from);
-         var tos = mapAirportCodes(this.options.to);
-
-         this.options.from = froms.join(' ');
-         this.options.to = tos.join(' ');
+         var froms = this.options.from.split(/,| /);
+         var tos = this.options.to.split(/,| /)
 
          var dep = this.options.dep;
          var ret = this.options.ret;
@@ -167,9 +177,9 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             });
         }
 
-        $scope.searchingQueue.push(null);
+        this.searchingQueue.push(null);
 
-        searchFlight($scope.searchingQueue.shift());
+        searchFlight(this.searchingQueue.shift());
     };
 
     var mapAirportCodes = function (query) {
