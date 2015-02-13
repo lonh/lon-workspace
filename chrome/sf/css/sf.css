@@ -120,6 +120,11 @@ md-tabs-ink-bar {
     border-color: #D8D8D8 !important;
 }
 
+.flight-tabs .md-header-items-container {
+    font-size: 1em;
+    font-weight: bolder;
+}
+
 .flight-tabs md-tabs-ink-bar {
     background-color: rgb(255, 64, 129) !important;
 }
