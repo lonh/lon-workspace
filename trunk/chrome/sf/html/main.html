@@ -11,12 +11,8 @@
     <link type="text/css" href="/css/sf.css" rel="stylesheet" />
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
-    <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
 
-    <script type="text/javascript" src="/ng/js/hammer.min.js"></script>
-    <script type="text/javascript" src="/ng/js/angular.min.js"></script>
     <div class="container" ng-controller="searchController">
-
         <div layout="column" >
             <div layout="row">
                 <md-input-container flex>
@@ -48,46 +44,61 @@
             </div>
         </div>
 
-        <md-tabs>
+        <md-tabs ng-show="!isEmptySearch()">
             <!-- Loop outbounds and inbounds -->
             <md-tab ng-repeat="trip in [outbounds, inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
                 <!-- Loop through each departure or return dates -->
-                <div ng-repeat="(dt, bounds) in trip">
-                    <h3 class="travel-date">{{:: dt | date : 'fullDate' }}</h3>
-                    <!-- Loop through each OD pair -->
-                    <div ng-repeat="bound in bounds">
-                        <h4>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from)) | uppercase }}</h4>
-                        <p>{{:: bound.flights.length == 0 ? 'No flight available' : ''}}</p>
-                        <!-- Loop through each flight section -->
-                        <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
-                            <!-- Loop through each flight legs -->
-                            <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
-                                <span class="sm"><b>{{::leg.num}}</b></span>
-                                <span class="md">{{::leg.dep}}</span>
-                                <span class="md">{{::leg.arr}}</span>
-                                <span class="lg">{{::leg.origin}}</span>
-                                <span class="lg">{{::leg.destination}}</span>
-                                <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
-                                <span class="sm">{{::leg.seatCounts.lid}}</span>
-                                <span class="sm">{{::leg.seatCounts.capacity}}</span>
+                <md-tabs class="flight-tabs" md-theme="accent">
+                    <md-tab ng-repeat="(dt, bounds) in trip" label="{{:: dt | date : 'EEE, MMM d, y' }}" >
+                        <h3 class="travel-date">{{:: dt | date : 'fullDate' }}</h3>
+                        <!-- Loop through each OD pair -->
+                        <div ng-repeat="bound in bounds">
+                            <h4>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from)) | uppercase }}</h4>
+                            <p>{{:: bound.flights.length == 0 ? 'No flight available' : ''}}</p>
+                            <!-- Loop through each flight section -->
+                            <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
+                                <!-- Loop through each flight legs -->
+                                <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" >
+                                    <span class="sm"><b>{{::leg.num}}</b></span>
+                                    <span class="md">{{::leg.dep}}</span>
+                                    <span class="md">{{::leg.arr}}</span>
+                                    <span class="lg">{{::leg.origin}}</span>
+                                    <span class="lg">{{::leg.destination}}</span>
+                                    <span class="sm unsold">{{::leg.seatCounts.unsold}}</span>
+                                    <span class="sm">{{::leg.seatCounts.lid}}</span>
+                                    <span class="sm">{{::leg.seatCounts.capacity}}</span>
+                                </div>
+                                <!-- End of flight legs -->
                             </div>
+                            <!-- End of flight section -->
                         </div>
-                    </div>
-                </div>
+                        <!-- End of OD -->
+                    </md-tab>
+                </md-tabs>
+                <!-- End of dates -->
             </md-tab>
+            <!-- End of pout/in bounds -->
         </md-tabs>
 
+        <!-- Loading progress section -->
         <div id="loading" ng-show="currentLoading" layout="column" layout-align="center center">
+            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
             <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
             <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
-            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
         </div>
+
     </div>
+
+    <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
+    <script type="text/javascript" src="/ng/js/hammer.min.js"></script>
+    <script type="text/javascript" src="/ng/js/angular.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-animate.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-aria.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-messages.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-material.min.js"></script>
+
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.7.0/angular-material.min.js"></script>-->
+
     <script type="text/javascript" src="/js/app.js"></script>
     <script type="text/javascript" src="/js/controllers.js"></script>
 </body>

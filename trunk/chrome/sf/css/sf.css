@@ -67,7 +67,6 @@ p {
     width: 100%;
 }
 
-
 /* Chrome native date picker customization */
 .empty-date ::-webkit-datetime-edit-fields-wrapper {
     visibility: hidden;
@@ -102,4 +101,29 @@ md-tabs-ink-bar {
 
 .md-header-items-container, .md-button {
     text-transform: none;
+}
+
+.flight-tabs md-tab:focus {
+  background-color: rgba(216, 216, 216, 0.35) !important;
+}
+
+.flight-tabs .md-header {
+  border-bottom: 1px solid #D8D8D8;
+  background-color: white !important;
+}
+
+.flight-tabs md-tab {
+  color:#002d62 !important;
+}
+
+.flight-tabs .md-header .md-ripple {
+    border-color: #D8D8D8 !important;
+}
+
+.flight-tabs md-tabs-ink-bar {
+    background-color: rgb(255, 64, 129) !important;
+}
+
+.flight-tabs .md-paginator {
+
 }
