@@ -97,6 +97,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     $scope.outbounds = {};
     $scope.inbounds = {};
+    $scope.airports = [];
 
     $scope.options = sfOptions;
 

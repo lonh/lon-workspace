@@ -46,6 +46,5 @@ var startApp = function() {
         };
 
         chrome.windows.create(params);
-
     });
 };
