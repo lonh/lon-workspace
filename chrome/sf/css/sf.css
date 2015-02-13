@@ -58,7 +58,7 @@ p {
 .yellow .unsold { background: orange; }
 
 
-#loading {
+.loading {
     background-color: lightgray;
     position: fixed;
     top: 5px;

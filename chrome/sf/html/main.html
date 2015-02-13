@@ -80,10 +80,15 @@
         </md-tabs>
 
         <!-- Loading progress section -->
-        <div id="loading" ng-show="currentLoading" layout="column" layout-align="center center">
+        <div class="loading" ng-show="currentLoading" layout="column" layout-align="center center">
             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
             <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
             <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
+        </div>
+
+        <div class="loading" ng-show="airports.length == 0" layout="column" layout-align="center center">
+            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+            <p><b>Trying connect to travel site</b></p>
         </div>
 
     </div>
