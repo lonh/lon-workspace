@@ -114,6 +114,7 @@ md-tabs-ink-bar {
 
 .flight-tabs md-tab {
   color:#002d62 !important;
+  padding: 15px;
 }
 
 .flight-tabs .md-header .md-ripple {
