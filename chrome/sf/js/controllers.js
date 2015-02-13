@@ -206,13 +206,15 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             angular.extend( {}, data, {action: 'search'}),
             function (response) {
 
-                ($scope.outbounds[response.depTime] = $scope.outbounds[response.depTime] || [])
-                    .push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
+                if (response) {
+                    ($scope.outbounds[response.depTime] = $scope.outbounds[response.depTime] || [])
+                        .push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
-                // Only process when returning date is not null
-                if ($scope.options.ret) {
-                    ($scope.inbounds[response.retTime] = $scope.inbounds[response.retTime] || [])
-                        .push(processFlight(response, '#Returning_base', '#Returning-standby'));
+                    // Only process when returning date is not null
+                    if ($scope.options.ret) {
+                        ($scope.inbounds[response.retTime] = $scope.inbounds[response.retTime] || [])
+                            .push(processFlight(response, '#Returning_base', '#Returning-standby'));
+                    }
                 }
 
                 // Continue next search
@@ -302,7 +304,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
               action: 'count'
            },
            function (response) {
-              processCount(response.responseJSON, legs);
+              response && processCount(response.responseJSON, legs);
               $scope.$apply();
            }
         );
@@ -334,7 +336,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             action: 'airports'
            },
            function (response) {
-              processAirports(response.responseJSON);
+              response && processAirports(response.responseJSON);
               $scope.$apply();
            }
         );
