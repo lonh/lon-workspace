@@ -40,7 +40,7 @@
                 </div>
                 <md-slider flex="50" md-discrete ng-model="options.flex" step="1" min="0" max="5" aria-label="Flex"></md-slider>
                 <div flex="20" layout layout-align="space-around center">
-                    <md-button class="md-raised md-primary" ng-click="search()" >Search</md-button>
+                    <md-button class="md-raised md-primary" ng-disabled="!(options.from && options.to && options.dep)" ng-click="search()" >Search</md-button>
                     <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmptySearch()" >Clear</md-button>
                 </div>
             </div>
