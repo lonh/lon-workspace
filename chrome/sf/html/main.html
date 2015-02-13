@@ -50,7 +50,6 @@
                 <!-- Loop through each departure or return dates -->
                 <md-tabs class="flight-tabs" md-theme="accent">
                     <md-tab ng-repeat="(dt, bounds) in trip" label="{{:: dt | date : 'EEE, MMM d, y' }}" >
-                        <h3 class="travel-date">{{:: dt | date : 'fullDate' }}</h3>
                         <!-- Loop through each OD pair -->
                         <div ng-repeat="bound in bounds">
                             <h4>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from)) | uppercase }}</h4>
