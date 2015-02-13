@@ -17,11 +17,13 @@
             <div layout="row">
                 <md-input-container flex>
                     <label>From</label>
-                    <input class="airport-code" ng-model="options.from" ng-blur="mapFromAirports(options.from)" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYC,YVR" required="required" >
+                    <input class="airport-code" ng-model="options.from" ng-blur="mapFromAirports(options.from)" ng-keyup="$event.keyCode == 13 && (mapFromAirports(options.from) || search())"
+                           placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYC,YVR" required="required" >
                 </md-input-container>
                 <md-input-container flex>
                     <label>To</label>
-                    <input class="airport-code" ng-model="options.to" ng-blur="mapToAirports(options.to)" placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYZ,YOW,YUL " required="required">
+                    <input class="airport-code" ng-model="options.to" ng-blur="mapToAirports(options.to)" ng-keyup="$event.keyCode == 13 && (mapToAirports(options.to) || search())"
+                           placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYZ,YOW,YUL " required="required">
                 </md-input-container>
                 <md-input-container flex ng-class="{'empty-date' : !options.dep}">
                     <label>Departure date</label>
@@ -89,6 +91,7 @@
         <div class="loading" ng-show="airports.length == 0" layout="column" layout-align="center center">
             <md-progress-linear md-mode="indeterminate"></md-progress-linear>
             <p><b>Trying connect to travel site</b></p>
+            <p><b>You may need close this window, then login travel site and re-open from there.</b></p>
         </div>
 
     </div>

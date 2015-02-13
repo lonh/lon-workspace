@@ -184,12 +184,15 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     var mapAirportCodes = function (query) {
-        var codes = [], query = query.toUpperCase();
-        $scope.airports.forEach(function (airport) {
-            if (airport.name.toUpperCase().indexOf(query) != -1) {
-                codes.push(airport.code);
-            }
-        });
+        var codes = [], query = query.trim().toUpperCase();
+
+        if (query.length != 3) {
+            $scope.airports.forEach(function (airport) {
+                if (airport.name.toUpperCase().indexOf(query) != -1) {
+                    codes.push(airport.code);
+                }
+            });
+        }
 
         return codes.length == 0 ? query.split(/,| /) : codes;
     };
