@@ -103,8 +103,12 @@ md-tabs-ink-bar {
     text-transform: none;
 }
 
+.flight-tabs md-tab {
+  font-weight: normal;
+}
+
 .flight-tabs md-tab:focus {
-  background-color: rgba(216, 216, 216, 0.35) !important;
+  font-weight: bold;
 }
 
 .flight-tabs .md-header {
