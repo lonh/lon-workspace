@@ -115,7 +115,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             case unsold <= 5:
                 return 'red';
                 break;
-            case unsold <= 15:
+            case unsold <= 19:
                 return 'yellow';
                 break;
             default:
