@@ -179,6 +179,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
 
         this.searchingQueue.push(null);
+        this.searchingLength = this.searchingQueue.length;
 
         searchFlight(this.searchingQueue.shift());
     };
