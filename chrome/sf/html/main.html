@@ -86,7 +86,7 @@
 
         <!-- Loading progress section -->
         <div class="loading" ng-show="currentLoading" layout="column" layout-align="center center">
-            <md-progress-linear md-mode="indeterminate"></md-progress-linear>
+            <md-progress-linear md-mode="determinate" value="{{ (searchingLength - searchingQueue.length) / searchingLength * 100 }}"></md-progress-linear>
             <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
             <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
         </div>
