@@ -34,7 +34,7 @@
                 </md-input-container>
                 <md-input-container flex ng-class="{'empty-date' : !options.ret}" >
                     <label>Return date</label>
-                    <input type="date" ng-model="options.ret">
+                    <input type="date" ng-model="options.ret" min="{{options.dep}}">
                 </md-input-container>
             </div>
             <div layout="row">
