@@ -345,6 +345,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
               $scope.$apply();
            }
         );
-    }, 100);
+    }, 2000);
 
 }]);
