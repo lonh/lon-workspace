@@ -97,6 +97,7 @@ md-tabs-ink-bar {
 
 .md-header {
     height: 35px;
+    background-color: #CBE8FF !important;
 }
 
 .md-header-items-container, .md-button {
