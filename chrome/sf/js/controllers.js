@@ -332,6 +332,25 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     var processAirports = function (response) {
         $scope.airports = JSON.parse(response);
+
+        var groups = [];
+        for (var i = 0, l = $scope.airports.length; i < l; i++) {
+            var airport = $scope.airports[i];
+
+            var has = groups.some(function (group) {
+                return group.country == airport.country && group.provinceState == airport.provinceState;
+            });
+
+            if (!has) {
+                groups.push(airport);
+            }
+        }
+
+        groups.sort(function (a, b) {
+            return (a.country + a.provinceState) > (b.country  + b.provinceState);
+        });
+
+        $scope.groups = groups;
     };
 
     $timeout(function() {
