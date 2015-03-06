@@ -138,3 +138,9 @@ md-tabs-ink-bar {
 .flight-tabs .md-paginator {
     background-color: rgba(216, 216, 216, 1);
 }
+
+
+/*=============================*/
+.md-select-label {
+    font-size: 1em;
+}

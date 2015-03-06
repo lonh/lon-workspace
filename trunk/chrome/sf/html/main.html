@@ -18,16 +18,41 @@
     <div class="container" ng-controller="searchController">
         <div layout="column" >
             <div layout="row">
+                <!--
                 <md-input-container flex>
                     <label>From</label>
                     <input class="airport-code" ng-model="options.from" ng-blur="mapFromAirports(options.from)" ng-keyup="$event.keyCode == 13 && (mapFromAirports(options.from) || search())"
                            placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYC,YVR" required="required" >
                 </md-input-container>
+                -->
+
+                <md-select ng-model="options.from" multiple="true" required="required" flex>
+                    <md-select-label><span>{{options.from ? options.from : 'From'}}</span></md-select-label>
+                    <md-optgroup label="{{group.country + ', ' + group.provinceState}}" ng-repeat="group in groups">
+                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['provinceState', 'name'] ">{{airport.name}}</md-option>
+                    </md-optgroup>
+                </md-select>
+
+
+                <!--
+                <md-autocomplete flex
+                        md-no-cache="false"
+                        md-selected-item="selectedItem"
+                        md-search-text="options.from"
+                        md-items="item in airports"
+                        md-item-text="item.name"
+                        placeholder="From">
+                    <span>{{item.name}}</span>
+                </md-autocomplete>
+                -->
+
                 <md-input-container flex>
                     <label>To</label>
                     <input class="airport-code" ng-model="options.to" ng-blur="mapToAirports(options.to)" ng-keyup="$event.keyCode == 13 && (mapToAirports(options.to) || search())"
                            placeholder="&#160;&#160;&#160;&#160;&#160;&#160;E.g.:YYZ,YOW,YUL " required="required">
                 </md-input-container>
+            </div>
+            <div layout="row">
                 <md-input-container flex ng-class="{'empty-date' : !options.dep}">
                     <label>Departure date</label>
                     <input type="date" ng-model="options.dep" required="required" >
@@ -87,7 +112,7 @@
         <!-- Loading progress section -->
         <div class="loading" ng-show="currentLoading" layout="column" layout-align="center center">
             <md-progress-linear md-mode="determinate" value="{{ (searchingLength - searchingQueue.length) / searchingLength * 100 }}"></md-progress-linear>
-            <p>Searching flights for: <b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</b></p>
+            <p><b>Searching flights for: </b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</p>
             <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
         </div>
 
