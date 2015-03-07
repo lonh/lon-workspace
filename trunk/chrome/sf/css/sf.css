@@ -171,3 +171,8 @@ md-select-menu.md-default-theme md-option[selected] {
 md-select-menu.md-default-theme md-option:focus {
     background-color: inherit;
 }
+
+md-select-menu,
+md-select-menu md-content {
+    max-height: 400px;
+}
