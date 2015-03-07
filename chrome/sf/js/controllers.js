@@ -66,7 +66,24 @@ sf.factory('sfOptions', function() {
 /* Controllers */
 //var sfControllers = angular.module('sfControllers', []);
 
-sf.controller('mainController', ['$scope', '$window', '$document', '$timeout', 'sfOptions', function ($scope, $window, $document, $timeout, sfOptions) {
+sf.constant('countryStateNames', {
+  'AB' : 'Alberta',
+  'BC' : 'British Columbia',
+  'MB' : 'Manitoba',
+  'NB' : 'New Brunswick',
+  'NL' : 'Newfoundland and Labrador',
+  'NT' : 'Northwest Territories',
+  'NS' : 'Nova Scotia',
+  'NU' : 'Nunavu',
+  'ON' : 'Ontario',
+  'PE' : 'Prince Edward Island',
+  'QC' : 'Québe',
+  'SK' : 'Saskatchewan',
+  'YT' : 'Yukon Territory'
+});
+
+sf.controller('mainController', ['$scope', '$window', '$document', '$timeout', 'sfOptions',  
+  function ($scope, $window, $document, $timeout, sfOptions) {
 
     // Document/window event
     $scope.documentKeyup = function (event) {
@@ -86,8 +103,8 @@ sf.controller('mainController', ['$scope', '$window', '$document', '$timeout', '
     });
 }]);
 
-sf.controller('searchController', ['$scope', '$window', '$document', '$timeout', 'sfCommon', 'sfOptions',
-    function ($scope, $window, $document, $timeout, sfCommon, sfOptions) {
+sf.controller('searchController', ['$scope', '$window', '$document', '$timeout', 'sfCommon', 'sfOptions', 'countryStateNames',
+    function ($scope, $window, $document, $timeout, sfCommon, sfOptions, countryStateNames) {
 
     var wid = parseInt(sfCommon.getParameterByName('wid'));
     var tid = parseInt(sfCommon.getParameterByName('tid'));
@@ -141,18 +158,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
     }
 
-    $scope.formatCountryState = function(provinceState, country) {
-        return (provinceState ? provinceState + ', ' : '') + country;
-    }
-
-    /*$scope.mapFromAirports = function (from) {
-      this.options.from = mapAirportCodes(from).join(' ');
-    };
-
-    $scope.mapToAirports = function (to) {
-      this.options.to = mapAirportCodes(to).join(' ');
-    };*/
-
     $scope.cancelSearch = function () {
       this.currentLoading = null;
       this.searchingQueue.length = 0;      
@@ -198,20 +203,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
         searchFlight(this.searchingQueue.shift());
     };
-
-    /*var mapAirportCodes = function (query) {
-        var codes = [], query = query.trim().toUpperCase();
-
-        if (query.length != 3) {
-            $scope.airports.forEach(function (airport) {
-                if (airport.name.toUpperCase().indexOf(query) != -1) {
-                    codes.push(airport.code);
-                }
-            });
-        }
-
-        return codes.length == 0 ? query.split(/,| /) : codes;
-    };*/
 
     var searchFlight = function(data) {
 
@@ -357,7 +348,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             });
 
             if (!has) {
-                groups.push(airport);
+                groups.push(setCountryDisplayName(airport));
             }
         }
 
@@ -368,6 +359,15 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
         $scope.groups = groups;
     };
+
+    var setCountryDisplayName = function (airport) {
+
+      var provinceStateCountryName = countryStateNames[airport.provinceState];
+
+      airport.countryStateDisplay = provinceStateCountryName ? provinceStateCountryName + ', ' + airport.country : 
+        (airport.provinceState ? airport.provinceState + ', ' : '') + airport.country;
+      return airport;
+    }
 
     $timeout(function() {
         chrome.tabs.sendMessage(
