@@ -52,8 +52,8 @@ sf.factory('sfOptions', function() {
     opt.prefs.width = opt.prefs.width || 0;
     opt.prefs.height = opt.prefs.height || 0;
     
-    opt.from = opt.from || 'YYC';
-    opt.to = opt.to || '';
+    opt.from = opt.from || ['YYC'];
+    opt.to = opt.to || [];
     opt.flex = opt.flex || 0;
 
     opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
@@ -133,13 +133,13 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         this.inbounds = {};
     };
 
-    $scope.mapFromAirports = function (from) {
+    /*$scope.mapFromAirports = function (from) {
       this.options.from = mapAirportCodes(from).join(' ');
     };
 
     $scope.mapToAirports = function (to) {
       this.options.to = mapAirportCodes(to).join(' ');
-    };
+    };*/
 
     $scope.cancelSearch = function () {
       this.currentLoading = null;
@@ -147,8 +147,8 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.search = function () {
-         var froms = this.options.from.split(/,| /);
-         var tos = this.options.to.split(/,| /)
+         var froms = this.options.from;
+         var tos = this.options.to;
 
          var dep = this.options.dep;
          var ret = this.options.ret;
@@ -166,14 +166,17 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
             froms.forEach(function (from) {
                 tos.forEach(function (to) {
-                    $scope.searchingQueue.push({
+
+                    if (from !== to) {
+                      $scope.searchingQueue.push({
                         'from': from,
                         'to' : to,
                         'dep' :  sfCommon.formatDate(d),
                         'depTime' : d.getTime(),
                         'ret' : r,
                         'retTime' : retTime
-                    });
+                      });
+                    }
                 });
             });
         }
@@ -184,7 +187,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         searchFlight(this.searchingQueue.shift());
     };
 
-    var mapAirportCodes = function (query) {
+    /*var mapAirportCodes = function (query) {
         var codes = [], query = query.trim().toUpperCase();
 
         if (query.length != 3) {
@@ -196,7 +199,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
 
         return codes.length == 0 ? query.split(/,| /) : codes;
-    };
+    };*/
 
     var searchFlight = function(data) {
 
