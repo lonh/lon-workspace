@@ -29,14 +29,14 @@
                 <md-select ng-model="options.from" multiple="true" required="required" flex>
                     <md-select-label><span>{{formatAirports(options.from, 'From')}}</span></md-select-label>
                     <md-optgroup label="{{formatCountryState(group.provinceState, group.country)}}" ng-repeat="group in groups">
-                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['provinceState', 'name'] ">{{airport.name}}</md-option>
+                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
 
 				<md-select ng-model="options.to" multiple="true" required="required" flex>
                     <md-select-label><span>{{formatAirports(options.to, 'To')}}</span></md-select-label>
                     <md-optgroup label="{{formatCountryState(group.provinceState, group.country)}}" ng-repeat="group in groups">
-                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['provinceState', 'name'] ">{{airport.name}}</md-option>
+                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
 				<!--
