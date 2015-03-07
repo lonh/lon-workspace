@@ -133,6 +133,14 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         this.inbounds = {};
     };
 
+    $scope.formatAirports = function (airports, label) {
+        if (airports && airports.length != 0) {
+          return airports.join(', ');
+        } else {
+          return label;
+        }
+    }
+
     /*$scope.mapFromAirports = function (from) {
       this.options.from = mapAirportCodes(from).join(' ');
     };
