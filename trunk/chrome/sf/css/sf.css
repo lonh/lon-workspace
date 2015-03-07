@@ -161,6 +161,7 @@ md-optgroup label {
     padding: 4px 8px;
     /*background-color: #CBE8FF;*/
     border-bottom: 1px dotted rgb(0, 45, 98);
+    text-transform: none;
 }
 
 md-select-menu.md-default-theme md-optgroup {
