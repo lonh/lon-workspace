@@ -141,10 +141,14 @@ md-tabs-ink-bar {
 
 
 /*=============================*/
-.md-select-label,
+md-select-label,
 md-option .md-text,
 md-optgroup label {
-    font-size: 1em;
+    font-size: 1em !important;
+}
+
+md-select-label {
+    line-height: 1.2em !important;
 }
 
 md-option {
