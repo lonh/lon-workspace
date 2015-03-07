@@ -156,7 +156,7 @@ md-optgroup label {
     font-style: italic;
     padding: 4px 8px;
     /*background-color: #CBE8FF;*/
-    border-bottom: 1px solid rgb(0, 45, 98);
+    border-bottom: 1px dotted rgb(0, 45, 98);
 }
 
 md-select-menu.md-default-theme md-optgroup {
@@ -175,4 +175,8 @@ md-select-menu.md-default-theme md-option:focus {
 md-select-menu,
 md-select-menu md-content {
     max-height: 400px;
+}
+
+.md-select-menu-container {
+    min-width: 300px !important;
 }

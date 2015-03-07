@@ -141,6 +141,10 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
     }
 
+    $scope.formatCountryState = function(provinceState, country) {
+        return (provinceState ? provinceState + ', ' : '') + country;
+    }
+
     /*$scope.mapFromAirports = function (from) {
       this.options.from = mapAirportCodes(from).join(' ');
     };
