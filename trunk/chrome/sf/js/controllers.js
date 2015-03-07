@@ -347,7 +347,8 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         }
 
         groups.sort(function (a, b) {
-            return (a.country + a.provinceState) > (b.country  + b.provinceState);
+            var r = a.country.localeCompare(b.country);
+            return r == 0 ? a.provinceState.localeCompare(b.provinceState) : r;
         });
 
         $scope.groups = groups;

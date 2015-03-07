@@ -144,3 +144,19 @@ md-tabs-ink-bar {
 .md-select-label {
     font-size: 1em;
 }
+
+md-option {
+    height: 25px;
+}
+
+md-optgroup label {
+    font-size: 1em;
+    padding: 4px 8px;
+    background-color: #CBE8FF;
+}
+
+md-select-menu.md-default-theme md-optgroup {
+    /* color: rgba(0,0,0,0.54); */
+    color: inherit;
+    
+}
