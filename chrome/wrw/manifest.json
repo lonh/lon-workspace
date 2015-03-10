@@ -1,5 +1,6 @@
 {
   "name": "M i M",
+  "short_name" : "MiM",
   "description": "Monitor, redirect & block requests. Record, edit & populate form data",
   "version": "0.8.0",
   "permissions": 
