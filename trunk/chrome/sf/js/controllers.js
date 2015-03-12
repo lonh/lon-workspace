@@ -300,10 +300,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     var processFlight = function (response, base, standby) {
 
-        if (response.status !== 'success') {
-          return {};
-        }
-
         // Extract info from html
         var flightElem = $(response.message).filter('#flights');
 
