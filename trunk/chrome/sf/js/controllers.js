@@ -300,6 +300,10 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     var processFlight = function (response, base, standby) {
 
+        if (response.status !== 'success') {
+          return {};
+        }
+
         // Extract info from html
         var flightElem = $(response.message).filter('#flights');
 
@@ -378,7 +382,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
               action: 'count'
            },
            function (response) {
-              response && processCount(response.responseJSON, legs);
+              response && response.status == 'success' && processCount(response.message, legs);
               $scope.$apply();
            }
         );
@@ -439,7 +443,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             action: 'airports'
            },
            function (response) {
-              response && processAirports(response.responseJSON);
+              response && response.status == 'success' && processAirports(response.message);
               $scope.$apply();
            }
         );

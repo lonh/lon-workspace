@@ -87,8 +87,8 @@ window.sf = window.sf || {};
 
             $.ajaxSetup({async: false});
             $.post( this.findFlightsUrl, flightRequest)
-            .always(function (response) {
-                callback($.extend({message: response}, request));
+            .always(function (response, status, jqxOrError) {
+                callback($.extend({message: response, 'status' : status}, request));
             });
             $.ajaxSetup({async: true});
         },
@@ -108,10 +108,9 @@ window.sf = window.sf || {};
                 type: "POST",
                 data: JSON.stringify(findLegRequest),
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                complete: function(response){
-                    callback(response);
-                }
+                contentType: "application/json; charset=utf-8"
+            }).always(function(response, status, jqxOrError) {
+                callback($.extend({message: response, 'status' : status}, findLegRequest));
             });
             $.ajaxSetup({async: true});
         },
@@ -122,10 +121,9 @@ window.sf = window.sf || {};
                 url: this.findAirportsUrl,
                 type: "GET",
                 dataType: "json",
-                contentType: "application/json; charset=utf-8",
-                complete: function(response){
-                    callback(response);
-                }
+                contentType: "application/json; charset=utf-8"
+            }).always(function (response, status, jqxOrError) {
+                callback($.extend({message: response, 'status' : status}, request));
             });
             $.ajaxSetup({async: true});
         }
