@@ -30,19 +30,10 @@ p {
 .even {
     background: #CBE8FF;
 }
-.flight-leg .lg,
-.flight-leg .md,
-.flight-leg .sm {
-    display: inline-block;
-}
 
 .flight-leg {
     margin: 2px 0;
 }
-
-.flight-leg .lg { width: 25%; }
-.flight-leg .md { width: 10%; }
-.flight-leg .sm { width: 5%; }
 
 .travel-date {
     text-align: center;
