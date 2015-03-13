@@ -3,7 +3,7 @@
   "description": "Nothing interesting...",
   "version": "0.1",
   "permissions":
-  [ "activeTab", "tabs", "webRequest", "webRequestBlocking", "notifications", "*://*/*" ],
+  [ "activeTab", "tabs", "notifications", "*://*/*" ],
   "background": {
     "scripts": [ "js/background.js" ]
   },
