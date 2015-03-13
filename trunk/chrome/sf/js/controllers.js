@@ -208,6 +208,12 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         return $.isEmptyObject(this.inbounds) && $.isEmptyObject(this.outbounds);
     };
 
+    $scope.readyToSearch = function () {
+        return $scope.airports.length && // Got airports
+               !$scope.currentLoading && // Not in loading
+               $scope.options.from && $scope.options.from.length && $scope.options.to && $scope.options.to.length && $scope.options.dep; // have from, to and departure date
+    }
+
     $scope.clear = function () {
         this.outbounds = {};
         this.inbounds = {};
