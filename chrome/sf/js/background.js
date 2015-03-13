@@ -25,8 +25,27 @@ chrome.browserAction.onClicked.addListener(function() {
 });
 
 var startApp = function() {
-    chrome.windows.getCurrent({populate: true}, function (window) {
-        var tabId = window.tabs.filter(function (elem, index) { return elem.active;})[0].id;
+    chrome.tabs.query({}, function (tabs) {
+
+        var tabId = -1;
+
+        var found = tabs.some(function (tab, index) {
+            if (/privileges/i.test(tab.title)) {
+                tabId = tab.id;
+                return true;
+            }
+        });
+
+        if (!found) {
+            chrome.notifications.create({
+                iconUrl: 'img/sf-icon-16.png',
+                type: 'basic',
+                title: '',
+                message: 'Please log in Travel Privileges and try again!'
+            });
+
+            return;
+        }
 
         chrome.tabs.executeScript(tabId, { file: "js/jquery-2.1.3.min.js" }, function () {
             chrome.tabs.executeScript(tabId, { file: "js/contentscript.js" });
