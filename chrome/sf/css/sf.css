@@ -35,8 +35,8 @@ p {
     margin: 2px 0;
 }
 
-.travel-date {
-    text-align: center;
+.flight-leg .datetime {
+    white-space: nowrap;
 }
 
 .unsold {

@@ -44,7 +44,7 @@
             </div>
             <div layout="row" layout-sm="column">
                 <div flex="70" flex-sm="100" layout="row" layout-sm="column">
-                    <div flex="20" flex-lg="15" flex-sm="100" layout layout-align="start center" >
+                    <div style="min-width: 95px;" layout layout-align="start center" >
                         <span>Flex&nbsp;dates:(+{{options.flex}})</span>
                     </div>
                     <md-slider class="md-primary" flex md-discrete ng-model="options.flex" step="1" min="0" max="5" aria-label="Flex"></md-slider>
@@ -71,8 +71,8 @@
                                 <!-- Loop through each flight legs -->
                                 <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" layout="row">
                                     <span flex="10"><b>{{::leg.num}}</b></span>
-                                    <span flex="10">{{::leg.dep}}</span>
-                                    <span flex="10">{{::leg.arr}}</span>
+                                    <span flex="10" class="datetime">{{::leg.dep}}</span>
+                                    <span flex="10" class="datetime">{{::leg.arr}}</span>
                                     <span flex="25">{{::leg.origin}}</span>
                                     <span flex="25">{{::leg.destination}}</span>
                                     <span flex="5" class="unsold">{{::leg.seatCounts.unsold}}</span>
@@ -103,7 +103,6 @@
             <p><b>Connecting to travel site</b></p>
             <p><i>You may need to close this window and login travel site, then re-open SF again.</i></p>
         </div>
-
     </div>
 
     <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
