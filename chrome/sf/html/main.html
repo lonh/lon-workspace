@@ -71,8 +71,8 @@
                                 <!-- Loop through each flight legs -->
                                 <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" layout="row">
                                     <span flex="10"><b>{{::leg.num}}</b></span>
-                                    <span flex="10" class="datetime">{{::leg.dep}}</span>
-                                    <span flex="10" class="datetime">{{::leg.arr}}</span>
+                                    <span flex="12" class="datetime">{{::leg.dep}}</span>
+                                    <span flex="12" class="datetime">{{::leg.arr}}</span>
                                     <span flex="25">{{::leg.origin}}</span>
                                     <span flex="25">{{::leg.destination}}</span>
                                     <span flex="5" class="unsold">{{::leg.seatCounts.unsold}}</span>
