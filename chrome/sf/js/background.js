@@ -27,43 +27,43 @@ chrome.browserAction.onClicked.addListener(function() {
 var startApp = function() {
     chrome.tabs.query({}, function (tabs) {
 
-        var tabId = -1;
-
-        var found = tabs.some(function (tab, index) {
-            if (/privileges/i.test(tab.title)) {
-                tabId = tab.id;
+        var tab = null;
+        tabs.some(function ($tab, index) {
+            if (/privileges/i.test($tab.title)) {
+                tab = $tab;
                 return true;
             }
         });
 
-        if (!found) {
-            chrome.notifications.create({
-                iconUrl: 'img/sf-icon-16.png',
+        if (!tab) {
+            chrome.notifications.create('-1', {
+                iconUrl: 'img/sf-icon-48.png',
                 type: 'basic',
                 title: '',
                 message: 'Please log in Travel Privileges and try again!'
-            });
+            }, function () {});
 
             return;
         }
 
-        chrome.tabs.executeScript(tabId, { file: "js/jquery-2.1.3.min.js" }, function () {
-            chrome.tabs.executeScript(tabId, { file: "js/contentscript.js" });
+        chrome.tabs.executeScript(tab.id, { file: "js/jquery-2.1.3.min.js" }, function () {
+            chrome.tabs.executeScript(tab.id, { file: "js/contentscript.js" }, function () {
+                var sf_options = localStorage['sf_config'];
+                var opt = sf_options ? JSON.parse(sf_options) : {};
+                var prefs = opt.prefs || {};
+
+                var params = {
+                    url: "html/main.html?wid=" + tab.windowId + "&tid=" + tab.id,
+                    type: "popup",
+                    width: parseInt(prefs.width || 800),
+                    height: parseInt(prefs.height || 640)
+                };
+
+                prefs.top ? params.top = parseInt(prefs.top) : null;
+                prefs.left ? params.left = parseInt(prefs.left) : null;
+
+                chrome.windows.create(params);
+            });
         });
-
-        var sf_options = localStorage['sf_config'];
-        var opt = sf_options ? JSON.parse(sf_options) : {};
-        var prefs = opt.prefs || {};
-
-        var params = {
-            url: "html/main.html?wid=" + window.id + "&tid=" + tabId,
-            type: "popup",
-            top: parseInt(prefs.top || window.top),
-            left: parseInt(prefs.left || (window.left + window.width + 30 - (prefs.width || 1024))),
-            width: parseInt(prefs.width || 1024),
-            height: parseInt(prefs.height || 640)
-        };
-
-        chrome.windows.create(params);
     });
 };
