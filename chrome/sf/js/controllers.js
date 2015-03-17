@@ -372,11 +372,6 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             }), tmp);
         }
 
-        // Remove response content
-        if (flights.length != 0) {
-            response.message = null;
-        }
-
         return angular.extend( {}, response, {'flights' : flights} );
     };
 
