@@ -2,7 +2,7 @@
   "name": "Greyish Devtools Theme",
   "short_name": "Greyish",
   "description": "A bit greyish theme for devtools.",
-  "version": "0.2",
+  "version": "0.3",
   "devtools_page": "html/devtools.html",
   "manifest_version": 2
 }
