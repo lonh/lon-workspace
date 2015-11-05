@@ -26,8 +26,9 @@ mim.factory('mimCommon', ['$window', function ($window) {
             result.paramlist = decodedUrl.length != 1 ? decodeURIComponent(decodedUrl[1]).split("&") : [];
 
             for (var i = result.paramlist.length - 1; i >= 0; i--) {
-                var param = result.paramlist[i].split("=");
-                result.paramlist[i] = {name : param[0], value : param[1]};
+                var paramString = result.paramlist[i];
+                var pos = paramString.indexOf("=");
+                result.paramlist[i] = {name : paramString.substring(0, pos), value : paramString.substring(pos + 1)};
             };
             
             result.paramlist.sort(function (a, b) {
