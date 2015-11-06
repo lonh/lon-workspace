@@ -42,7 +42,7 @@
 							<input type="text" class="replace form-control" placeholder="Replace with ..." ng-model="rule.replace" required="required" />
 						</div>
 						<span class="input-group-addon">
-							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
 				</div>
@@ -54,7 +54,7 @@
 							<input type="text" class="watch form-control" placeholder="Capture requests that contains ..." ng-model="watch.source" />
 						</div>
 						<span class="input-group-addon">
-							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
 				</div>
@@ -66,7 +66,7 @@
 							<input type="text" class="block form-control" placeholder="Block requests that contains ..." ng-model="block.block" />
 						</div>
 						<span class="input-group-addon">
-							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
 				</div>
@@ -79,7 +79,7 @@
 							<input type="text" class="value form-control" placeholder="Header Value" ng-model="header.value" />
 						</div>
 						<span class="input-group-addon">
-							<button type="button" class="close" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
+							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
 				</div>
@@ -160,7 +160,7 @@
 		<div id="autofills-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Form'}" ng-controller="formController">
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills track by $index">
-					<button type="button" class="close" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
+					<button type="button" class="close" title="Remove" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
 					<div class="form-data" ng-click="toggle($index)">
 						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
 						<a href="#" class="pagename">{{::fill.pagename}}</a>
