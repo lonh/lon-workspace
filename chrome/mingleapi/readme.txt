@@ -1,0 +1,1 @@
+Test out some Mingle API function to make some task easier

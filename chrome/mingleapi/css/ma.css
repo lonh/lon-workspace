@@ -1,0 +1,178 @@
+body {
+    margin: 5px;
+    font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
+    font-size: 12px;
+    color:#002d62;
+}
+
+h3, h4 {
+    margin: 5px !important;
+}
+
+p {
+    margin: 5px 5px 5px 10px;
+}
+
+.container {
+    position: relative;
+}
+
+.airport-code {
+    text-transform: uppercase;
+}
+
+.flight {
+    border: 1px solid #CBE8FF;
+    padding: 3px 3px 3px 8px;
+    margin-left: 20px;
+}
+
+.even {
+    background: #CBE8FF;
+}
+
+.flight-leg {
+    margin: 2px 0;
+}
+
+.flight-leg .datetime {
+    white-space: nowrap;
+}
+
+.unsold {
+    text-align: center;
+    color: #EEE;
+}
+
+.red .unsold { background: red; }
+.green .unsold { background: green; }
+.yellow .unsold { background: orange; }
+
+
+.loading {
+    background-color: lightgray;
+    position: fixed;
+    top: 5px;
+    padding-top: 20px;
+    min-height: 110px;
+    width: 100%;
+}
+
+/* Chrome native date picker customization */
+.empty-date ::-webkit-datetime-edit-fields-wrapper {
+    visibility: hidden;
+}
+
+::-webkit-inner-spin-button {
+    display: none;
+}
+
+::-webkit-clear-button {
+    opacity: 1;
+}
+
+::-webkit-calendar-picker-indicator {
+    opacity: 1;
+    padding-bottom: 0px;
+    padding-left: 0.5em;
+}
+
+/* AngularJS Material design customization*/
+md-input-container {
+    padding-bottom: 2px;
+}
+
+md-tabs-ink-bar {
+    background-color: #0000FF !important;
+}
+
+.md-header {
+    height: 35px;
+    background-color: #CBE8FF !important;
+}
+
+.md-header-items-container, .md-button {
+    text-transform: none;
+}
+
+.flight-tabs md-tab {
+  font-weight: normal;
+}
+
+.flight-tabs md-tab:focus {
+  font-weight: bold;
+}
+
+.flight-tabs .md-header {
+  border-bottom: 1px solid #D8D8D8;
+  background-color: white !important;
+}
+
+.flight-tabs md-tab {
+  color:#002d62 !important;
+  padding: 15px;
+}
+
+.flight-tabs .md-header .md-ripple {
+    border-color: #D8D8D8 !important;
+}
+
+.flight-tabs .md-header-items-container {
+    font-size: 1em;
+    font-weight: bolder;
+}
+
+.flight-tabs md-tabs-ink-bar {
+    background-color: rgb(255, 64, 129) !important;
+}
+
+.flight-tabs .md-paginator {
+    background-color: rgba(216, 216, 216, 1);
+}
+
+
+/*=============================*/
+md-select-label,
+md-option .md-text,
+md-optgroup label {
+    font-size: 1em !important;
+}
+
+md-select-label {
+    line-height: 1.2em !important;
+}
+
+md-option {
+    height: 25px;
+}
+
+md-optgroup label {
+    font-weight: bolder;
+    font-style: italic;
+    padding: 4px 8px;
+    /*background-color: #CBE8FF;*/
+    border-bottom: 1px dotted rgb(0, 45, 98);
+    text-transform: none;
+}
+
+md-select-menu.md-default-theme md-optgroup {
+    /* color: rgba(0,0,0,0.54); */
+    color: inherit;
+}
+
+md-select-menu.md-default-theme md-option[selected] {
+    background-color: #CBE8FF !important;
+}
+
+md-select-menu.md-default-theme md-option:focus {
+    background-color: inherit;
+}
+
+md-select-menu,
+md-select-menu md-content {
+    max-height: 400px;
+}
+
+.md-select-menu-container {
+    min-width: 300px !important;
+}
