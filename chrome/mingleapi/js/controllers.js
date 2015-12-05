@@ -93,7 +93,29 @@ ma.controller('apiController', ['$scope', '$window', '$document', '$timeout', 'm
     var tid = parseInt(maCommon.getParameterByName('tid'));
     
     $scope.options = maOptions;
+    $scope.card = {};
     
+    $scope.clear = function () {
+      $scope.card.name = 'Test';
+      $scope.card.number = '1277';
+      $scope.card.description = 'Test again';
+    }
+
+    $scope.create = function () {
+      chrome.tabs.sendMessage(
+          tid,
+          angular.extend( {}, {card: $scope.card}, {action: 'create'}),
+          function (response) {
+              // Continue next search      
+              $scope.$apply();
+         }
+      );
+    }
+
+    $scope.isEmpty = function () {
+      return $scope.card.name && $scope.card.number && $scope.card.desciption;
+    }
+
     $timeout(function() {
         chrome.tabs.sendMessage(
            tid,
@@ -101,7 +123,7 @@ ma.controller('apiController', ['$scope', '$window', '$document', '$timeout', 'm
             action: 'airports'
            },
            function (response) {
-              response && response.status == 'success' && processCard(response.message);
+              response && response.status == 'success';
               $scope.$apply();
            }
         );

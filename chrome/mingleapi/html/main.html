@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" ng-app="sf" ng-csp>
+<html lang="en" ng-app="ma" ng-csp>
 <head>
 	<title>MA</title>
     <meta charset="utf-8" />
@@ -15,10 +15,11 @@
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 
-    <div class="container" ng-controller="searchController">
+    <div class="container" ng-controller="apiController">
         <div layout="column" layout-margin>
-            <div layout="row" layout-sm="column">
+            <div layout="row" layout-md="column">
                 
+                <!--
                 <md-select ng-model="options.from" multiple="true" required="required" flex>
                     <md-select-label><span>{{formatAirports(options.from, 'From')}}</span></md-select-label>
                     <md-optgroup label="{{::group.countryStateDisplay}}" ng-repeat="group in groups">
@@ -32,16 +33,27 @@
                         <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
-				
-                <md-input-container flex ng-class="{'empty-date' : !options.dep}">
-                    <label>Departure date</label>
-                    <input type="date" ng-model="options.dep" required="required" >
+				-->
+                <md-input-container flex>
+                    <label>Card</label>
+                    <input type="text" ng-model="card.number" required="required" >
+                </md-input-container>            
+                <md-input-container flex>
+                    <label>Name</label>
+                    <input type="text" ng-model="card.name" required="required" >
                 </md-input-container>
-                <md-input-container flex ng-class="{'empty-date' : !options.ret}" >
-                    <label>Return date</label>
-                    <input type="date" ng-model="options.ret" min="{{options.dep}}">
+                <md-input-container flex>
+                    <label>Description</label>
+                    <input type="text" ng-model="card.description" required="required">
                 </md-input-container>
             </div>
+            <div layout="row" layout-md="column">
+                 <div flex="20" flex-sm="100" layout layout-align="space-around center">
+                    <md-button class="md-raised md-primary" ng-click="create()" >Create</md-button>
+                    <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmpty()" >Clear</md-button>
+                </div>
+            </div>
+            <!--
             <div layout="row" layout-sm="column">
                 <div flex="70" flex-sm="100" layout="row" layout-sm="column">
                     <div style="min-width: 95px;" layout layout-align="start center" >
@@ -54,14 +66,10 @@
                     <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmptySearch()" >Clear</md-button>
                 </div>
             </div>
+            -->
         </div>
     
-        <!-- Loading progress section -->
-        <div class="loading" ng-show="currentLoading" layout="column" layout-align="center center">
-            <img src="/img/ajax-loader.gif"/>
-            <p><b>Searching flights for: </b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</p>
-            <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
-        </div>        
+       
     </div>
 
     <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>

@@ -19,13 +19,15 @@ window.ma = window.ma || {};
     $.extend(_.MA.prototype, {
 
         // Variables
-        urlCreate: "/api/v2/projects/test_project/cards.xml",
+        urlCreate: "/api/v2/projects/westjet_vacations_maintenance/cards/1278.xml",
         cardNumber: null,
 
 
 
         initialize: function () {
             this.cardNumber = $('[data-card-number]').attr('data-card-number');
+
+            this.initializeListener();
         },
 
         initializeListener: function () {
@@ -38,7 +40,7 @@ window.ma = window.ma || {};
             			break;
                     case 'create':
                         delete request.action;
-            			o.findLegs(request, sendResponse);
+            			o.create(request, sendResponse);
             			break;
                     default:
             			break;
@@ -51,13 +53,21 @@ window.ma = window.ma || {};
         create: function (request, callback) {
             //card[name]=testing card creation
             //card[card_type_name]=story
-
-            var createRequest = request[card];
+            var o = this;
+            var card = request['card'];
+            var request = {                                
+                'card[name]': card.name,
+                'card[description]': card.description
+            };
             
             $.ajaxSetup({async: false});
-            $.post( this.urlCreate, createRequest)
-            .always(function (response, status, jqxOrError) {
-                callback($.extend({message: response, 'status' : status}, request));
+            $.ajax({ 
+                url: o.urlCreate,
+                type: 'PUT',
+                data: request,
+                success: function (response, status, jqxOrError) {
+                    callback($.extend({message: response, 'status' : status}, request));
+                }
             });
             $.ajaxSetup({async: true});
         }
