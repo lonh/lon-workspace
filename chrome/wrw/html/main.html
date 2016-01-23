@@ -161,9 +161,9 @@
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills track by $index">
 					<button type="button" class="close" title="Remove" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
-					<div class="form-data" ng-click="toggle($index)">
+					<div class="form-data" >
 						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
-						<a href="#" class="pagename">{{::fill.pagename}}</a>
+						<a href="#" class="pagename" ng-click="toggle($index)">{{::fill.pagename}}</a>
 						<div class="input-group notes">
 							<span class="input-group-addon">Notes:</span>
 							<div>

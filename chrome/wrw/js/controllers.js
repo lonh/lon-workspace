@@ -327,7 +327,7 @@ mimControllers.controller('formController',
 	};
 	
 	$scope.toggle = function (index) {
-		$scope.showIndex = index;
+		$scope.showIndex = $scope.showIndex === index ? -1 : index;
 	}
 	
 	$scope.deleteAutofill = function (index) {

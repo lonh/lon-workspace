@@ -192,8 +192,8 @@ AngularJs animation
 
 .ng-hide-add.ng-hide-add-active,
 .ng-hide-remove.ng-hide-remove-active {
-   -webkit-transition:all linear 0.5s;
-   transition:all linear 0.5s;
+   -webkit-transition:all linear 0s;
+   transition:all linear 0s;
 }
 
 .ng-hide {
