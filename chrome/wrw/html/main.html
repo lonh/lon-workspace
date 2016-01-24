@@ -11,27 +11,37 @@
 </head>
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
 	<ul id="main-nav-tab" class="nav nav-tabs">
-		<li ng-class="{active: options.activeTab == 'Options'}"><a href="#options-tab" ng-click="selectTab('Options')" >Options</a></li>
-		<li ng-class="{active: options.activeTab == 'Captures'}"><a href="#notifications-tab" ng-click="selectTab('Captures')">Captures</a></li>
-		<li ng-class="{active: options.activeTab == 'Requests'}"><a href="#monitor-tab" ng-click="selectTab('Requests')">Requests</a></li>
-		<li ng-class="{active: options.activeTab == 'Form'}"><a href="#autofills-tab" ng-click="selectTab('Form')">Form</a></li>
+		<li ng-class="{active: options.activeTab == 'Options'}"><a href="#" ng-click="selectTab('Options')" >Options</a></li>
+		<li ng-class="{active: options.activeTab == 'Captures'}"><a href="#" ng-click="selectTab('Captures')">Captures</a></li>
+		<li ng-class="{active: options.activeTab == 'Requests'}"><a href="#" ng-click="selectTab('Requests')">Requests</a></li>
+		<li ng-class="{active: options.activeTab == 'Form'}"><a href="#" ng-click="selectTab('Form')">Form</a></li>
 	</ul>
 
 	<div id="main-tab-content" class="tab-content">
 		<div id="options-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Options'}" ng-controller="optionsController">
 			<ul id="options-nav" class="nav nav-pills">
-				<li ng-class="{active: options.activeOption == 'rules'}"><a href="#rules" ng-click="selectOption('rules')">Rules</a></li>
-				<li ng-class="{active: options.activeOption == 'watches'}"><a href="#watches" ng-click="selectOption('watches')">Captures</a></li>
-				<li ng-class="{active: options.activeOption == 'headers'}"><a href="#headers" ng-click="selectOption('headers')">Headers</a></li>
-				<li ng-class="{active: options.activeOption == 'blocks'}"><a href="#blocks" ng-click="selectOption('blocks')">Blocks</a></li>
-				<li ng-class="{active: options.activeOption == 'misc'}"><a href="#misc" ng-click="selectOption('misc')">Misc</a></li>
+				<li ng-class="{active: options.activeOption == 'rules'}"><a href="#" ng-click="selectOption('rules')">Rules</a></li>
+				<li ng-class="{active: options.activeOption == 'watches'}"><a href="#" ng-click="selectOption('watches')">Captures</a></li>
+				<li ng-class="{active: options.activeOption == 'headers'}"><a href="#" ng-click="selectOption('headers')">Headers</a></li>
+				<li ng-class="{active: options.activeOption == 'blocks'}"><a href="#" ng-click="selectOption('blocks')">Blocks</a></li>
+				<li ng-class="{active: options.activeOption == 'misc'}"><a href="#" ng-click="selectOption('misc')">Misc</a></li>
+				<!--
 				<li>
 					<button type="button" ng-click="addOption()" class="btn btn-sm new">
 						<a><i class="glyphicon glyphicon-plus-sign"></i> New </a>
 					</button>
 				</li>
+				-->
 			</ul>
 			<div id="options-tab-content" class="tab-content">
+				<div class="action-pane" ng-show="showOptionActions()">
+					<a href="#" ng-click="addOption()">New</a>
+					<a href="#" ng-click="setAllOption(true)">Check all</a>
+					<a href="#" ng-click="setAllOption(false)">Uncheck all</a>
+					<a href="#" ng-click="toggleAllOption()">Toggle</a>
+					<a href="#" ng-click="removeAllOption()">Clear</a>
+				</div>
+
 				<div id="rules" class="tab-pane" ng-class="{active: options.activeOption == 'rules'}">
 					<div class="entry input-group" ng-repeat="rule in options.rules">
 						<span class="input-group-addon">
@@ -105,6 +115,10 @@
 		</div>
 		
 		<div id="notifications-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Captures'}" ng-controller="notificationController">
+			<div class="action-pane">
+				<a href="#" ng-click="clearNotices()">Clear</a>
+				<a href="#" ng-click="exit()">Exit</a>
+			</div>
 			<div class="list">
 				<div class="notification-log" ng-repeat="notice in notices">
 					<a href="{{::notice.url}}" target="_blank">{{::notice.url}}</a>
@@ -116,13 +130,19 @@
 					</table>
 				</div>
 			</div>
+			<!--
 			<div class="actions btn-group btn-group-sm">
 				<button type="button" class="btn btn-default clear" ng-click="clearNotices()">Clear</button>
 				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
 			</div>
+			-->
 		</div>
 		
 		<div id="monitor-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Requests'}" ng-controller="monitorController">
+			<div class="action-pane">
+				<a href="#" ng-click="clearLog()">Clear</a>
+				<a href="#" ng-click="exit()">Exit</a>
+			</div>
 			<div class="list">
 				<div ng-repeat="log in logs">
 				    <ng-switch on="type(log)">
@@ -151,13 +171,20 @@
 					</ng-switch>
 				</div>
 			</div>
+			<!--
 			<div class="actions btn-group btn-group-sm">
 				<button type="button" ng-click="clearLog()" class="btn btn-default clear">Clear</button>
 				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
 			</div>
+			-->
 		</div>
 
 		<div id="autofills-tab" class="tab-pane" ng-class="{active: options.activeTab == 'Form'}" ng-controller="formController">
+			<div class="action-pane">
+				<a href="#" ng-click="record()">Record</a>
+				<a href="#" ng-click="populate()" ng-disabled="!fillSelected()">Populate</a>
+				<a href="#" ng-click="exit()">Exit</a>
+			</div>
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills track by $index">
 					<button type="button" class="close" title="Remove" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
@@ -187,12 +214,14 @@
 					</div>
 				</div>
 			</div>
-			<div class="alert alert-success form-data-saved" ng-show="successPopulated">Data populated.</div>   
+			<div class="alert alert-success form-data-saved" ng-show="successPopulated">Data populated.</div>
+			<!--
 			<div class="actions btn-group btn-group-sm">
 				<button type="button" class="btn btn-default record" ng-click="record()">Record</button>
 				<button type="button" class="btn btn-default fill" ng-click="populate()" ng-disabled="!fillSelected()">Populate</button>
 				<button type="button" class="btn btn-default exit" ng-click="exit()">Exit</button>
 			</div>
+			-->
 		</div>
 		
 	</div>

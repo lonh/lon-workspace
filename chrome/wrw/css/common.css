@@ -60,6 +60,20 @@ input.watch {
     position: relative;
 }
 
+/* Style for option action section */
+.action-pane {
+  text-align: right;
+  padding-right: 15px;
+}
+
+.action-pane a {
+  font-weight: 700;
+  font-size: 0.85em;
+  text-decoration: underline;
+  display: inline-block;
+  margin-right: 10px;
+}
+
 /********************************************************/
 /* monitor */
 /********************************************************/
@@ -179,7 +193,7 @@ NOT REALLY BOOTSTRAP
 #notifications-tab,
 #monitor-tab,
 #autofills-tab {
-    padding-bottom: 35px;
+    /*padding-bottom: 35px;*/
 }
 
 

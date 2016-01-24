@@ -132,19 +132,39 @@ mimControllers.controller('mainController',
 
 mimControllers.controller('optionsController', ['$scope', 'mimOptions', function ($scope, mimOptions) {
 
-   $scope.options = mimOptions;
+    $scope.options = mimOptions;
    
-   $scope.selectOption = function (option) {
+    $scope.selectOption = function (option) {
 	   $scope.options.activeOption = option;
-   };
+    };
+
+    $scope.showOptionActions = function () {
+        return ['rules','watches', 'headers', 'blocks'].indexOf(this.options.activeOption) > -1;
+    }
+
+    $scope.addOption = function () {
+       this.options[this.options.activeOption].push({checked: true});
+    };
+
+    $scope.setAllOption = function (bool) {
+       angular.forEach(this.options[this.options.activeOption], function(option, key) {
+          option.checked = bool;
+        });
+    };
+
+    $scope.toggleAllOption = function () {
+       angular.forEach(this.options[this.options.activeOption], function(option, key) {
+          option.checked = !option.checked;
+        });
+    };
+
+    $scope.removeAllOption = function () {
+       this.options[this.options.activeOption] = [];
+    };
        
-   $scope.addOption = function () {
-	   this.options[this.options.activeOption] && this.options[this.options.activeOption].push({checked: true});
-   };
-       
-   $scope.deleteOption = function (index) {
-    this.options[this.options.activeOption].splice(index, 1);
-   };
+    $scope.deleteOption = function (index) {
+        this.options[this.options.activeOption].splice(index, 1);
+    };
        
 }]);
 
