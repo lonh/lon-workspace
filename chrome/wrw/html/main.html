@@ -52,6 +52,7 @@
 							<input type="text" class="replace form-control" placeholder="Replace with ..." ng-model="rule.replace" required="required" />
 						</div>
 						<span class="input-group-addon">
+							<button type="button" ng-click="copyOption($index)" class="close" title="Copy">&plus;</button>
 							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
@@ -64,6 +65,7 @@
 							<input type="text" class="watch form-control" placeholder="Capture requests that contains ..." ng-model="watch.source" />
 						</div>
 						<span class="input-group-addon">
+							<button type="button" ng-click="copyOption($index)" class="close" title="Copy">&plus;</button>
 							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
@@ -76,6 +78,7 @@
 							<input type="text" class="block form-control" placeholder="Block requests that contains ..." ng-model="block.block" />
 						</div>
 						<span class="input-group-addon">
+							<button type="button" ng-click="copyOption($index)" class="close" title="Copy">&plus;</button>
 							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>
@@ -89,6 +92,7 @@
 							<input type="text" class="value form-control" placeholder="Header Value" ng-model="header.value" />
 						</div>
 						<span class="input-group-addon">
+							<button type="button" ng-click="copyOption($index)" class="close" title="Copy">&plus;</button>
 							<button type="button" class="close" title="Remove" aria-hidden="true" ng-click="deleteOption($index)">&times;</button>
 						</span>
 					</div>

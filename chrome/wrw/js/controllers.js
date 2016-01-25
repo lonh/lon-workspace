@@ -165,6 +165,13 @@ mimControllers.controller('optionsController', ['$scope', 'mimOptions', function
     $scope.deleteOption = function (index) {
         this.options[this.options.activeOption].splice(index, 1);
     };
+
+    $scope.copyOption = function (index) {
+        var currOptions = this.options[this.options.activeOption];
+        var newObj = {};
+        angular.copy(currOptions[index], newObj);
+        currOptions.splice(index, 0, newObj);
+    };    
        
 }]);
 
