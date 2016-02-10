@@ -329,15 +329,17 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
                 var num = legElem.find('.col-flight-num div:first').text();
                 var dep = legElem.find('.col-flight-time:first').text();
                 var arr = legElem.find('.col-flight-time:last').text();
-                var origin = legElem.find('.col-flight-city:first').text();
-                var destination = legElem.find('.col-flight-city:last').text();
+                var origin = legElem.find('.col-flight-city:first').text().split(/[()]/);
+                var destination = legElem.find('.col-flight-city:last').text().split(/[()]/);
 
                 return {
                     'num' : num,
                     'dep' : dep,
                     'arr' : arr,
-                    'origin' : origin,
-                    'destination' : destination,
+                    'origin' : origin[1],
+                    'originName' : origin[0],
+                    'destination' : destination[1],
+                    'destinationName' : destination[0],
                     'duration': duration,
                     'schedule': schedule
                 }

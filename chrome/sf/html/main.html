@@ -70,13 +70,19 @@
                             <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
                                 <!-- Loop through each flight legs -->
                                 <div class="flight-leg" ng-repeat="leg in flight.legs track by $index" layout="row">
-                                    <span flex="10"><b>{{::leg.num}}</b></span>
-                                    <span flex="12" class="datetime">{{::leg.dep}}</span>
-                                    <span flex="12" class="datetime">{{::leg.arr}}</span>
-                                    <span flex="25">{{::leg.origin}}</span>
-                                    <span flex="25">{{::leg.destination}}</span>
-                                    <span flex="5" class="unsold">{{::leg.seatCounts.unsold}}</span>
-                                    <span flex="5">{{::leg.seatCounts.lid}}</span>
+                                    <span flex="grow"><b>{{::leg.num}}</b></span>
+                                    <span flex="grow" class="datetime">{{::leg.dep}}</span>
+                                    <span flex="grow" class="datetime">{{::leg.arr}}</span>
+                                    <span flex="grow">
+                                        {{::leg.origin}}
+                                        <md-tooltip md-direction="top">{{::leg.originName}}</md-tooltip>
+                                    </span>
+                                    <span flex="grow">
+                                        {{::leg.destination}}
+                                        <md-tooltip md-direction="top">{{::leg.destinationName}}</md-tooltip>
+                                    </span>
+                                    <span flex="grow" class="unsold">{{::leg.seatCounts.unsold}}</span>
+                                    <span flex="grow">{{::leg.seatCounts.lid}}</span>
                                     <!-- span flex="5">{{::leg.seatCounts.capacity}}</span -->
                                 </div>
                                 <!-- End of flight legs -->
