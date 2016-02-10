@@ -58,7 +58,9 @@ sf.factory('sfOptions', function() {
 
     opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
     opt.ret = opt.ret ? new Date(opt.ret) : null;
-  
+    
+
+
   return opt;
 });
 
@@ -219,6 +221,10 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         this.inbounds = {};
     };
 
+    $scope.toggleGroup = function (group) {
+      console.log(group);
+    };
+
     $scope.formatAirports = function (airports, label) {
         if (airports && airports.length != 0) {
           return airports.join(', ');
@@ -240,7 +246,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
          var ret = this.options.ret;
          var flex = this.options.flex;
 
-        for (var i = 0; i <= flex; i ++) {
+        for (var i = - flex; i <= flex; i ++) {
             var d = new Date(dep); d.setDate(d.getDate() + i);
 
             var r = 'yyyy-mm-dd', retTime = '';
