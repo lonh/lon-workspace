@@ -40,6 +40,7 @@
 					<a href="#" ng-click="setAllOption(false)">Uncheck all</a>
 					<a href="#" ng-click="toggleAllOption()">Toggle</a>
 					<a href="#" ng-click="removeAllOption()">Delete all</a>
+					<a href="#" ng-click="exit()">Exit</a>
 				</div>
 
 				<div id="rules" class="tab-pane" ng-class="{active: options.activeOption == 'rules'}">
@@ -191,7 +192,9 @@
 			</div>
 			<div class="list">
 				<div class="entry" ng-repeat="fill in autoFills track by $index">
-					<button type="button" class="close" title="Remove" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
+					<div class="button-wrapper">
+						<button type="button" class="close" title="Remove" aria-hidden="true" ng-really-message="Delete this item?" ng-really-click="deleteAutofill($index)">&times;</button>
+					</div>
 					<div class="form-data" >
 						<input type="radio" class="toggle" name="autofills" ng-model="$parent.selectedFill" value="{{::$index}}" />
 						<a href="#" class="pagename" ng-click="toggle($index)">{{::fill.pagename}}</a>
