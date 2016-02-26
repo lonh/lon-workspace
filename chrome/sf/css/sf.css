@@ -179,7 +179,8 @@ md-select-menu md-content {
 }
 
 md-tooltip .md-content {
-    background-color: lightskyblue;
+    background-color: whitesmoke;
+    font-style:italic;
 }
 
 md-select {
