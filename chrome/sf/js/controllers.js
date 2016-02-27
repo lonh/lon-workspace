@@ -309,13 +309,11 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             function (response) {
 
                 if (response) {
-                    ($scope.options.outbounds[response.depTime] = $scope.options.outbounds[response.depTime] || [])
-                        .push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
+                    insertFlights($scope.options.outbounds, response.depTime, processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
                     // Only process when returning date is not null
                     if ($scope.options.ret) {
-                        ($scope.options.inbounds[response.retTime] = $scope.options.inbounds[response.retTime] || [])
-                            .push(processFlight(response, '#Returning_base', '#Returning-standby'));
+                        insertFlights($scope.options.inbounds, response.retTime, processFlight(response, '#Returning_base', '#Returning-standby'));
                     }
                 }
 
@@ -324,6 +322,15 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
                 $scope.$apply();
            }
         );
+    };
+
+    var insertFlights = function (bound, date, flights) {
+      bound[date] = (bound[date] || [])
+        .filter(function(flt) {
+          return flights.from !== flt.from || flights.to !== flt.to;
+        });
+
+        bound[date].push(flights);
     };
 
     var processFlight = function (response, base, standby) {
