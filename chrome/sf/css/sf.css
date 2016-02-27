@@ -202,6 +202,10 @@ md-tab-item {
     min-height: auto !important;
 }
 
+.md-datepicker-input-container {
+    margin-left: -12px;
+}
+
 .flight-tabs md-pagination-wrapper,
 .flight-tabs md-tabs-canvas {
     height: 30px;

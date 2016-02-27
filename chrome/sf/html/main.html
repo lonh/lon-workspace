@@ -61,7 +61,7 @@
             </div>
         </div>
 
-        <md-tabs class="results-tabs" flex ng-show="!isEmptySearch()" md-center-tabs='true' md-no-ink-bar='true'>
+        <md-tabs class="results-tabs" flex ng-show="!isEmptySearch()" md-center-tabs='false' md-no-ink-bar='true'>
             <!-- Loop outbounds and inbounds -->
             <md-tab ng-repeat="trip in [options.outbounds, options.inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
                 <!-- Loop through each departure or return dates -->                
