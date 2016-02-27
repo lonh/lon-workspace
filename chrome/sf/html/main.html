@@ -6,65 +6,74 @@
     <meta http-equiv="X-UA-Compatible" content="OtherUA=Edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1">
 
-    <link rel="stylesheet" href="/ng/css/angular-material.min.css">
+    <!-- <link rel="stylesheet" href="/ng/css/angular-material.min.css"> -->
 
     <!--<link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.2/angular-material.min.css">-->
+    <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.5/angular-material.min.css">
 
     <link type="text/css" href="/ng/css/angular-csp.css" rel="stylesheet" />
     <link type="text/css" href="/css/sf.css" rel="stylesheet" />
 </head>
-<body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)">
+<body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)" layout>
 
-    <div class="container" ng-controller="searchController">
-        <div layout="column" layout-margin>
-            <div layout="row" layout-sm="column">
-                
-                <md-select ng-model="options.from" multiple="true" required="required" flex>
-                    <md-select-label><span>{{formatAirports(options.from, 'From')}}</span></md-select-label>
+    <div class="container" ng-controller="searchController" layout='column' flex>
+        <div layout="column">
+            <div layout="row" layout-xs="column">
+                <md-select ng-model="options.from" multiple="true" required="required" flex >
+                    <label><span>{{formatAirports(options.from, 'From')}}</span></label>
                     <md-optgroup label="{{::group.countryStateDisplay}}" ng-repeat="group in groups" ng-keydown="toggleGroup(group)">
-                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
+                        <label ng-click="toggleGroup(group)">{{::group.countryStateDisplay}}</label>
+                        <md-option ng-show="group.show" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
-
-				<md-select ng-model="options.to" multiple="true" required="required" flex>
-                    <md-select-label><span>{{formatAirports(options.to, 'To')}}</span></md-select-label>
+				<md-select ng-model="options.to" multiple="true" required="required" flex >
+                    <!-- <md-select-label><span>{{formatAirports(options.to, 'To')}}</span></md-select-label> -->
                     <md-optgroup label="{{::group.countryStateDisplay}}" ng-repeat="group in groups">
-                        <md-option ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
+                        <label ng-click="toggleGroup(group)">{{::group.countryStateDisplay}}</label>
+                        <md-option ng-show="group.show" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
-				
-                <md-input-container flex ng-class="{'empty-date' : !options.dep}">
-                    <label>Departure date</label>
-                    <input type="date" ng-model="options.dep" required="required" >
-                </md-input-container>
-                <md-input-container flex ng-class="{'empty-date' : !options.ret}" >
-                    <label>Return date</label>
-                    <input type="date" ng-model="options.ret" min="{{options.dep}}">
-                </md-input-container>
             </div>
-            <div layout="row" layout-sm="column">
-                <div flex="70" flex-sm="100" layout="row" layout-sm="column">
-                    <div style="min-width: 95px;" layout layout-align="start center" >
+			<div layout="row">
+                <md-datepicker flex ng-model="options.dep" md-placeholder="Depature date" ng-required='true'></md-datepicker>
+                <md-datepicker flex ng-model="options.ret" md-min-date="options.dep" md-placeholder="Return date" ng-required='false'></md-datepicker>                
+            </div>
+
+            <div layout="row" layout-xs="column">
+                <div flex="60" flex-xs="100" layout>
+                    <div style="min-width: 95px;" layout layout-align="center center" >
                         <span>Flex&nbsp;dates:(&plusmn;{{options.flex}})</span>
                     </div>
                     <md-slider class="md-primary" flex md-discrete ng-model="options.flex" step="1" min="0" max="3" aria-label="Flex"></md-slider>
                 </div>
-                <div flex="20" flex-sm="100" layout layout-align="space-around center">
-                    <md-button class="md-raised md-primary" ng-disabled="!readyToSearch()" ng-click="search()" >Search</md-button>
-                    <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmptySearch()" >Clear</md-button>
+                <div flex="40" flex-xs="100" layout='row' layout-align='center center'>
+                    <md-button class="md-raised md-primary" ng-disabled="!readyToSearch()" ng-click="search()" arial-label="" >Search</md-button>
+                    <md-button class="md-raised" ng-click="clear()" ng-disabled="isEmptySearch()" arial-label="Clear search result" >
+                        Clear
+                        <md-tooltip md-direction="top">Clear search results</md-tooltip>
+                    </md-button>
+                    <md-button class="md-raised" ng-click="reset()" arial-label="Clear search result and criteria" >
+                        Reset
+                        <md-tooltip md-direction="top">Reset search criterias and results</md-tooltip>
+                    </md-button>
                 </div>
+                <br />
             </div>
         </div>
 
-        <md-tabs ng-show="!isEmptySearch()">
+        <md-tabs class="results-tabs" flex ng-show="!isEmptySearch()" md-center-tabs='true' md-no-ink-bar='true'>
             <!-- Loop outbounds and inbounds -->
-            <md-tab ng-repeat="trip in [outbounds, inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
-                <!-- Loop through each departure or return dates -->
-                <md-tabs class="flight-tabs" md-theme="accent">
-                    <md-tab ng-repeat="(dt, bounds) in trip" label="{{:: dt | date : 'EEE, MMM d, y' }}" >
+            <md-tab ng-repeat="trip in [options.outbounds, options.inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
+                <!-- Loop through each departure or return dates -->                
+                <md-tabs class="flight-tabs" md-theme="accent" md-dynamic-height="true" md-no-ink-bar='false' md-border-bottom="true" >
+                    <md-tab ng-repeat="(dt, bounds) in trip | orderBy : 'dt' " label="{{:: dt | date : 'EEE, MMM d' }}" >
                         <!-- Loop through each OD pair -->
-                        <div ng-repeat="bound in bounds">
-                            <h4>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from)) | uppercase }}</h4>
+                        <div ng-repeat="bound in bounds | orderBy : ['from', 'to'] ">
+                            <h4>
+                                <md-button ng-click='clickRoute(dt, bound)'>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from))}}
+                                    <md-tooltip md-direction="right">Click to search in travel site step 1 </md-tooltip>
+                                </md-button>
+                            </h4>
                             <p>{{:: bound.flights.length == 0 ? 'No flight available' : ''}}</p>
                             <!-- Loop through each flight section -->
                             <div class="flight" ng-repeat="flight in bound.flights" ng-class-even="'even'" ng-class="highlight(flight)" >
@@ -100,7 +109,7 @@
         <!-- Loading progress section -->
         <div class="loading" ng-show="currentLoading" layout="column" layout-align="center center">
             <img src="/img/ajax-loader.gif"/>
-            <p><b>Searching flights for: </b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date}} - {{currentLoading.retTime | date}}</p>
+            <p><b>Searching flights for: </b>{{currentLoading.from | uppercase}} | {{currentLoading.to | uppercase}} : {{currentLoading.depTime | date : 'EEE, MMM d' }} - {{currentLoading.retTime | date : 'EEE, MMM d' }}</p>
             <md-button class="md-raised" ng-click="cancelSearch()">Cancel</md-button>
         </div>
 
@@ -112,13 +121,23 @@
     </div>
 
     <script type="text/javascript" src="/js/jquery-2.1.3.min.js"></script>
-    <script type="text/javascript" src="/ng/js/hammer.min.js"></script>
+
+    <!-- Angular Material requires Angular.js Libraries -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-animate.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-aria.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.8/angular-messages.min.js"></script>
+
+    <!-- Angular Material Library -->
+    <script src="https://ajax.googleapis.com/ajax/libs/angular_material/1.0.5/angular-material.min.js"></script>
+
+    <!-- <script type="text/javascript" src="/ng/js/hammer.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-animate.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-aria.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-messages.min.js"></script>
     <script type="text/javascript" src="/ng/js/angular-material.min.js"></script>
-
+ -->
     <!--<script src="https://ajax.googleapis.com/ajax/libs/angular_material/0.8.2/angular-material.min.js"></script>-->
 
     <script type="text/javascript" src="/js/app.js"></script>

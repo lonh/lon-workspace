@@ -59,7 +59,8 @@ sf.factory('sfOptions', function() {
     opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
     opt.ret = opt.ret ? new Date(opt.ret) : null;
     
-
+    opt.outbounds = opt.outbounds || {};
+    opt.inbounds = opt.inbounds || {};
 
   return opt;
 });
@@ -174,14 +175,14 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     var wid = parseInt(sfCommon.getParameterByName('wid'));
     var tid = parseInt(sfCommon.getParameterByName('tid'));
 
-    $scope.f_samples = $('#f_samples').html();
-    $scope.l_samples = $('#l_samples').html();
-
-    $scope.outbounds = {};
-    $scope.inbounds = {};
-    $scope.airports = [];
+    //$scope.f_samples = $('#f_samples').html();
+    //$scope.l_samples = $('#l_samples').html();
 
     $scope.options = sfOptions;
+
+    //$scope.outbounds = {};
+    //$scope.inbounds = {};
+    $scope.airports = [];
 
     // Queue holds flight searching OD and dates
     $scope.searchingQueue = [];
@@ -207,7 +208,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.isEmptySearch = function () {
-        return $.isEmptyObject(this.inbounds) && $.isEmptyObject(this.outbounds);
+        return $.isEmptyObject(this.options.inbounds) && $.isEmptyObject(this.options.outbounds);
     };
 
     $scope.readyToSearch = function () {
@@ -217,12 +218,27 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     }
 
     $scope.clear = function () {
-        this.outbounds = {};
-        this.inbounds = {};
+        this.options.outbounds = {};
+        this.options.inbounds = {};
     };
 
-    $scope.toggleGroup = function (group) {
-      console.log(group);
+    $scope.reset = function () {
+        this.options.from = [];
+        this.options.to = [];
+
+        this.options.dep = null;
+        this.options.ret = null
+        this.options.flex = 0;
+        this.options.outbounds = {};
+        this.options.inbounds = {};
+    };    
+
+    $scope.toggleGroup = function (group) {      
+      group.show = !group.show;
+    };
+
+    $scope.clickRoute = function (dt, route) {
+      console.log(route);
     };
 
     $scope.formatAirports = function (airports, label) {
@@ -293,12 +309,12 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             function (response) {
 
                 if (response) {
-                    ($scope.outbounds[response.depTime] = $scope.outbounds[response.depTime] || [])
+                    ($scope.options.outbounds[response.depTime] = $scope.options.outbounds[response.depTime] || [])
                         .push(processFlight(response, '#Leaving_base', '#Leaving-standby'));
 
                     // Only process when returning date is not null
                     if ($scope.options.ret) {
-                        ($scope.inbounds[response.retTime] = $scope.inbounds[response.retTime] || [])
+                        ($scope.options.inbounds[response.retTime] = $scope.options.inbounds[response.retTime] || [])
                             .push(processFlight(response, '#Returning_base', '#Returning-standby'));
                     }
                 }
