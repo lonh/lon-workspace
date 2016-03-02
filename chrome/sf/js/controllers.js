@@ -67,7 +67,6 @@ sf.factory('sfOptions', function() {
   return opt;
 });
 
-
 /* Controllers */
 //var sfControllers = angular.module('sfControllers', []);
 
@@ -233,7 +232,11 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         this.options.flex = 0;
         this.options.outbounds = {};
         this.options.inbounds = {};
-    };    
+    };
+
+    $scope.objectKeys = function(obj){
+      return Object.keys(obj).sort();
+    }
 
     $scope.toggleGroup = function (group) {      
       var show = group.show;

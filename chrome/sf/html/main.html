@@ -78,7 +78,7 @@
             <md-tab ng-repeat="trip in [options.outbounds, options.inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
                 <!-- Loop through each departure or return dates -->                
                 <md-tabs class="flight-tabs" md-theme="accent" md-no-ink-bar='false' md-border-bottom="true" >
-                    <md-tab ng-repeat="(dt, bounds) in trip | orderBy : ['dt'] " label="{{:: dt | date : 'EEE, MMM d' }}" >
+                    <md-tab ng-repeat="dt in objectKeys(trip)" label="{{:: dt | date : 'EEE, MMM d' }}" ng-init='bounds = trip[dt]'>
                         <!-- Loop through each OD pair -->
                         <div ng-repeat="bound in bounds | orderBy : ['from', 'to'] ">
                             <h4>
