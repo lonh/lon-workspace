@@ -65,6 +65,9 @@ window.sf = window.sf || {};
                     case 'airports':
             			o.findAirports(request, sendResponse);
             			break;
+                    case 'lookup':
+                        o.lookupFlights(request, sendResponse);
+                        break;
             		default:
             			break;
             		}
@@ -72,6 +75,15 @@ window.sf = window.sf || {};
                 }
             );
         },
+
+        lookupFlights: function (request, callback) {            
+            $('input[name*="Step.From"]').val(request.from);
+            $('input[name*="Step.To"]').val(request.to);
+            $('input[name="Step.Leaving"]').val(request.dep);
+            request.ret ? $('input[name="Step.Returning"]').val(request.ret) : null;
+            $('span:contains(Search)').click()            
+        },
+
 
         findFlights: function (request, callback) {
             if (request.message) {

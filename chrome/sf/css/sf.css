@@ -236,3 +236,9 @@ md-tab-item {
 .results-tabs .md-tab.md-active {
     background-color: aliceblue;
 }
+
+div[md-tabs-template],
+div[md-tabs-template] md-tabs {
+    height: 100%;
+}
+

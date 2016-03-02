@@ -77,14 +77,12 @@
             <!-- Loop outbounds and inbounds -->
             <md-tab ng-repeat="trip in [options.outbounds, options.inbounds] track by $index" ng-init="boundFlag = $index" label="{{:: $index == 0 ? 'Outbounds' : 'Inbounds'}}">
                 <!-- Loop through each departure or return dates -->                
-                <md-tabs class="flight-tabs" md-theme="accent" md-dynamic-height="true" md-no-ink-bar='false' md-border-bottom="true" >
-                    <md-tab ng-repeat="(dt, bounds) in trip | orderBy : 'dt' " label="{{:: dt | date : 'EEE, MMM d' }}" >
+                <md-tabs class="flight-tabs" md-theme="accent" md-no-ink-bar='false' md-border-bottom="true" >
+                    <md-tab ng-repeat="(dt, bounds) in trip | orderBy : ['dt'] " label="{{:: dt | date : 'EEE, MMM d' }}" >
                         <!-- Loop through each OD pair -->
                         <div ng-repeat="bound in bounds | orderBy : ['from', 'to'] ">
                             <h4>
-                                <md-button ng-click='clickRoute(dt, bound)'>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from))}}
-                                    <md-tooltip md-direction="right">Click to search in travel site step 1 </md-tooltip>
-                                </md-button>
+                                <md-button ng-click='clickRoute(dt, bound)'>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from))}}</md-button>
                             </h4>
                             <p>{{:: bound.flights.length == 0 ? 'No flight available' : ''}}</p>
                             <!-- Loop through each flight section -->

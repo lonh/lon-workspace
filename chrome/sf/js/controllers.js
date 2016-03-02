@@ -254,11 +254,11 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     $scope.addToHistory = function (search) {
       var index = $scope.options.histories.findIndex(function ($elem, $index, $array) {
-        return $elem.from == search.from 
-          && $elem.to == search.to 
-          && $elem.dep == search.dep 
+        return $elem.from.join() == search.from.join()
+          && $elem.to.join() == search.to.join()
+          && $elem.dep == search.dep.toJSON()
           && $elem.flex == search.flex
-          && (($elem.ret == null && search.ret == null) ||  $elem.ret == search.ret);
+          && ($elem.ret == search.ret || $elem.ret == search.ret.toJSON());
       });
       
       index == -1 ? $scope.options.histories.push(search) : null;
