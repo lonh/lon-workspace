@@ -17,6 +17,18 @@
 <body ng-cloak ng-controller="mainController" ng-keyup="documentKeyup($event)" layout>
 
     <div class="container" ng-controller="searchController" layout='column' flex>
+        <div>
+            <md-chips ng-model='options.histories' readonly='true'>
+                <md-chip-template>
+                    <div class='search-chip-container'>
+                        <span ng-click='applyHistory($index)'>
+                            {{::$chip.from.join(',')}}-{{::$chip.to.join(',')}}-{{::$chip.dep | date : 'MM/dd' }}-{{::$chip.ret | date : 'MM/dd' }}&plusmn;{{::$chip.flex}}                            
+                        </span>
+                        <a class="remove" ng-click='removeHistory($index)'>&nbsp;&nbsp;&#10005;&nbsp;</a>
+                    </div>                    
+              </md-chip-template>
+            </md-chips>
+        </div>
         <div layout="column">
             <div layout="row" layout-xs="column">
                 <md-select ng-model="options.from" multiple="true" required="required" flex >

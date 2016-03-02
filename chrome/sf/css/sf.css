@@ -59,6 +59,15 @@ p {
     width: 100%;
 }
 
+.search-chip-container {
+    font-size: 12px; 
+    cursor: pointer;
+}
+
+.search-chip-container .remove {
+    color: red;
+}
+
 /* Chrome native date picker customization */
 /*.empty-date ::-webkit-datetime-edit-fields-wrapper {
     visibility: hidden;

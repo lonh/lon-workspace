@@ -59,6 +59,8 @@ sf.factory('sfOptions', function() {
     opt.dep = opt.dep ? new Date(opt.dep) : new Date($.now() + 3 * 86400000);
     opt.ret = opt.ret ? new Date(opt.ret) : null;
     
+    opt.histories = opt.histories || [];
+
     opt.outbounds = opt.outbounds || {};
     opt.inbounds = opt.inbounds || {};
 
@@ -234,11 +236,46 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };    
 
     $scope.toggleGroup = function (group) {      
-      group.show = !group.show;
+      var show = group.show;
+      for (var i = $scope.groups.length - 1; i >= 0; i--) {
+        $scope.groups[i].show = false;
+      }
+
+      group.show = !show;
     };
 
     $scope.clickRoute = function (dt, route) {
       console.log(route);
+      chrome.tabs.sendMessage(
+            tid,
+            angular.extend( {}, route, {action: 'lookup'})
+        );
+    };
+
+    $scope.addToHistory = function (search) {
+      var index = $scope.options.histories.findIndex(function ($elem, $index, $array) {
+        return $elem.from == search.from 
+          && $elem.to == search.to 
+          && $elem.dep == search.dep 
+          && $elem.flex == search.flex
+          && (($elem.ret == null && search.ret == null) ||  $elem.ret == search.ret);
+      });
+      
+      index == -1 ? $scope.options.histories.push(search) : null;
+    };
+
+    $scope.applyHistory = function ($index) {
+        var his = $scope.options.histories[$index];
+
+        $scope.options.from = his.from;
+        $scope.options.to = his.to;
+        $scope.options.dep = new Date(his.dep);
+        $scope.options.ret = his.ret == null ? null : new Date(his.ret);
+        $scope.options.flex = his.flex;
+    };
+
+    $scope.removeHistory = function ($index) {
+      $scope.options.histories.splice($index, 1);
     };
 
     $scope.formatAirports = function (airports, label) {
@@ -255,12 +292,20 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.search = function () {
-         var froms = this.options.from;
-         var tos = this.options.to;
+        var froms = this.options.from;
+        var tos = this.options.to;
 
-         var dep = this.options.dep;
-         var ret = this.options.ret;
-         var flex = this.options.flex;
+        var dep = this.options.dep;
+        var ret = this.options.ret;
+        var flex = this.options.flex;
+
+        $scope.addToHistory({
+          from: froms,
+          to: tos,
+          dep: dep,
+          ret: ret,
+          flex: flex
+        });
 
         for (var i = - flex; i <= flex; i ++) {
             var d = new Date(dep); d.setDate(d.getDate() + i);
