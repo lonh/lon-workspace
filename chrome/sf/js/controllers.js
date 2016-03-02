@@ -375,7 +375,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
           return flights.from !== flt.from || flights.to !== flt.to;
         });
 
-        bound[date].push(flights);
+      bound[date].push(flights);
     };
 
     var processFlight = function (response, base, standby) {
@@ -413,9 +413,8 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
                 }
             }).get();
 
-            return {
-                 'legs' : legs
-            };
+            return {'legs' : legs};
+
         }).get();
 
         var legs = flightElem.find(standby).find('.selectable-flight ul').map(function (i, v) {
