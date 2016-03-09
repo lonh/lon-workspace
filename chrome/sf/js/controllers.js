@@ -259,7 +259,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
       var index = $scope.options.histories.findIndex(function ($elem, $index, $array) {
         return $elem.from.join() == search.from.join()
           && $elem.to.join() == search.to.join()
-          && $elem.dep == search.dep.toJSON()
+          && ($elem.dep == search.dep || $elem.dep == search.dep.toJSON())
           && $elem.flex == search.flex
           && ($elem.ret == search.ret || $elem.ret == search.ret.toJSON());
       });
@@ -356,12 +356,16 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
             angular.extend( {}, data, {action: 'search'}),
             function (response) {
 
-                if (response) {
-                    insertFlights($scope.options.outbounds, response.depTime, processFlight(response, '#Leaving_base', '#Leaving-standby'));
+                var opts = $scope.options;
 
-                    // Only process when returning date is not null
+                if (response) {
+                    !opts.outbounds[response.depTime] ? opts.outbounds[response.depTime] = [] : null;
+                    insertFlights(opts.outbounds[response.depTime], processFlight(response, '#Leaving_base', '#Leaving-standby'));
+
+                    // Only process when returning date is not null                
                     if ($scope.options.ret) {
-                        insertFlights($scope.options.inbounds, response.retTime, processFlight(response, '#Returning_base', '#Returning-standby'));
+                        !opts.inbounds[response.retTime] ? opts.inbounds[response.retTime] = [] : null;
+                        insertFlights(opts.inbounds[response.retTime], processFlight(response, '#Returning_base', '#Returning-standby'));
                     }
                 }
 
@@ -372,13 +376,11 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
         );
     };
 
-    var insertFlights = function (bound, date, flights) {
-      bound[date] = (bound[date] || [])
-        .filter(function(flt) {
-          return flights.from !== flt.from || flights.to !== flt.to;
-        });
-
-      bound[date].push(flights);
+    var insertFlights = function (bound, flights) {
+      var index = bound.findIndex(function(flt) {
+        return flights.from == flt.from && flights.to == flt.to;
+      });
+      index != -1 ? bound[index] = flights : bound.push(flights);
     };
 
     var processFlight = function (response, base, standby) {
