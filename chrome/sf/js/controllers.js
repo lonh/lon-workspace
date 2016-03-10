@@ -279,6 +279,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
 
     $scope.removeHistory = function ($index) {
       $scope.options.histories.splice($index, 1);
+      $scope.$apply();
     };
 
     $scope.formatAirports = function (airports, label) {
@@ -377,6 +378,8 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     var insertFlights = function (bound, flights) {
+      flights.message = null;
+
       var index = bound.findIndex(function(flt) {
         return flights.from == flt.from && flights.to == flt.to;
       });
