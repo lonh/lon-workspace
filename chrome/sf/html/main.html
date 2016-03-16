@@ -35,14 +35,14 @@
                     <!-- <md-select-label>{{formatAirports(options.from, 'From')}}</md-select-label> -->
                     <md-optgroup label="{{::group.countryStateDisplay}}" ng-repeat="group in groups" ng-keydown="toggleGroup(group)">
                         <label ng-click="toggleGroup(group)">{{::group.countryStateDisplay}}</label>
-                        <md-option ng-show="group.show" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
+                        <md-option ng-show="group.show || inGroup(group, airport.code, options.from)" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
 				<md-select ng-model="options.to" multiple="true" required="required" flex >
                     <!-- <md-select-label><span>{{formatAirports(options.to, 'To')}}</span></md-select-label> -->
                     <md-optgroup label="{{::group.countryStateDisplay}}" ng-repeat="group in groups">
                         <label ng-click="toggleGroup(group)">{{::group.countryStateDisplay}}</label>
-                        <md-option ng-show="group.show" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
+                        <md-option ng-show="group.show || inGroup(group, airport.code, options.to)" ng-value="airport.code" ng-repeat="airport in airports | filter: {country : group.country, provinceState : group.provinceState}: true | orderBy:['name'] ">{{airport.name}}</md-option>
                     </md-optgroup>
                 </md-select>
             </div>

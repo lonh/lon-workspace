@@ -247,6 +247,17 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
       group.show = !show;
     };
 
+    $scope.inGroup = function (group, code, airports) {
+      for (var i = airports.length - 1; i >= 0; i--) {
+        if (airports[i] == code) {
+          group.show = true;
+          return group.show;
+        }
+      }
+
+      return false;
+    }
+
     $scope.clickRoute = function (dt, route) {
       console.log(route);
       chrome.tabs.sendMessage(
