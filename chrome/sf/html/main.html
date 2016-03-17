@@ -22,7 +22,7 @@
                 <md-chip-template>
                     <div class='search-chip-container'>
                         <span ng-click='applyHistory($index)'>
-                            {{::$chip.from.join(',')}}-{{::$chip.to.join(',')}}-{{::$chip.dep | date : 'MM/dd' }}-{{::$chip.ret | date : 'MM/dd' }}&plusmn;{{::$chip.flex}}                            
+                            {{::$chip.from.join(',')}}-{{::$chip.to.join(',')}}-{{::$chip.dep | date : 'MM/dd' }}-{{::$chip.ret | date : 'MM/dd' }}+{{::$chip.flex}}                            
                         </span>
                         <a class="remove" ng-click='removeHistory($index)'>&nbsp;&nbsp;&#10005;&nbsp;</a>
                     </div>                    
@@ -54,9 +54,9 @@
             <div layout="row" layout-xs="column">
                 <div flex="60" flex-xs="100" layout>
                     <div style="min-width: 100px;" layout layout-align="center center" >
-                        <span>Flex&nbsp;dates:(&plusmn;{{options.flex}})</span>
+                        <span>Flex&nbsp;dates:(+{{options.flex}})</span>
                     </div>
-                    <md-slider class="md-primary" flex md-discrete ng-model="options.flex" step="1" min="0" max="3" aria-label="Flex"></md-slider>
+                    <md-slider class="md-primary" flex md-discrete ng-model="options.flex" step="1" min="0" max="5" aria-label="Flex"></md-slider>
                 </div>
                 <div flex="40" flex-xs="100" layout='row' layout-align='center center'>
                     <md-button class="md-raised md-primary" ng-disabled="!readyToSearch()" ng-click="search()" arial-label="" >Search</md-button>

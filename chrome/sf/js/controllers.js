@@ -322,7 +322,7 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
           flex: flex
         });
 
-        for (var i = - flex; i <= flex; i ++) {
+        for (var i = 0; i <= flex; i ++) {
             var d = new Date(dep); d.setDate(d.getDate() + i);
 
             var r = 'yyyy-mm-dd', retTime = '';
