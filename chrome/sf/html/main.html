@@ -80,7 +80,7 @@
                 <md-tabs class="flight-tabs" md-theme="accent" md-no-ink-bar='false' md-border-bottom="true" >
                     <md-tab ng-repeat="dt in objectKeys(trip)" label="{{:: dt | date : 'EEE, MMM d' }}" ng-init='bounds = trip[dt]'>
                         <!-- Loop through each OD pair -->
-                        <div ng-repeat="bound in bounds | orderBy : ['from', 'to'] ">
+                        <div ng-repeat="bound in bounds">
                             <h4>
                                 <md-button ng-click='clickRoute(dt, bound)'>{{:: (boundFlag == 0 ? (bound.from + ' - ' + bound.to) : (bound.to + ' - ' + bound.from))}}</md-button>
                             </h4>
