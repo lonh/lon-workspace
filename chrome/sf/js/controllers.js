@@ -247,6 +247,10 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
       group.show = !show;
     };
 
+    $scope.toggleSearchHistories = function () {
+      $scope.showSearchHistories = !$scope.showSearchHistories;
+    };
+
     $scope.inGroup = function (group, code, airports) {
       for (var i = airports.length - 1; i >= 0; i--) {
         if (airports[i] == code) {

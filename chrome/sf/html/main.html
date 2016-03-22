@@ -18,16 +18,19 @@
 
     <div class="container" ng-controller="searchController" layout='column' flex>
         <div>
-            <md-chips ng-model='options.histories' readonly='true'>
-                <md-chip-template>
-                    <div class='search-chip-container'>
-                        <span ng-click='applyHistory($index)'>
-                            {{::$chip.from.join(',')}}-{{::$chip.to.join(',')}}-{{::$chip.dep | date : 'MM/dd' }}-{{::$chip.ret | date : 'MM/dd' }}+{{::$chip.flex}}                            
-                        </span>
-                        <a class="remove" ng-click='removeHistory($index)'>&nbsp;&nbsp;&#10005;&nbsp;</a>
-                    </div>                    
-              </md-chip-template>
-            </md-chips>
+            <span ng-click='toggleSearchHistories()'>Search Histories</span>
+            <div id='search-histories' ng-show='showSearchHistories'>
+                <md-chips ng-model='options.histories' readonly='true'>
+                    <md-chip-template>
+                        <div class='search-chip-container'>
+                            <span ng-click='applyHistory($index)'>
+                                {{::$chip.from.join(',')}}-{{::$chip.to.join(',')}}-{{::$chip.dep | date : 'MM/dd' }}-{{::$chip.ret | date : 'MM/dd' }}+{{::$chip.flex}}                            
+                            </span>
+                            <a class="remove" ng-click='removeHistory($index)'>&nbsp;&nbsp;&#10005;&nbsp;</a>
+                        </div>                    
+                  </md-chip-template>
+                </md-chips>
+            </div>
         </div>
         <div layout="column">
             <div layout="row" layout-xs="column">
