@@ -76,12 +76,24 @@ window.sf = window.sf || {};
             );
         },
 
-        lookupFlights: function (request, callback) {            
-            $('input[name*="Step.From"]').val(request.from);
-            $('input[name*="Step.To"]').val(request.to);
-            $('input[name="Step.Leaving"]').val(request.dep);
-            request.ret ? $('input[name="Step.Returning"]').val(request.ret) : null;
-            $('span:contains(Search)').click()            
+        lookupFlights: function (request, callback) {
+
+            var backToStep1 = $("span:contains('Back to Step 1')").click();
+            var timeout = 0;
+            if (backToStep1.length && backToStep1.is(':visible')) {
+                backToStep1.click();
+                timeout = 2000;
+            }
+
+            setTimeout(function () {
+                $('input[name*="Step.From"]').val(request.from);
+                $('input[name*="Step.To"]').val(request.to);
+                $('input[name="Step.Leaving"]').val(request.dep);
+                request.ret ? $('input[name="Step.Returning"]').val(request.ret) : null;
+                $('span:contains(Search)').click()
+            }, timeout);
+
+
         },
 
 
