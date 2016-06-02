@@ -252,11 +252,14 @@ sf.controller('searchController', ['$scope', '$window', '$document', '$timeout',
     };
 
     $scope.inGroup = function (group, code, airports) {
-      for (var i = airports.length - 1; i >= 0; i--) {
-        if (airports[i] == code) {
-          group.show = true;
-          return group.show;
-        }
+        if (airports) {
+
+          for (var i = airports.length - 1; i >= 0; i--) {
+            if (airports[i] == code) {
+              group.show = true;
+              return group.show;
+            }
+          }
       }
 
       return false;
